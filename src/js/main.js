@@ -6,6 +6,7 @@ import { setupThemeToggle } from './modules/themeManager.js';
 import { setupUIHandlers } from './modules/uiHandlers.js';
 import { setupHeaderDropdown } from './modules/headerManager.js';
 import { setupSocialSharing } from './modules/socialSharing.js';
+import { setupAnalytics } from './modules/analytics.js';
 
 function setDynamicYear() {
   const yearElement = document.querySelector('.copyright-year');
@@ -16,6 +17,7 @@ function setDynamicYear() {
 
 if (document.readyState !== 'loading') {
   document.addEventListener('DOMContentLoaded', function () {
+    setupAnalytics()
     setupThemeToggle();
     setupUIHandlers();
     if (document.getElementById('ethnicity-entry-template')) {
