@@ -133,7 +133,7 @@ module.exports = (env, argv) => {
         runtimeCaching: [
           {
             urlPattern: new RegExp(
-              '^https://ethnicity-calculator\\.dankoresoft\\.com/'
+              '^https://race-calculator\\.dankoresoft\\.com/'
             ),
             handler: 'StaleWhileRevalidate',
           },
