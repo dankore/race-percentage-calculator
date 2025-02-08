@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://race-calculator.dankoresoft.com/sitemap.xml

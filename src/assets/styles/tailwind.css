@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+ .ethnicity-entries {
+   max-height: 200px;
+   /* Height for 3 entries */
+   overflow-y: auto;
+ }
+
+ .ethnicity-entries::-webkit-scrollbar {
+   width: 6px;
+ }
+
+ .ethnicity-entries::-webkit-scrollbar-track {
+   background: #f1f1f1;
+ }
+
+ .ethnicity-entries::-webkit-scrollbar-thumb {
+   background: #888;
+   border-radius: 3px;
+ }
+
+ .ethnicity-entries::-webkit-scrollbar-thumb:hover {
+   background: #555;
+ }
+
+#ethnicityBreakdown {
+  overflow-x: auto;
+  max-height: 300px;
+  overflow-y: auto;
+}
