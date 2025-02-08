@@ -49,9 +49,7 @@ function setupEntryListeners(entry) {
         debouncedCalculateEthnicity();
         checkScrolling(entriesContainer);
       } else {
-        showWarning(
-          'Please keep at least one ethnicity entry for each parent.'
-        );
+        showWarning('Please keep at least one entry for each parent.');
       }
     });
   }
@@ -94,6 +92,7 @@ function calculateEthnicity() {
           allFieldsFilled = false;
         } else {
           totalPercent += percent;
+          // Each parent's percentages are halved to produce final child breakdown
           ethnicities[ethnicity] = (ethnicities[ethnicity] || 0) + percent / 2;
         }
       }
@@ -101,12 +100,12 @@ function calculateEthnicity() {
 
     if (!allFieldsFilled) {
       isValid = false;
-      warningMessage = 'Please fill in all ethnicity fields.';
+      warningMessage = 'Please fill in all race fields.';
     } else if (Math.abs(totalPercent - 100) > 0.01) {
       isValid = false;
       const parentName =
         parentNode.id.charAt(0).toUpperCase() + parentNode.id.slice(1);
-      warningMessage += `${parentName}'s ethnicities should add up to 100%. `;
+      warningMessage += `${parentName}'s race percentages should add up to 100%. `;
     }
   });
 
@@ -134,32 +133,34 @@ function updateDisplay(ethnicities, isValid, warningMessage) {
 function displayResult(ethnicities) {
   const sortedEthnicities = Object.entries(ethnicities)
     .sort((a, b) => b[1] - a[1])
-    .map(([ethnicity, percent]) => [ethnicity.toUpperCase(), percent]);
+    .map(([race, percent]) => [race.toUpperCase(), percent]);
 
   let resultHTML = `
-    <table class="w-full text-sm">
-      <thead>
-        <tr>
-          <th class="bg-indigo-100 text-left p-1.5 text-indigo-900 font-medium">ETHNICITY</th>
-          <th class="bg-indigo-100 text-right p-1.5 text-indigo-900 font-medium w-20">%</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
+        <table class="w-full text-sm">
+          <thead>
+            <tr>
+              <th class="bg-indigo-100 text-left p-1.5 text-indigo-900 font-medium">RACE</th>
+              <th class="bg-indigo-100 text-right p-1.5 text-indigo-900 font-medium w-20">%</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
 
-  for (const [ethnicity, percent] of sortedEthnicities) {
+  for (const [race, percent] of sortedEthnicities) {
     resultHTML += `
-      <tr>
-        <td class="p-1.5">${ethnicity}</td>
-        <td class="p-1.5 text-right text-indigo-600">${percent.toFixed(1)}</td>
-      </tr>
-    `;
+          <tr>
+            <td class="p-1.5">${race}</td>
+            <td class="p-1.5 text-right text-indigo-600">${percent.toFixed(
+              1
+            )}</td>
+          </tr>
+        `;
   }
 
   resultHTML += `
-      </tbody>
-    </table>
-  `;
+          </tbody>
+        </table>
+      `;
 
   ethnicityBreakdown.innerHTML = resultHTML;
   updateChart(Object.fromEntries(sortedEthnicities));
@@ -280,70 +281,70 @@ function downloadResults() {
   const websiteUrl = 'https://race-calculator.dankoresoft.com/';
   const container = document.createElement('div');
   container.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: -9999px;
-    width: 1200px;
-    background-color: #FFFFFF;
-    font-family: system-ui, -apple-system, sans-serif;
-  `;
+        position: fixed;
+        top: 0;
+        left: -9999px;
+        width: 1200px;
+        background-color: #FFFFFF;
+        font-family: system-ui, -apple-system, sans-serif;
+      `;
 
   const title = capitalizedUserName
-    ? `${capitalizedUserName}'s Ethnicity Breakdown`
-    : 'Ethnicity Breakdown';
+    ? `${capitalizedUserName}'s Race Breakdown`
+    : 'Race Breakdown';
 
   container.innerHTML = `
-    <div style="width: 1200px; background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);">
-      <div style="background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%); padding: 48px;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <h1 style="color: white; font-size: 52px; font-weight: 800; margin: 0; letter-spacing: -0.02em; line-height: 1.2;">${title}</h1>
-          <div style="display: flex; align-items: center; margin-left: 32px;">
-            <span style="color: white; font-size: 20px; opacity: 0.95; letter-spacing: -0.01em;">${websiteUrl}</span>
+        <div style="width: 1200px; background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);">
+          <div style="background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%); padding: 48px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h1 style="color: white; font-size: 52px; font-weight: 800; margin: 0; letter-spacing: -0.02em; line-height: 1.2;">${title}</h1>
+              <div style="display: flex; align-items: center; margin-left: 32px;">
+                <span style="color: white; font-size: 20px; opacity: 0.95; letter-spacing: -0.01em;">${websiteUrl}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; padding: 48px;">
+            <div>
+              <div style="background: #F8FAFC; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);">
+                <table style="width: 100%; border-collapse: collapse;">
+                  <thead>
+                    <tr>
+                      <th style="background: #EEF2FF; padding: 18px; text-align: left; font-size: 20px; color: #4F46E5;">RACE</th>
+                      <th style="background: #EEF2FF; padding: 18px; text-align: right; font-size: 20px; color: #4F46E5;">PERCENTAGE</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${data
+                      .map(
+                        row => `
+                        <tr>
+                          <td style="padding: 16px 18px; font-size: 18px; border-bottom: 1px solid #E2E8F0;">${row.ethnicity}</td>
+                          <td style="padding: 16px 18px; font-size: 18px; text-align: right; color: #4F46E5; border-bottom: 1px solid #E2E8F0;">${row.percentage}</td>
+                        </tr>
+                      `
+                      )
+                      .join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            <div>
+              <div style="background: #F8FAFC; border-radius: 16px; padding: 24px; min-height: 400px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);">
+                <img src="${chartImage}" alt="Race Chart" style="width: 100%; max-width: 500px;" >
+              </div>
+            </div>
+          </div>
+          
+          <div style="background: #EEF2FF; padding: 24px; text-align: center; border-top: 1px solid #E2E8F0;">
+            <p style="margin: 0; color: #4F46E5; font-size: 18px;">
+              Discover your unique race blend at
+              <span style="font-weight: bold;">${websiteUrl}</span>
+            </p>
           </div>
         </div>
-      </div>
-      
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; padding: 48px;">
-        <div>
-          <div style="background: #F8FAFC; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);">
-            <table style="width: 100%; border-collapse: collapse;">
-              <thead>
-                <tr>
-                  <th style="background: #EEF2FF; padding: 18px; text-align: left; font-size: 20px; color: #4F46E5;">ETHNICITY</th>
-                  <th style="background: #EEF2FF; padding: 18px; text-align: right; font-size: 20px; color: #4F46E5;">PERCENTAGE</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${data
-                  .map(
-                    row => `
-                  <tr>
-                    <td style="padding: 16px 18px; font-size: 18px; border-bottom: 1px solid #E2E8F0;">${row.ethnicity}</td>
-                    <td style="padding: 16px 18px; font-size: 18px; text-align: right; color: #4F46E5; border-bottom: 1px solid #E2E8F0;">${row.percentage}</td>
-                  </tr>
-                `
-                  )
-                  .join('')}
-              </tbody>
-            </table>
-          </div>
-        </div>
-        
-        <div>
-          <div style="background: #F8FAFC; border-radius: 16px; padding: 24px; min-height: 400px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);">
-            <img src="${chartImage}" alt="Ethnicity Chart" style="width: 100%; max-width: 500px;" >
-          </div>
-        </div>
-      </div>
-      
-      <div style="background: #EEF2FF; padding: 24px; text-align: center; border-top: 1px solid #E2E8F0;">
-        <p style="margin: 0; color: #4F46E5; font-size: 18px;">
-          Discover your unique ethnic heritage at
-          <span style="font-weight: bold;">${websiteUrl}</span>
-        </p>
-      </div>
-    </div>
-  `;
+      `;
 
   document.body.appendChild(container);
   if (loadingSpinner) loadingSpinner.classList.remove('hidden');
@@ -374,8 +375,8 @@ function downloadResults() {
         const a = document.createElement('a');
         a.href = canvas.toDataURL('image/png', 1.0);
         a.download = capitalizedUserName
-          ? `${capitalizedUserName}_ethnicity_results.png`
-          : 'ethnicity_results.png';
+          ? `${capitalizedUserName}_race_results.png`
+          : 'race_results.png';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
