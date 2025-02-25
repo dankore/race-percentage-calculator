@@ -13,7 +13,7 @@ export function setupAnalytics() {
     gaScript.async = true;
     gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-YDGB4Z1HWK';
     gaScript.onload = function () {
-      console.log('Google Analytics script loaded successfully');
+      // console.log('Google Analytics script loaded successfully');
       gtag('js', new Date());
       gtag('config', 'G-YDGB4Z1HWK');
     };
@@ -29,7 +29,7 @@ export function setupAnalytics() {
       'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js';
     webVitalsScript.async = true;
     webVitalsScript.onload = function () {
-      console.log('Web Vitals script loaded successfully');
+      // console.log('Web Vitals script loaded successfully');
       if (window.webVitals) {
         webVitals.onCLS(sendToGoogleAnalytics);
         webVitals.onINP(sendToGoogleAnalytics);
@@ -73,7 +73,7 @@ function initializeGoogleAds() {
         if (entry.isIntersecting) {
           try {
             (adsbygoogle = window.adsbygoogle || []).push({});
-            console.log('Ad loaded:', entry.target);
+            // console.log('Ad loaded:', entry.target);
           } catch (e) {
             console.error('Ad loading error:', e);
           }
@@ -89,7 +89,7 @@ function initializeGoogleAds() {
 
 function sendToGoogleAnalytics({ name, delta, id }) {
   if (typeof window.gtag === 'function') {
-    console.log(`Metric: ${name}, Delta: ${delta}, ID: ${id}`); // Debugging
+    // console.log(`Metric: ${name}, Delta: ${delta}, ID: ${id}`); // Debugging
     gtag('event', name, {
       event_category: 'Web Vitals',
       event_label: id, // Unique ID for each metric
