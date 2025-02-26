@@ -261,144 +261,156 @@
     <main role="main" class="bg-white dark:bg-gray-900 rounded-lg shadow-xl p-2 sm:p-6">
       <div id="warningMessage" class="mb-4" aria-live="polite"></div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
         <section id="ethnicity-input" class="space-y-4 sm:space-y-6">
           <h2 class="text-2xl font-semibold text-indigo-800 dark:text-indigo-200">
             Enter Races
           </h2>
-          <div id="ethnicity-form" class="space-y-4">
-            <fieldset id="mother" class="parent-node bg-pink-50 dark:bg-pink-900 rounded-lg p-2 sm:p-4 shadow-md">
-              <legend class="text-lg sm:text-xl font-semibold text-pink-700 dark:text-pink-300 mb-2">
+          <div id="ethnicity-form" class="space-y-5">
+            <fieldset id="mother"
+              class="parent-node bg-gradient-to-r from-pink-50 to-pink-100 dark:from-pink-900 dark:to-pink-800 rounded-lg p-3 sm:p-5 shadow-md">
+              <legend class="text-lg sm:text-xl font-semibold text-pink-700 dark:text-pink-300 px-2">
                 👩 Mother's Race
               </legend>
-              <div class="ethnicity-entries space-y-2"></div>
+              <div
+                class="ethnicity-entries space-y-2 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-pink-300 dark:scrollbar-thumb-pink-700 pr-1">
+              </div>
               <button type="button"
-                class="add-entry mt-2 w-full bg-pink-500 dark:bg-pink-600 text-white py-2 px-2 sm:px-4 rounded-md hover:bg-pink-600 dark:hover:bg-pink-700 transition duration-300 shadow-sm text-sm sm:text-base">
-                + Add Race
+                class="add-entry mt-3 w-full bg-pink-500 dark:bg-pink-600 text-white py-2 px-4 rounded-md hover:bg-pink-600 dark:hover:bg-pink-700 transition duration-300 shadow-sm text-sm sm:text-base flex items-center justify-center">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Add Race
               </button>
             </fieldset>
 
-            <fieldset id="father" class="parent-node bg-blue-50 dark:bg-blue-900 rounded-lg p-2 sm:p-4 shadow-md">
-              <legend class="text-lg sm:text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">
+            <fieldset id="father"
+              class="parent-node bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-lg p-3 sm:p-5 shadow-md">
+              <legend class="text-lg sm:text-xl font-semibold text-blue-700 dark:text-blue-300 px-2">
                 👨 Father's Race
               </legend>
-              <div class="ethnicity-entries space-y-2"></div>
+              <div
+                class="ethnicity-entries space-y-2 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 dark:scrollbar-thumb-blue-700 pr-1">
+              </div>
               <button type="button"
-                class="add-entry mt-2 w-full bg-blue-500 dark:bg-blue-600 text-white py-2 px-2 sm:px-4 rounded-md hover:bg-blue-600 dark:hover:bg-blue-700 transition duration-300 shadow-sm text-sm sm:text-base">
-                + Add Race
+                class="add-entry mt-3 w-full bg-blue-500 dark:bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-600 dark:hover:bg-blue-700 transition duration-300 shadow-sm text-sm sm:text-base flex items-center justify-center">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Add Race
               </button>
             </fieldset>
           </div>
         </section>
 
-        <section id="results" class="flex flex-col">
-          <h2 class="text-2xl font-semibold text-indigo-800 dark:text-indigo-200 mb-2">
-            Results
-          </h2>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md">
-            <!-- Header -->
-            <div class="bg-indigo-500 p-3 rounded-t-lg">
-              <h3 class="text-lg font-bold text-white">Race Breakdown</h3>
-            </div>
-
-            <!-- Content Container -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
-              <!-- Details Section -->
-              <div class="space-y-2">
-                <h4 class="font-semibold text-indigo-700 dark:text-indigo-300">Details</h4>
-                <div id="ethnicityBreakdown" class="bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <!-- Table will be inserted here -->
-                </div>
+        <div class="flex flex-col gap-5">
+          <section id="results" class="flex flex-col">
+            <h2 class="text-2xl font-semibold text-indigo-800 dark:text-indigo-200 mb-3">
+              Results
+            </h2>
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg flex-grow flex flex-col">
+              <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 p-4 rounded-t-lg">
+                <h3 class="text-lg font-bold text-white">Race Breakdown</h3>
               </div>
 
-              <!-- Chart Section -->
-              <div class="space-y-2">
-                <h4 class="font-semibold text-indigo-700 dark:text-indigo-300">Chart</h4>
-                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-                  <canvas id="ethnicityChart" class="p-2"></canvas>
-                </div>
-              </div>
-            </div>
-
-            <!-- Download Section -->
-            <div class="border-t border-gray-200 dark:border-gray-700 p-4 bg-gray-50 dark:bg-gray-900 rounded-b-lg">
-              <div class="flex flex-col sm:flex-row gap-4 items-center justify-between">
-                <!-- Name Input -->
-                <div class="w-full sm:w-auto">
-                  <label for="userName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Your Name (optional)
-                  </label>
-                  <div class="relative">
-                    <input type="text" id="userName" name="userName"
-                      class="w-full sm:w-64 pl-10 pr-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-indigo-500"
-                      placeholder="Enter your name">
-                    <span class="absolute left-3 top-2.5 text-gray-400">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                          clip-rule="evenodd">
-                      </svg>
-                    </span>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 p-5 flex-grow">
+                <div class="space-y-3">
+                  <h4 class="font-semibold text-indigo-700 dark:text-indigo-300 text-lg">Details</h4>
+                  <div id="ethnicityBreakdown"
+                    class="bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner overflow-hidden">
+                    <!-- Table will be inserted here -->
                   </div>
-                  <p class="mt-1 text-xs text-gray-500 dark:text-gray-400" id="nameHelp">
-                    Letters, spaces, hyphens, and apostrophes only. Max 50 characters.
-                  </p>
-                  <p class="mt-1 text-xs text-red-500 hidden" id="nameError">
-                    Please enter a valid name.
-                  </p>
                 </div>
 
-                <!-- Download Button -->
-                <button id="downloadButton"
-                  class="w-full sm:w-auto bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-2 rounded-lg font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4">
-                  </svg>
-                  Download Results
-                </button>
+                <div class="space-y-3">
+                  <h4 class="font-semibold text-indigo-700 dark:text-indigo-300 text-lg">Chart</h4>
+                  <div
+                    class="bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner flex items-center justify-center p-3 min-h-[250px]">
+                    <canvas id="ethnicityChart"></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <div class="border-t border-gray-200 dark:border-gray-700 p-5 bg-gray-50 dark:bg-gray-900 rounded-b-lg">
+                <div class="flex flex-col sm:flex-row gap-4 items-center justify-between">
+                  <div class="w-full sm:w-auto">
+                    <label for="userName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Your Name (optional)
+                    </label>
+                    <div class="relative">
+                      <input type="text" id="userName" name="userName"
+                        class="w-full sm:w-64 pl-10 pr-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-indigo-500"
+                        placeholder="Enter your name">
+                      <span class="absolute left-3 top-2.5 text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                            clip-rule="evenodd">
+                        </svg>
+                      </span>
+                    </div>
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400" id="nameHelp">
+                      Letters, spaces, hyphens, and apostrophes only. Max 50 characters.
+                    </p>
+                    <p class="mt-1 text-xs text-red-500 hidden" id="nameError">
+                      Please enter a valid name.
+                    </p>
+                  </div>
+
+                  <button id="downloadButton"
+                    class="w-full sm:w-auto bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 whitespace-nowrap shadow-md disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-indigo-500 disabled:hover:to-indigo-600"
+                    disabled>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4">
+                    </svg>
+                    Download Results
+                  </button>
+                </div>
+              </div>
+
+              <div id="loadingSpinner"
+                class="hidden absolute inset-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm flex flex-col items-center justify-center rounded-lg z-50">
+                <div class="relative w-20 h-20">
+                  <div
+                    class="absolute inset-0 rounded-full border-4 border-t-indigo-600 border-r-indigo-400 border-b-indigo-300 border-l-indigo-500 animate-spin">
+                  </div>
+
+                  <div class="absolute inset-2 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-600 to-purple-600 animate-pulse">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-4 text-center">
+                  <p class="text-gray-700 dark:text-gray-200 font-medium">Generating Results</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Please wait a moment...</p>
+                </div>
               </div>
             </div>
+          </section>
 
-            <!-- Loading Spinner -->
-            <div id="loadingSpinner"
-              class="hidden absolute inset-0 bg-white/75 dark:bg-gray-800/75 flex items-center justify-center rounded-lg">
-              <svg class="animate-spin h-8 w-8 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none"
-                viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+          <div class="grid grid-cols-2 gap-3">
+            <button data-share="facebook"
+              class="flex items-center justify-center px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-lg transition-all duration-300 shadow-md">
+              <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M24 12.073c0-6.627-5.373-12-12-12S0 5.446 0 12.073c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+              </svg>
+              <span class="text-sm font-medium">Share on Facebook</span>
+            </button>
+
+            <button data-share="twitter"
+              class="flex items-center justify-center px-4 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg transition-all duration-300 shadow-md dark:from-orange-500 dark:to-orange-600 dark:hover:from-orange-600 dark:hover:to-orange-700">
+              <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z">
                 </path>
               </svg>
-            </div>
+              <span class="text-sm font-medium">Share on X</span>
+            </button>
           </div>
-        </section>
-      </div>
-
-      <div class="grid sm:grid-cols-3 gap-3 max-w-3xl my-8">
-        <button data-share="facebook"
-          class="flex items-center justify-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-300 hover:shadow-md">
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
-            <path
-              d="M24 12.073c0-6.627-5.373-12-12-12S0 5.446 0 12.073c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-          </svg>
-          <span class="text-sm font-medium">Facebook</span>
-        </button>
-
-        <button data-share="twitter" class="flex items-center justify-center px-6 py-3 
-                 bg-orange-600 text-white 
-                 hover:bg-orange-700 rounded-lg 
-                 transition-all duration-300 hover:shadow-md 
-                 dark:bg-orange-500 dark:hover:bg-orange-600">
-          <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
-            <path
-              d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z">
-            </path>
-          </svg>
-          <span class="text-sm font-medium">Share on X</span>
-        </button>
-
+        </div>
       </div>
 
       <!-- Second Google Ad Placement -->

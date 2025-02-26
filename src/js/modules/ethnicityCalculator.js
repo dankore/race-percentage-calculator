@@ -139,8 +139,8 @@ function displayResult(ethnicities) {
         <table class="w-full text-sm">
           <thead>
             <tr>
-              <th class="bg-indigo-100 text-left p-1.5 text-indigo-900 font-medium">RACE</th>
-              <th class="bg-indigo-100 text-right p-1.5 text-indigo-900 font-medium w-20">%</th>
+              <th class="bg-indigo-100 dark:bg-indigo-900 text-left p-1.5 text-indigo-900 dark:text-indigo-100 font-medium">RACE</th>
+              <th class="bg-indigo-100 dark:bg-indigo-900 text-right p-1.5 text-indigo-900 dark:text-indigo-100 font-medium w-20">%</th>
             </tr>
           </thead>
           <tbody>
@@ -148,9 +148,9 @@ function displayResult(ethnicities) {
 
   for (const [race, percent] of sortedEthnicities) {
     resultHTML += `
-          <tr>
-            <td class="p-1.5">${race}</td>
-            <td class="p-1.5 text-right text-indigo-600">${percent.toFixed(
+          <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
+            <td class="p-1.5 dark:text-gray-200">${race}</td>
+            <td class="p-1.5 text-right text-indigo-600 dark:text-indigo-400">${percent.toFixed(
               1
             )}</td>
           </tr>
