@@ -190,3 +190,14 @@
 .dark .chart-container {
   background-color: #1f2937;
 }
+
+/* Ad container styles */
+.ad-container {
+  display: block;
+  min-height: 600px;
+}
+
+.horizontal-ad {
+  display: block;
+  height: 250px;
+}
