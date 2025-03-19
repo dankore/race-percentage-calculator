@@ -1,4 +1,4 @@
-import { calculateEthnicity } from './ethnicityCalculator.js';
+import { calculateRace } from './raceCalculator.js';
 
 const warningMessageDiv = document.getElementById('warningMessage');
 
@@ -15,25 +15,25 @@ export function hideWarning() {
 
 export function setupUIHandlers() {
   document.addEventListener('input', function (event) {
-    if (event.target.closest('.ethnicity-entry')) {
-      calculateEthnicity();
+    if (event.target.closest('.race-entry')) {
+      calculateRace();
     }
   });
 
   document.addEventListener('click', function (event) {
     const deleteButton = event.target.closest('.delete-entry');
     if (deleteButton) {
-      const entryToDelete = deleteButton.closest('.ethnicity-entry');
+      const entryToDelete = deleteButton.closest('.race-entry');
       const parentNode = entryToDelete.closest('.parent-node');
-      if (parentNode.querySelectorAll('.ethnicity-entry').length > 1) {
+      if (parentNode.querySelectorAll('.race-entry').length > 1) {
         parentNode
-          .querySelector('.ethnicity-entries')
+          .querySelector('.race-entries')
           .removeChild(entryToDelete);
-        calculateEthnicity();
-        checkScrolling(parentNode.querySelector('.ethnicity-entries'));
+        calculateRace();
+        checkScrolling(parentNode.querySelector('.race-entries'));
       } else {
         showWarning(
-          'Please keep at least one ethnicity entry for each parent.'
+          'Please keep at least one race entry for each parent.'
         );
       }
     }

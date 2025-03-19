@@ -14,7 +14,7 @@ function shareContent(platform) {
   const url = window.location.href;
   const title = document.title;
   const text =
-    'Calculate your exact ethnic makeup with this free ethnicity calculator. Perfect for mixed-race families and genealogy research!';
+    'Calculate your exact racial makeup with this free race calculator. Perfect for mixed-race families and genealogy research!';
 
   const shareUrls = {
     facebook: `https://www.facebook.com/dialog/share?app_id=887993551754576&display=popup&href=${encodeURIComponent(
