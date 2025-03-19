@@ -18,12 +18,44 @@ export function setupHeaderDropdown() {
       return;
     }
 
+    // Function to position the dropdown menu correctly
+    function positionDropdown() {
+      if (dropdownMenu.classList.contains('hidden')) return;
+      
+      const buttonRect = dropdownButton.getBoundingClientRect();
+      
+      // Position the dropdown directly under the button
+      dropdownMenu.style.top = `${buttonRect.bottom + window.scrollY}px`;
+      dropdownMenu.style.left = `${buttonRect.right - dropdownMenu.offsetWidth}px`;
+    }
+
+    // Toggle dropdown visibility and position it
     dropdownButton.addEventListener('click', e => {
       e.preventDefault();
       e.stopPropagation();
-      dropdownMenu.classList.toggle('hidden');
+      
+      const isVisible = !dropdownMenu.classList.contains('hidden');
+      
+      // If it's going to be shown, position it first
+      if (!isVisible) {
+        // Make it visible but off-screen to measure it
+        dropdownMenu.classList.remove('hidden');
+        dropdownMenu.style.visibility = 'hidden';
+        
+        // Calculate position
+        const buttonRect = dropdownButton.getBoundingClientRect();
+        dropdownMenu.style.top = `${buttonRect.bottom + window.scrollY}px`;
+        dropdownMenu.style.left = `${buttonRect.right - dropdownMenu.offsetWidth}px`;
+        
+        // Make it fully visible
+        dropdownMenu.style.visibility = 'visible';
+      } else {
+        // Hide it
+        dropdownMenu.classList.add('hidden');
+      }
     });
 
+    // Handle click outside to close the dropdown
     document.addEventListener('click', e => {
       if (!dropdownContainer.contains(e.target)) {
         dropdownMenu.classList.add('hidden');
@@ -34,5 +66,11 @@ export function setupHeaderDropdown() {
     dropdownMenu.addEventListener('click', e => {
       e.stopPropagation();
     });
+
+    // Reposition dropdown on window resize
+    window.addEventListener('resize', positionDropdown);
+    
+    // Reposition dropdown on scroll
+    window.addEventListener('scroll', positionDropdown);
   }
 }

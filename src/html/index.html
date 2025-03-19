@@ -218,7 +218,7 @@
             <nav class="flex items-center space-x-4">
               <a href="/" class="text-white hover:text-indigo-200 transition duration-300">Home</a>
               <a href="/blog" class="text-white hover:text-indigo-200 transition duration-300">Blog</a>
-              <div class="static z-50" id="resources-dropdown">
+              <div class="relative z-50" id="resources-dropdown">
                 <button class="text-white hover:text-indigo-200 transition duration-300 flex items-center"
                   id="resources-dropdown-button">
                   Resources
@@ -227,15 +227,15 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                   </svg>
                 </button>
-                <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-50"
+                <div class="fixed transform translate-x-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg hidden z-[100]"
                   id="resources-dropdown-menu">
                   <a href="/blog/genealogy-research-tips"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-500 hover:text-white">Genealogy
+                    class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white">Genealogy
                     Tips</a>
                   <a href="/blog/understanding-dna-tests"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-500 hover:text-white">DNA Testing</a>
+                    class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white">DNA Testing</a>
                   <a href="/blog/cultural-heritage-resources"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-500 hover:text-white">Cultural
+                    class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white">Cultural
                     Heritage</a>
                 </div>
               </div>
