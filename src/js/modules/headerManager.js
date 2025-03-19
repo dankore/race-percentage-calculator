@@ -18,7 +18,7 @@ export function setupHeaderDropdown() {
       return;
     }
 
-    // Function to position the dropdown menu correctly
+    // Function to position the dropdown menu correctly (now at body level)
     function positionDropdown() {
       if (dropdownMenu.classList.contains('hidden')) return;
       
@@ -26,7 +26,7 @@ export function setupHeaderDropdown() {
       
       // Position the dropdown directly under the button
       dropdownMenu.style.top = `${buttonRect.bottom + window.scrollY}px`;
-      dropdownMenu.style.left = `${buttonRect.right - dropdownMenu.offsetWidth}px`;
+      dropdownMenu.style.left = `${buttonRect.left}px`;
     }
 
     // Toggle dropdown visibility and position it
@@ -38,17 +38,9 @@ export function setupHeaderDropdown() {
       
       // If it's going to be shown, position it first
       if (!isVisible) {
-        // Make it visible but off-screen to measure it
+        // Show the dropdown and position it correctly
         dropdownMenu.classList.remove('hidden');
-        dropdownMenu.style.visibility = 'hidden';
-        
-        // Calculate position
-        const buttonRect = dropdownButton.getBoundingClientRect();
-        dropdownMenu.style.top = `${buttonRect.bottom + window.scrollY}px`;
-        dropdownMenu.style.left = `${buttonRect.right - dropdownMenu.offsetWidth}px`;
-        
-        // Make it fully visible
-        dropdownMenu.style.visibility = 'visible';
+        positionDropdown();
       } else {
         // Hide it
         dropdownMenu.classList.add('hidden');
