@@ -4,34 +4,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free Race Percentage, Ethnicity, Ancestry & Nationality Calculator | Heritage DNA Breakdown Tool</title>
+  <title>Free Race Percentage Calculator | Heritage & Ancestry DNA Breakdown Tool</title>
   <meta name="description"
-    content="Calculate your race percentage, ethnicity, ancestry, and nationality breakdown with our free calculator. Perfect for mixed race families, baby race prediction, heritage estimation, and genealogy research. Get your DNA percentage breakdown instantly!">
+    content="Calculate your race percentage breakdown with our free calculator. Perfect for mixed race families, baby race prediction, heritage estimation, and genealogy research. Get your DNA percentage breakdown instantly!">
   <meta name="keywords"
-    content="ethnicity calculator, heritage calculator, ethnicity percentage calculator, heritage percentage calculator, race percentage calculator, nationality percentage calculator, ancestry percentage calculator, genetic ancestry calculator, ethnicity breakdown tool, mixed race calculator, baby race predictor">
+    content="race calculator, heritage calculator, race percentage calculator, heritage percentage calculator, nationality percentage calculator, ancestry percentage calculator, genetic ancestry calculator, race breakdown tool, mixed race calculator, baby race predictor">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <meta name="author" content="Dankore Software LLC">
   <meta name="language" content="English">
-  <meta name="theme-color" content="#4F46E5">
+  <!-- Using browser-specific meta tags instead of theme-color which isn't supported in all browsers -->  
+  <meta name="msapplication-navbutton-color" content="#4F46E5">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#4F46E5">
   <meta name="msapplication-TileColor" content="#4F46E5">
   <meta name="msapplication-TileImage" content="assets/images/icons/ms-icon-144x144.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Ethnicity, Heritage & Race Percentage Calculator">
+  <meta name="apple-mobile-web-app-title" content="Race Percentage Calculator">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="application-name" content="Race & Heritage Calculator">
   <link rel="canonical" href="https://race-calculator.dankoresoft.com/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://race-calculator.dankoresoft.com/">
-  <meta property="og:title" content="Free Ethnicity, Heritage, Race Percentage, Ancestry & Nationality Calculator">
+  <meta property="og:title" content="Free Race Percentage, Heritage, Ancestry & Nationality Calculator">
   <meta property="og:description"
-    content="Use our free online tool to calculate ethnicity, heritage, ancestry, race percentage, and nationality percentages. Discover your heritage and family history with precision. Ideal for genealogy research and mixed-race families.">
+    content="Use our free online tool to calculate race percentages, heritage, ancestry, and nationality. Discover your heritage and family history with precision. Ideal for genealogy research and mixed-race families.">
   <meta property="og:image"
     content="https://race-calculator.dankoresoft.com/assets/images/seo/ethnic-makeup-seo-image.png">
-  <meta property="og:image:alt" content="Ethnicity, Heritage and Race Percentage Calculator Interface">
+  <meta property="og:image:alt" content="Race Percentage Calculator Interface">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:site_name" content="Ethnicity, Heritage & Race Percentage Calculator">
+  <meta property="og:site_name" content="Race Percentage Calculator">
   <meta property="og:locale" content="en_US">
   <meta http-equiv="Cache-Control" content="max-age=31536000, public">
   <meta http-equiv="Expires" content="31536000">
@@ -41,9 +43,9 @@
   <meta name="MobileOptimized" content="320">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://race-calculator.dankoresoft.com/">
-  <meta name="twitter:title" content="Free Ethnicity, Heritage, Race Percentage, Ancestry & Nationality Calculator">
+  <meta name="twitter:title" content="Free Race Percentage, Heritage, Ancestry & Nationality Calculator">
   <meta name="twitter:description"
-    content="Use our free online tool to calculate ethnicity, heritage, ancestry, race percentage, and nationality percentages. Discover your heritage and family history with precision. Ideal for genealogy research and mixed-race families.">
+    content="Use our free online tool to calculate race percentages, heritage, ancestry, and nationality. Discover your heritage and family history with precision. Ideal for genealogy research and mixed-race families.">
   <meta name="twitter:image"
     content="https://race-calculator.dankoresoft.com/assets/images/seo/ethnic-makeup-seo-image.png">
   <meta name="twitter:creator" content="@dankoresoftware">
@@ -75,9 +77,9 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Ethnicity, Heritage & Race Percentage Calculator",
+      "name": "Race Percentage Calculator",
       "url": "https://race-calculator.dankoresoft.com",
-      "description": "Free online tool to calculate ethnicity, heritage, ancestry, race percentage, and nationality percentages. Estimate your racial breakdown, family heritage, and genetic background. Ideal for mixed-race families, genealogy research, and ancestry estimation.",
+      "description": "Free online tool to calculate race percentages, heritage, ancestry, and nationality. Estimate your racial breakdown, family heritage, and genetic background. Ideal for mixed-race families, genealogy research, and ancestry estimation.",
       "applicationCategory": "UtilityApplication",
       "operatingSystem": "Any",
       "offers": {
@@ -105,10 +107,10 @@
       "@type": "FAQPage",
       "mainEntity": [{
         "@type": "Question",
-        "name": "What's the difference between ethnicity, heritage and race?",
+        "name": "What's the difference between heritage and race?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Ethnicity and heritage refer to cultural factors like nationality, language, and traditions. Race Percentage, on the other hand, is primarily based on physical characteristics. Our calculator helps you explore both racial and cultural heritage."
+          "text": "Heritage refers to cultural factors like nationality, language, and traditions. Race is primarily based on physical characteristics and genetic ancestry. Our calculator helps you explore your racial background and heritage."
         }
       }, {
         "@type": "Question",
@@ -170,16 +172,11 @@
   class="bg-gradient-to-br from-indigo-50 to-purple-100 dark:from-slate-950 dark:to-gray-900 min-h-screen font-sans">
 
   <template id="race-entry-template">
-    <div
-      class="race-entry bg-white dark:bg-gray-800 rounded-md shadow-sm p-0 sm:p-2 flex items-center gap-1 sm:gap-2">
+    <div class="race-entry race-entry-template bg-white dark:bg-gray-800 rounded-md shadow-sm flex items-center">
       <label for="race-input-{{id}}" class="sr-only">Race</label>
-      <input type="text" id="race-input-{{id}}" placeholder="Race"
-        class="race-input flex-grow h-10 sm:h-8 px-2 sm:px-3 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600 focus:border-indigo-500 dark:focus:border-indigo-600 text-sm"
-        required>
+      <input type="text" id="race-input-{{id}}" placeholder="Race" class="race-input race-input-styles" required>
       <label for="percent-input-{{id}}" class="sr-only">Percentage</label>
-      <input type="number" id="percent-input-{{id}}" placeholder="%" min="0" max="100"
-        class="percent-input w-16 sm:w-20 h-10 sm:h-8 px-1 sm:px-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600 focus:border-indigo-500 dark:focus:border-indigo-600 text-sm"
-        required>
+      <input type="number" id="percent-input-{{id}}" placeholder="%" min="0" max="100" class="percent-input percent-input-styles" required>
       <button type="button"
         class="delete-entry p-2 text-red-500 hover:text-red-700 dark:hover:text-red-400 focus:outline-none"
         aria-label="Delete Entry">
@@ -258,7 +255,7 @@
           </div>
         </div>
       </div>
-      <div class="bg-white dark:bg-gray-800 py-4 px-4 rounded-b-lg shadow-lg">
+      <div class="results-container">
         <div class="container mx-auto">
           <div class="flex flex-wrap justify-center items-center text-center gap-3 text-sm">
             <span
@@ -333,7 +330,7 @@
           <h2 class="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 mb-4">
             Results
           </h2>
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg flex-grow flex flex-col">
+            <div class="chart-container">
               <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 p-4 rounded-t-lg">
                 <h3 class="text-lg font-bold text-white">Race Breakdown</h3>
               </div>
@@ -454,7 +451,7 @@
 
           <div class="grid grid-cols-2 gap-3">
             <button data-share="facebook"
-              class="flex items-center justify-center px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-lg transition-all duration-300 shadow-md">
+              class="btn-gradient-blue">
               <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                 <path
                   d="M24 12.073c0-6.627-5.373-12-12-12S0 5.446 0 12.073c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
@@ -501,7 +498,7 @@
           <div class="md:w-2/3">
             <p class="text-gray-600 dark:text-gray-400 mb-4">
               Planning a family? Use our Race Calculator to predict your future child's racial and ethnic makeup.
-              Simply enter both parents' ethnicity breakdowns to visualize your baby's potential heritage.
+              Simply enter both parents' race breakdowns to visualize your baby's potential heritage.
             </p>
             <div class="bg-pink-50 dark:bg-pink-900 p-4 rounded-lg">
               <h3 class="font-semibold text-pink-700 dark:text-pink-300 mb-2">How To Calculate Baby's Race</h3>
@@ -521,7 +518,7 @@
                 </path>
               </svg>
               <h3 class="text-lg font-semibold text-indigo-700 dark:text-indigo-300 mt-2">
-                Child Ethnicity Prediction
+                Child Race Prediction
               </h3>
             </div>
           </div>
@@ -535,7 +532,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <!-- Nationality Card -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-5">
+          <div class="feature-card">
             <h3 class="text-xl font-semibold text-indigo-700 dark:text-indigo-300 mb-3">
               Nationality Calculator
             </h3>
@@ -551,7 +548,7 @@
           </div>
 
           <!-- Heritage Card -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-5">
+          <div class="feature-card">
             <h3 class="text-xl font-semibold text-indigo-700 dark:text-indigo-300 mb-3">
               Heritage Percentage Calculator
             </h3>
@@ -566,7 +563,7 @@
           </div>
 
           <!-- Ancestry Card -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-5">
+          <div class="feature-card">
             <h3 class="text-xl font-semibold text-indigo-700 dark:text-indigo-300 mb-3">
               Ancestry Percentage Calculator
             </h3>
@@ -702,10 +699,10 @@
         <div class="space-y-4">
           <details class="bg-gray-100 dark:bg-gray-800 rounded-lg">
             <summary class="cursor-pointer p-4 font-semibold text-indigo-700 dark:text-indigo-300">
-              What's the difference between ethnicity and race?
+              What's the difference between heritage and race?
             </summary>
             <p class="p-4 text-gray-600 dark:text-gray-400">
-              Ethnicity refers to cultural factors like nationality, language,
+              Heritage refers to cultural factors like nationality, language,
               and traditions. Race Percentage, on the other hand, is primarily based on
               physical characteristics. Our calculator helps you explore both
               concepts of identity.
@@ -778,7 +775,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <a href="/blog/genealogy-research-tips"
-            class="block p-4 bg-gray-100 dark:bg-gray-800 rounded-lg hover:shadow-md transition duration-300">
+            class="blog-link">
             <h3 class="font-semibold text-indigo-700 dark:text-indigo-300">
               Genealogy Research Tips
             </h3>
@@ -788,7 +785,7 @@
           </a>
 
           <a href="/blog/understanding-dna-tests"
-            class="block p-4 bg-gray-100 dark:bg-gray-800 rounded-lg hover:shadow-md transition duration-300">
+            class="blog-link">
             <h3 class="font-semibold text-indigo-700 dark:text-indigo-300">
               Understanding DNA Tests
             </h3>
@@ -799,7 +796,7 @@
           </a>
 
           <a href="/blog/cultural-heritage-resources"
-            class="block p-4 bg-gray-100 dark:bg-gray-800 rounded-lg hover:shadow-md transition duration-300">
+            class="blog-link">
             <h3 class="font-semibold text-indigo-700 dark:text-indigo-300">
               Cultural Heritage Resources
             </h3>
@@ -831,22 +828,22 @@
             Percentage Calculator</span>
           <span
             class="text-sm px-3 py-1 bg-indigo-50 dark:bg-indigo-900 rounded-full text-indigo-600 dark:text-indigo-400">DNA
-            Ethnicity Calculator</span>
+            Race Calculator</span>
           <span
             class="text-sm px-3 py-1 bg-indigo-50 dark:bg-indigo-900 rounded-full text-indigo-600 dark:text-indigo-400">Find
-            My Ethnicity Tool</span>
+            My Race Tool</span>
           <span
             class="text-sm px-3 py-1 bg-indigo-50 dark:bg-indigo-900 rounded-full text-indigo-600 dark:text-indigo-400">Baby
-            Ethnicity Calculator</span>
+            Race Calculator</span>
           <span
             class="text-sm px-3 py-1 bg-indigo-50 dark:bg-indigo-900 rounded-full text-indigo-600 dark:text-indigo-400">Free
-            Ethnicity Estimate</span>
+            Race Estimate</span>
           <span
             class="text-sm px-3 py-1 bg-indigo-50 dark:bg-indigo-900 rounded-full text-indigo-600 dark:text-indigo-400">Mixed
             Race Calculator</span>
           <span
             class="text-sm px-3 py-1 bg-indigo-50 dark:bg-indigo-900 rounded-full text-indigo-600 dark:text-indigo-400">Child
-            Ethnicity Calculator</span>
+            Race Calculator</span>
         </div>
       </section>
 
@@ -951,9 +948,9 @@
                 </a>
               </li>
               <li>
-                <a href="https://ethnicity-calculator.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://race-calculator.dankoresoft.com" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
-                  <span>Ethnicity Calculator</span>
+                  <span>Race Calculator</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
