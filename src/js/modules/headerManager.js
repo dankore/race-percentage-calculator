@@ -1,52 +1,69 @@
 // headerManager.js
 
 export function setupHeaderDropdown() {
-  // Run the setup on page load
-  window.addEventListener('load', () => {
+  // Create a flag to track if we've already set up the dropdown
+  if (window._dropdownSetupComplete) {
+    return;
+  }
+
+  // Check if the DOM is already loaded
+  if (document.readyState === 'loading') {
+    // Document still loading, use DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', setupDropdown);
+  } else {
+    // Document already loaded, run immediately
     setupDropdown();
-  });
-  
-  // Also try to run it immediately
-  setupDropdown();
+  }
 }
 
 function setupDropdown() {
-  // Get the elements
+  // Check if we've already set this up
+  if (window._dropdownSetupComplete) {
+    return;
+  }
+
   const button = document.getElementById('resources-dropdown-button');
   const menu = document.getElementById('resources-dropdown-menu');
-  
-  if (!button) {
+
+  console.log('Setting up dropdown:', button, menu);
+
+  if (!button || !menu) {
+    // Elements not found, perhaps try again later
+    setTimeout(setupDropdown, 100);
     return;
   }
-  
-  if (!menu) {
-    return;
-  }
-  
+
+  // Set our flag to prevent multiple setups
+  window._dropdownSetupComplete = true;
+
   // Toggle menu visibility when button is clicked
-  button.addEventListener('click', function(e) {
+  button.addEventListener('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
-    
+
     // Toggle the hidden class
     const isHidden = menu.classList.contains('hidden');
-    
+    console.log('Menu hidden?', isHidden);
+
     if (isHidden) {
       // Show the menu
       menu.classList.remove('hidden');
-      
+
       // Position the menu below the button
       const buttonRect = button.getBoundingClientRect();
+      menu.style.position = 'absolute';
       menu.style.top = `${buttonRect.bottom + window.scrollY}px`;
       menu.style.left = `${buttonRect.left}px`;
+      console.log('Menu should now be visible');
     } else {
       // Hide the menu
       menu.classList.add('hidden');
+      console.log('Menu should now be hidden');
     }
   });
-  
+
   // Hide menu when clicking outside
-  document.addEventListener('click', function(e) {
+  document.addEventListener('click', function (e) {
     // Only proceed if the menu is visible
     if (!menu.classList.contains('hidden')) {
       // Check if the click was outside the button and menu
@@ -55,27 +72,29 @@ function setupDropdown() {
       }
     }
   });
-  
+
   // Prevent clicks inside the menu from closing it
-  menu.addEventListener('click', function(e) {
+  menu.addEventListener('click', function (e) {
     e.stopPropagation();
   });
-  
+
   // Reposition menu on window resize
-  window.addEventListener('resize', function() {
+  window.addEventListener('resize', function () {
     if (!menu.classList.contains('hidden')) {
       const buttonRect = button.getBoundingClientRect();
       menu.style.top = `${buttonRect.bottom + window.scrollY}px`;
       menu.style.left = `${buttonRect.left}px`;
     }
   });
-  
+
   // Reposition menu on scroll
-  window.addEventListener('scroll', function() {
+  window.addEventListener('scroll', function () {
     if (!menu.classList.contains('hidden')) {
       const buttonRect = button.getBoundingClientRect();
       menu.style.top = `${buttonRect.bottom + window.scrollY}px`;
       menu.style.left = `${buttonRect.left}px`;
     }
   });
+
+  console.log('Dropdown setup complete');
 }
