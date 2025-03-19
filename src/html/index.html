@@ -169,10 +169,10 @@
 </head>
 
 <body
-  class="bg-gradient-to-br from-indigo-50 to-purple-100 dark:from-slate-950 dark:to-gray-900 min-h-screen font-sans">
+  class="bg-gradient-to-br from-indigo-50 to-purple-100 dark:from-gray-950 dark:to-slate-900 min-h-screen font-sans transition-colors duration-300">
 
   <template id="race-entry-template">
-    <div class="race-entry race-entry-template bg-white dark:bg-gray-800 rounded-md shadow-sm flex items-center">
+    <div class="race-entry race-entry-template bg-white dark:bg-gray-800 rounded-md shadow-sm flex items-center border border-gray-200 dark:border-gray-700">
       <label for="race-input-{{id}}" class="sr-only">Race</label>
       <input type="text" id="race-input-{{id}}" placeholder="Race" class="race-input w-full p-2 rounded-l-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400 focus:outline-none transition-colors" required>
       <label for="percent-input-{{id}}" class="sr-only">Percentage</label>
@@ -191,7 +191,7 @@
   </template>
   <div class="mx-auto max-w-6xl sm:px-4">
     <div class="w-full bg-gray-100 dark:bg-gray-800 sm:rounded-b-lg h-[18px] overflow-hidden">
-      <ins class="adsbygoogle w-full" style="display: block; height: 18px" data-ad-client="ca-pub-7174503033473057"
+      <ins class="adsbygoogle w-full ad-small" data-ad-client="ca-pub-7174503033473057"
         data-ad-slot="1072106496" data-ad-format="auto" data-full-width-responsive="true"></ins>
     </div>
   </div>
@@ -283,6 +283,20 @@
       </div>
     </header>
 
+    <div class="container mx-auto px-4 xl:px-0 mb-6">  
+      <div class="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900 dark:to-purple-900 p-4 sm:p-6 rounded-lg shadow-md border border-indigo-100 dark:border-indigo-800 flex items-center">
+        <div class="mr-4 text-indigo-600 dark:text-indigo-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-lg sm:text-xl font-bold text-indigo-700 dark:text-indigo-300 mb-1">Planning a family?</h3>
+          <p class="text-gray-700 dark:text-gray-200">Use our Race Calculator to predict your future child's racial and ethnic makeup. Simply enter both parents' race breakdowns to visualize your baby's potential heritage.</p>
+        </div>
+      </div>
+    </div>
+
     <main role="main" class="container mx-auto px-4 xl:px-0 mb-16">
       <div id="warningMessage" class="mb-4" aria-live="polite"></div>
 
@@ -308,12 +322,10 @@
               </div>
               <button type="button"
                 class="add-entry mt-4 w-full bg-pink-500 dark:bg-pink-600 text-white py-2.5 px-4 rounded-lg hover:bg-pink-600 dark:hover:bg-pink-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
-                <span class="relative inline-flex">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
-                  Add Race
-                </span>
+                <span>Add Race</span>
               </button>
             </fieldset>
 
@@ -331,12 +343,10 @@
               </div>
               <button type="button"
                 class="add-entry mt-4 w-full bg-blue-500 dark:bg-blue-600 text-white py-2.5 px-4 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
-                <span class="relative inline-flex">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
-                  Add Race
-                </span>
+                <span>Add Race</span>
               </button>
             </fieldset>
           </div>
@@ -498,13 +508,13 @@
       </div>
 
       <div class="container mx-auto max-w-6xl">
-        <div class="w-full bg-gray-100 dark:bg-gray-800 sm:rounded-lg h-[250px] overflow-hidden my-8">
+        <div class="w-full bg-gray-100 dark:bg-gray-900 sm:rounded-lg h-[250px] overflow-hidden my-8 border border-gray-200 dark:border-gray-700">
           <ins class="adsbygoogle w-full horizontal-ad" data-ad-client="ca-pub-7174503033473057"
             data-ad-slot="2873587682" data-ad-format="auto" data-full-width-responsive="true"></ins>
         </div>
       </div>
       
-      <section class="fortune-section">
+      <section class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700 mt-8">
         <h2 class="section-heading">
           <svg class="heading-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9 20H7C5.89543 20 5 19.1046 5 18V10.9199C5 10.336 5.25513 9.78132 5.69842 9.40136L12.6984 3.40136C13.4474 2.76135 14.5526 2.76135 15.3016 3.40136L22.3016 9.40136C22.7449 9.78132 23 10.336 23 10.9199V18C23 19.1046 22.1046 20 21 20H19M9 20V14C9 13.4477 9.44772 13 10 13H14C14.5523 13 15 13.4477 15 14V20M9 20H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -518,13 +528,13 @@
         </h2>
         <div class="flex flex-col md:flex-row gap-6">
           <div class="md:w-2/3">
-            <p class="race-calculator-intro mb-4">
+            <p class="race-calculator-intro mb-4 text-gray-700 dark:text-gray-200">
               Planning a family? Use our Race Calculator to predict your future child's racial and ethnic makeup.
               Simply enter both parents' race breakdowns to visualize your baby's potential heritage.
             </p>
-            <div class="bg-pink-50 dark:bg-pink-900 p-4 rounded-lg shadow-inner">
-              <h3 class="font-semibold text-pink-700 dark:text-pink-300 mb-2">How To Calculate Baby's Race</h3>
-              <p class="text-gray-600 dark:text-gray-400">
+            <div class="bg-pink-50 dark:bg-gray-700 p-4 rounded-lg shadow-inner border border-pink-200 dark:border-pink-700">
+              <h3 class="font-semibold text-pink-700 dark:text-pink-200 mb-2">How To Calculate Baby's Race</h3>
+              <p class="text-gray-600 dark:text-gray-200">
                 Enter the mother's race details in the Mother section and the father's details in the Father section.
                 Our calculator automatically combines both parents' ethnic backgrounds to estimate your baby's race
                 percentages.
@@ -533,8 +543,8 @@
           </div>
           <div class="md:w-1/3 flex items-center justify-center">
             <div
-              class="bg-gradient-to-r from-indigo-100 to-pink-100 dark:from-indigo-900 dark:to-pink-900 p-6 rounded-lg text-center">
-              <svg class="w-24 h-24 mx-auto text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              class="bg-gradient-to-r from-indigo-100 to-pink-100 dark:from-indigo-900 dark:to-purple-900 p-6 rounded-lg text-center border border-indigo-200 dark:border-indigo-700 shadow-md">
+              <svg class="w-24 h-24 mx-auto text-indigo-500 dark:text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                   d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
                 </path>
@@ -547,7 +557,7 @@
         </div>
       </section>
 
-      <section class="fortune-section">
+      <section class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700 mt-8">
         <h2 class="section-heading">
           <svg class="heading-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9 20H7C5.89543 20 5 19.1046 5 18V10.9199C5 10.336 5.25513 9.78132 5.69842 9.40136L12.6984 3.40136C13.4474 2.76135 14.5526 2.76135 15.3016 3.40136L22.3016 9.40136C22.7449 9.78132 23 10.336 23 10.9199V18C23 19.1046 22.1046 20 21 20H19M9 20V14C9 13.4477 9.44772 13 10 13H14C14.5523 13 15 13.4477 15 14V20M9 20H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -561,46 +571,46 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <!-- Nationality Card -->
-          <div class="feature-card">
-            <h3 class="text-xl font-semibold text-indigo-700 dark:text-indigo-300 mb-3">
+          <div class="feature-card bg-white dark:bg-gray-800 p-5 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+            <h3 class="text-xl font-semibold text-indigo-700 dark:text-indigo-200 mb-3">
               Nationality Calculator
             </h3>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
+            <p class="text-gray-600 dark:text-gray-200 mb-4">
               Calculate your nationality percentages alongside ethnic breakdown. Track both cultural and geographic
               origins.
             </p>
-            <div class="bg-indigo-50 dark:bg-indigo-900 p-3 rounded-lg">
-              <p class="text-sm text-gray-600 dark:text-gray-400">
+            <div class="bg-indigo-50 dark:bg-gray-700 p-3 rounded-lg border border-indigo-100 dark:border-indigo-800">
+              <p class="text-sm text-gray-600 dark:text-gray-200">
                 Use the same interface to track nationality by entering each nation as a race category.
               </p>
             </div>
           </div>
 
           <!-- Heritage Card -->
-          <div class="feature-card">
-            <h3 class="text-xl font-semibold text-indigo-700 dark:text-indigo-300 mb-3">
+          <div class="feature-card bg-white dark:bg-gray-800 p-5 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+            <h3 class="text-xl font-semibold text-indigo-700 dark:text-indigo-200 mb-3">
               Heritage Percentage Calculator
             </h3>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
+            <p class="text-gray-600 dark:text-gray-200 mb-4">
               Track cultural heritage percentages including traditions, languages, and customs in your background.
             </p>
-            <div class="bg-indigo-50 dark:bg-indigo-900 p-3 rounded-lg">
-              <p class="text-sm text-gray-600 dark:text-gray-400">
+            <div class="bg-indigo-50 dark:bg-gray-700 p-3 rounded-lg border border-indigo-100 dark:border-indigo-800">
+              <p class="text-sm text-gray-600 dark:text-gray-200">
                 Perfect for family heritage tracking and understanding mixed cultural backgrounds.
               </p>
             </div>
           </div>
 
           <!-- Ancestry Card -->
-          <div class="feature-card">
-            <h3 class="text-xl font-semibold text-indigo-700 dark:text-indigo-300 mb-3">
+          <div class="feature-card bg-white dark:bg-gray-800 p-5 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+            <h3 class="text-xl font-semibold text-indigo-700 dark:text-indigo-200 mb-3">
               Ancestry Percentage Calculator
             </h3>
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
+            <p class="text-gray-600 dark:text-gray-200 mb-4">
               Calculate your complete ancestry breakdown with our free tool. Track genetic lineage across generations.
             </p>
-            <div class="bg-indigo-50 dark:bg-indigo-900 p-3 rounded-lg">
-              <p class="text-sm text-gray-600 dark:text-gray-400">
+            <div class="bg-indigo-50 dark:bg-gray-700 p-3 rounded-lg border border-indigo-100 dark:border-indigo-800">
+              <p class="text-sm text-gray-600 dark:text-gray-200">
                 Works alongside DNA testing services - enter your DNA results for detailed visualization.
               </p>
             </div>
@@ -619,7 +629,7 @@
       <!-- Second Google Ad Placement -->
       <div class="my-8">
         <div class="w-full bg-gray-100 dark:bg-gray-800 sm:rounded-lg h-[150px] overflow-hidden">
-          <ins class="adsbygoogle w-full" style="display: block; height: 150px" data-ad-client="ca-pub-7174503033473057"
+          <ins class="adsbygoogle w-full ad-responsive" data-ad-client="ca-pub-7174503033473057"
             data-ad-slot="4935596124" data-ad-format="auto" data-full-width-responsive="true"></ins>
         </div>
       </div>
@@ -641,7 +651,7 @@
               <h3 class="text-lg font-semibold text-indigo-700 dark:text-indigo-300">
                 Enter Mother's Race
               </h3>
-              <p class="text-gray-600 dark:text-gray-400">
+              <p class="text-gray-600 dark:text-gray-200">
                 Click "Add Race" under the Mother's section. Enter each race
                 and its percentage. For example, "Irish 50%, German
                 50%".
@@ -656,7 +666,7 @@
               <h3 class="text-lg font-semibold text-indigo-700 dark:text-indigo-300">
                 Enter Father's Race
               </h3>
-              <p class="text-gray-600 dark:text-gray-400">
+              <p class="text-gray-600 dark:text-gray-200">
                 Repeat the process for the Father's section, adding all known
                 race backgrounds and their percentages.
               </p>
@@ -670,7 +680,7 @@
               <h3 class="text-lg font-semibold text-indigo-700 dark:text-indigo-300">
                 View Results
               </h3>
-              <p class="text-gray-600 dark:text-gray-400">
+              <p class="text-gray-600 dark:text-gray-200">
                 The calculator will automatically generate your race
                 breakdown, displaying percentages and a visual chart.
               </p>
@@ -684,7 +694,7 @@
               <h3 class="text-lg font-semibold text-indigo-700 dark:text-indigo-300">
                 Download or Share Results
               </h3>
-              <p class="text-gray-600 dark:text-gray-400">
+              <p class="text-gray-600 dark:text-gray-200">
                 Optionally, enter your name and click "Download Results" to
                 save or share your race breakdown.
               </p>
@@ -857,7 +867,7 @@
       </section>
 
       <!-- SEO Keywords Section (No Links) -->
-      <section class="fortune-section">
+      <section class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700 mt-8">
         <h2 class="section-heading">
           <svg class="heading-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9 20H7C5.89543 20 5 19.1046 5 18V10.9199C5 10.336 5.25513 9.78132 5.69842 9.40136L12.6984 3.40136C13.4474 2.76135 14.5526 2.76135 15.3016 3.40136L22.3016 9.40136C22.7449 9.78132 23 10.336 23 10.9199V18C23 19.1046 22.1046 20 21 20H19M9 20V14C9 13.4477 9.44772 13 10 13H14C14.5523 13 15 13.4477 15 14V20M9 20H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -912,21 +922,21 @@
             data-ad-slot="2733986887" data-ad-format="multiplex"></ins>
 
           <!-- Third Ad (Autorelaxed for Seamless Ad Experience) -->
-          <ins class="adsbygoogle w-full" style="display:block" data-ad-client="ca-pub-7174503033473057"
+          <ins class="adsbygoogle w-full ad-autorelaxed" data-ad-client="ca-pub-7174503033473057"
             data-ad-slot="2873587682" data-ad-format="autorelaxed"></ins>
 
           <!-- Fourth Ad (Multiplex Ad) -->
-          <ins class="adsbygoogle w-full" style="display:block" data-ad-client="ca-pub-7174503033473057"
+          <ins class="adsbygoogle w-full ad-multiplex" data-ad-client="ca-pub-7174503033473057"
             data-ad-slot="7513634295" data-ad-format="multiplex"></ins>
 
           <!-- Fifth Ad (Autorelaxed for Infinite Scroll-like Ads) -->
-          <ins class="adsbygoogle w-full" style="display:block" data-ad-client="ca-pub-7174503033473057"
+          <ins class="adsbygoogle w-full ad-autorelaxed" data-ad-client="ca-pub-7174503033473057"
             data-ad-slot="4892142715" data-ad-format="autorelaxed"></ins>
         </div>
       </div>
 
-      <section id="disclaimer" class="mt-8 bg-white dark:bg-gray-900 rounded-lg p-4 shadow-md">
-        <p class="text-sm text-gray-600 dark:text-gray-400">
+      <section id="disclaimer" class="mt-8 bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md border border-gray-200 dark:border-gray-700">
+        <p class="text-sm text-gray-700 dark:text-gray-200">
           <strong>Disclaimer:</strong> The Race Percentage Calculator is
           designed for educational and entertainment purposes. It provides a
           simplified representation of race based on user input. For a
@@ -938,7 +948,7 @@
 
 
 
-    <footer class="bg-indigo-900 dark:bg-gray-900 text-white p-6 mt-8 shadow-lg rounded-lg">
+    <footer class="bg-indigo-900 dark:bg-gray-900 text-white p-6 mt-8 shadow-lg rounded-lg border-t-2 border-indigo-800 dark:border-gray-800">
       <div class="container mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
           <div>
