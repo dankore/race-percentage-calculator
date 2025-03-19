@@ -404,8 +404,6 @@
   background-image: linear-gradient(to top right, rgb(79 70 229), rgb(147 51 234));
   animation: pulse 2s ease-in-out infinite;
 }
-  outline: none;
-}
 
 .percent-input-styles {
   flex: 1;
