@@ -1,7 +1,7 @@
 import {
   initializeNodes,
-  calculateEthnicity,
-} from './modules/ethnicityCalculator.js';
+  calculateRace,
+} from './modules/raceCalculator.js';
 import { setupThemeToggle } from './modules/themeManager.js';
 import { setupUIHandlers } from './modules/uiHandlers.js';
 import { setupHeaderDropdown } from './modules/headerManager.js';
@@ -20,9 +20,9 @@ if (document.readyState !== 'loading') {
     setupAnalytics()
     setupThemeToggle();
     setupUIHandlers();
-    if (document.getElementById('ethnicity-entry-template')) {
+    if (document.getElementById('race-entry-template')) {
       initializeNodes();
-      calculateEthnicity();
+      calculateRace();
     }
     setupHeaderDropdown();
     setupSocialSharing();

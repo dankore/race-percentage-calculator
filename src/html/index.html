@@ -167,7 +167,31 @@
 </head>
 
 <body
-  class="bg-gradient-to-br from-indigo-100 to-purple-200 dark:from-gray-900 dark:to-gray-800 min-h-screen font-sans">
+  class="bg-gradient-to-br from-indigo-50 to-purple-100 dark:from-slate-950 dark:to-gray-900 min-h-screen font-sans">
+
+  <template id="race-entry-template">
+    <div
+      class="race-entry bg-white dark:bg-gray-800 rounded-md shadow-sm p-0 sm:p-2 flex items-center gap-1 sm:gap-2">
+      <label for="race-input-{{id}}" class="sr-only">Race</label>
+      <input type="text" id="race-input-{{id}}" placeholder="Race"
+        class="race-input flex-grow h-10 sm:h-8 px-2 sm:px-3 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600 focus:border-indigo-500 dark:focus:border-indigo-600 text-sm"
+        required>
+      <label for="percent-input-{{id}}" class="sr-only">Percentage</label>
+      <input type="number" id="percent-input-{{id}}" placeholder="%" min="0" max="100"
+        class="percent-input w-16 sm:w-20 h-10 sm:h-8 px-1 sm:px-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600 focus:border-indigo-500 dark:focus:border-indigo-600 text-sm"
+        required>
+      <button type="button"
+        class="delete-entry p-2 text-red-500 hover:text-red-700 dark:hover:text-red-400 focus:outline-none"
+        aria-label="Delete Entry">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+          </path>
+        </svg>
+      </button>
+    </div>
+  </template>
   <div class="mx-auto max-w-6xl sm:px-4">
     <div class="w-full bg-gray-100 dark:bg-gray-800 sm:rounded-b-lg h-[18px] overflow-hidden">
       <ins class="adsbygoogle w-full" style="display: block; height: 18px" data-ad-client="ca-pub-7174503033473057"
@@ -258,22 +282,24 @@
       </div>
     </header>
 
-    <main role="main" class="bg-white dark:bg-gray-900 rounded-lg shadow-xl p-2 sm:p-6">
+    <main role="main" class="bg-white dark:bg-slate-900 rounded-lg shadow-xl p-4 sm:p-8">
       <div id="warningMessage" class="mb-4" aria-live="polite"></div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-        <section id="ethnicity-input" class="space-y-4 sm:space-y-6">
-          <h2 class="text-2xl font-semibold text-indigo-800 dark:text-indigo-200">
-            Enter Races
-          </h2>
-          <div id="ethnicity-form" class="space-y-5">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-10">
+        <div class="lg:col-span-2">
+          <div class="grid grid-cols-1 gap-6 sm:gap-10">
+            <section id="race-input" class="space-y-4 sm:space-y-6">
+              <h2 class="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
+                Enter Races
+              </h2>
+          <div id="race-form" class="space-y-5">
             <fieldset id="mother"
               class="parent-node bg-gradient-to-r from-pink-50 to-pink-100 dark:from-pink-900 dark:to-pink-800 rounded-lg p-3 sm:p-5 shadow-md">
               <legend class="text-lg sm:text-xl font-semibold text-pink-700 dark:text-pink-300 px-2">
                 👩 Mother's Race
               </legend>
               <div
-                class="ethnicity-entries space-y-2 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-pink-300 dark:scrollbar-thumb-pink-700 pr-1">
+                class="race-entries space-y-2 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-pink-300 dark:scrollbar-thumb-pink-700 pr-1">
               </div>
               <button type="button"
                 class="add-entry mt-3 w-full bg-pink-500 dark:bg-pink-600 text-white py-2 px-4 rounded-md hover:bg-pink-600 dark:hover:bg-pink-700 transition duration-300 shadow-sm text-sm sm:text-base flex items-center justify-center">
@@ -290,7 +316,7 @@
                 👨 Father's Race
               </legend>
               <div
-                class="ethnicity-entries space-y-2 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 dark:scrollbar-thumb-blue-700 pr-1">
+                class="race-entries space-y-2 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 dark:scrollbar-thumb-blue-700 pr-1">
               </div>
               <button type="button"
                 class="add-entry mt-3 w-full bg-blue-500 dark:bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-600 dark:hover:bg-blue-700 transition duration-300 shadow-sm text-sm sm:text-base flex items-center justify-center">
@@ -303,11 +329,10 @@
           </div>
         </section>
 
-        <div class="flex flex-col gap-5">
-          <section id="results" class="flex flex-col">
-            <h2 class="text-2xl font-semibold text-indigo-800 dark:text-indigo-200 mb-3">
-              Results
-            </h2>
+        <section id="results" class="flex flex-col">
+          <h2 class="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 mb-4">
+            Results
+          </h2>
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg flex-grow flex flex-col">
               <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 p-4 rounded-t-lg">
                 <h3 class="text-lg font-bold text-white">Race Breakdown</h3>
@@ -316,9 +341,26 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 p-5 flex-grow">
                 <div class="space-y-3">
                   <h4 class="font-semibold text-indigo-700 dark:text-indigo-300 text-lg">Details</h4>
-                  <div id="ethnicityBreakdown"
+                  <div id="raceBreakdown"
                     class="bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner overflow-hidden">
-                    <!-- Table will be inserted here -->
+                    <!-- Table will be inserted here with border styling -->
+                    <!-- 
+                    The table structure will use the following format:
+                    <table class="w-full text-sm">
+                      <thead>
+                        <tr>
+                          <th class="bg-indigo-100 dark:bg-indigo-900 text-left p-1.5 text-indigo-900 dark:text-indigo-100 font-medium">RACE</th>
+                          <th class="bg-indigo-100 dark:bg-indigo-900 text-right p-1.5 text-indigo-900 dark:text-indigo-100 font-medium w-20">%</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="border-b border-gray-100 dark:border-gray-700">
+                          <td class="p-1.5 text-gray-900 dark:text-gray-100">RACE_NAME</td>
+                          <td class="p-1.5 text-right text-indigo-600 dark:text-indigo-400">PERCENTAGE</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    -->
                   </div>
                 </div>
 
@@ -326,7 +368,7 @@
                   <h4 class="font-semibold text-indigo-700 dark:text-indigo-300 text-lg">Chart</h4>
                   <div
                     class="bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner flex items-center justify-center p-3 min-h-[250px]">
-                    <canvas id="ethnicityChart"></canvas>
+                    <canvas id="raceChart"></canvas>
                   </div>
                 </div>
               </div>
@@ -364,14 +406,33 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4">
                     </svg>
-                    Download Results
+                    <span class="relative inline-flex items-center">
+                      Download Results
+                      <!-- Loading spinner that appears during download process -->
+                      <span id="downloadSpinner" class="ml-2 opacity-0 transition-opacity duration-200 ease-in-out">
+                        <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                      </span>
+                    </span>
                   </button>
+                  
+                  <!-- Success message that appears after download -->
+                  <div id="downloadSuccess" class="hidden bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-sm py-2 px-3 rounded-md absolute right-5 -top-12 shadow-md transition-all duration-300 transform">
+                    <div class="flex items-center space-x-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>Downloaded successfully!</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
               <!-- Premium Loading Spinner -->
               <div id="loadingSpinner"
-                class="hidden absolute inset-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm flex flex-col items-center justify-center rounded-lg z-50">
+                class="absolute inset-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm flex-col items-center justify-center rounded-lg z-50 hidden">
                 <div class="relative w-20 h-20">
                   <div
                     class="absolute inset-0 rounded-full border-4 border-t-indigo-600 border-r-indigo-400 border-b-indigo-300 border-l-indigo-500 animate-spin">
@@ -411,9 +472,27 @@
               <span class="text-sm font-medium">Share on X</span>
             </button>
           </div>
+          </div>
+        </div>
+        
+        <!-- Ads Column - Right Side -->
+        <div class="lg:col-span-1">
+          <div class="sticky top-4 space-y-6">
+            <div class="bg-gray-100 dark:bg-gray-800 sm:rounded-lg overflow-hidden">
+              <ins class="adsbygoogle" style="display:block; min-height:600px;" data-ad-client="ca-pub-7174503033473057"
+                data-ad-slot="2733986887" data-ad-format="vertical" data-full-width-responsive="true"></ins>
+            </div>
+          </div>
         </div>
       </div>
 
+      <div class="container mx-auto max-w-6xl">
+        <div class="w-full bg-gray-100 dark:bg-gray-800 sm:rounded-lg h-[250px] overflow-hidden my-8">
+          <ins class="adsbygoogle w-full" style="display:block" data-ad-client="ca-pub-7174503033473057"
+            data-ad-slot="2873587682" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+      </div>
+      
       <section class="mt-8 bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md">
         <h2 class="text-2xl font-semibold text-indigo-800 dark:text-indigo-200 mb-4">
           Baby Race Calculator
@@ -808,28 +887,7 @@
       </section>
     </main>
 
-    <template id="ethnicity-entry-template">
-      <div
-        class="ethnicity-entry bg-white dark:bg-gray-800 rounded-md shadow-sm p-0 sm:p-2 flex items-center gap-1 sm:gap-2">
-        <label for="ethnicity-input-{{id}}" class="sr-only">Race</label>
-        <input type="text" id="ethnicity-input-{{id}}" placeholder="Race"
-          class="ethnicity-input flex-grow h-10 sm:h-8 px-2 sm:px-3 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600 focus:border-indigo-500 dark:focus:border-indigo-600 text-sm"
-          required>
-        <label for="percent-input-{{id}}" class="sr-only">Percentage</label>
-        <input type="number" id="percent-input-{{id}}" placeholder="%" min="0" max="100"
-          class="percent-input w-16 sm:w-20 h-10 sm:h-8 px-1 sm:px-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600 focus:border-indigo-500 dark:focus:border-indigo-600 text-sm"
-          required>
-        <button type="button"
-          class="delete-entry p-2 text-red-500 hover:text-red-700 dark:hover:text-red-400 focus:outline-none"
-          aria-label="Delete Entry">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-            aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-          </svg>
-        </button>
-      </div>
-    </template>
+
 
     <footer class="bg-indigo-900 dark:bg-gray-900 text-white p-6 mt-8 shadow-lg rounded-lg">
       <div class="container mx-auto">

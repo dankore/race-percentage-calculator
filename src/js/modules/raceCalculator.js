@@ -2,20 +2,22 @@ import { showWarning, hideWarning } from './uiHandlers.js';
 
 const motherNode = document.getElementById('mother');
 const fatherNode = document.getElementById('father');
-const ethnicityBreakdown = document.getElementById('ethnicityBreakdown');
-const entryTemplate = document.getElementById('ethnicity-entry-template');
+const raceBreakdown = document.getElementById('raceBreakdown');
+const entryTemplate = document.getElementById('race-entry-template');
 const downloadButton = document.getElementById('downloadButton');
 const userNameInput = document.getElementById('userName');
 const nameError = document.getElementById('nameError');
+const downloadSpinner = document.getElementById('downloadSpinner');
+const downloadSuccess = document.getElementById('downloadSuccess');
 
 let debounceTimer;
 
 export function initializeNodes() {
   [motherNode, fatherNode].forEach(node => {
-    addEthnicityEntry(node);
+    addRaceEntry(node);
     const addButton = node.querySelector('.add-entry');
     if (addButton) {
-      addButton.addEventListener('click', () => addEthnicityEntry(node));
+      addButton.addEventListener('click', () => addRaceEntry(node));
     }
   });
 
@@ -23,33 +25,33 @@ export function initializeNodes() {
   userNameInput.addEventListener('input', validateName);
 }
 
-export function addEthnicityEntry(parentNode) {
-  const entriesContainer = parentNode.querySelector('.ethnicity-entries');
+export function addRaceEntry(parentNode) {
+  const entriesContainer = parentNode.querySelector('.race-entries');
   const newEntry = document.importNode(entryTemplate.content, true);
   entriesContainer.appendChild(newEntry);
 
   setupEntryListeners(newEntry);
 
   checkScrolling(entriesContainer);
-  debouncedCalculateEthnicity();
+  debouncedCalculateRace();
 }
 
 function setupEntryListeners(entry) {
   const inputs = entry.querySelectorAll('input');
   inputs.forEach(input => {
-    input.addEventListener('input', debouncedCalculateEthnicity);
+    input.addEventListener('input', debouncedCalculateRace);
   });
 
   const deleteButton = entry.querySelector('.delete-entry');
   if (deleteButton) {
     deleteButton.addEventListener('click', function () {
-      const entriesContainer = this.closest('.ethnicity-entries');
+      const entriesContainer = this.closest('.race-entries');
       if (entriesContainer.children.length > 1) {
-        entriesContainer.removeChild(this.closest('.ethnicity-entry'));
-        debouncedCalculateEthnicity();
+        entriesContainer.removeChild(this.closest('.race-entry'));
+        debouncedCalculateRace();
         checkScrolling(entriesContainer);
       } else {
-        showWarning('Please keep at least one entry for each parent.');
+        showWarning('Please keep at least one race entry for each parent.');
       }
     });
   }
@@ -63,16 +65,16 @@ function checkScrolling(container) {
   }
 }
 
-function debouncedCalculateEthnicity() {
+function debouncedCalculateRace() {
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(() => {
-    const { ethnicities, isValid, warningMessage } = calculateEthnicity();
-    updateDisplay(ethnicities, isValid, warningMessage);
+    const { races, isValid, warningMessage } = calculateRace();
+    updateDisplay(races, isValid, warningMessage);
   }, 300); // 300ms debounce time
 }
 
-function calculateEthnicity() {
-  const ethnicities = {};
+function calculateRace() {
+  const races = {};
   let isValid = true;
   let warningMessage = '';
 
@@ -80,20 +82,20 @@ function calculateEthnicity() {
     let totalPercent = 0;
     let allFieldsFilled = true;
 
-    parentNode.querySelectorAll('.ethnicity-entry').forEach(entry => {
-      const ethnicityInput = entry.querySelector('.ethnicity-input');
+    parentNode.querySelectorAll('.race-entry').forEach(entry => {
+      const raceInput = entry.querySelector('.race-input');
       const percentInput = entry.querySelector('.percent-input');
 
-      if (ethnicityInput && percentInput) {
-        const ethnicity = ethnicityInput.value.trim();
+      if (raceInput && percentInput) {
+        const race = raceInput.value.trim();
         const percent = parseFloat(percentInput.value);
 
-        if (!ethnicity || isNaN(percent)) {
+        if (!race || isNaN(percent)) {
           allFieldsFilled = false;
         } else {
           totalPercent += percent;
           // Each parent's percentages are halved to produce final child breakdown
-          ethnicities[ethnicity] = (ethnicities[ethnicity] || 0) + percent / 2;
+          races[race] = (races[race] || 0) + percent / 2;
         }
       }
     });
@@ -109,52 +111,52 @@ function calculateEthnicity() {
     }
   });
 
-  return { ethnicities, isValid, warningMessage };
+  return { races, isValid, warningMessage };
 }
 
-function updateDisplay(ethnicities, isValid, warningMessage) {
+function updateDisplay(races, isValid, warningMessage) {
   if (isValid) {
     hideWarning();
-    displayResult(ethnicities);
+    displayResult(races);
   } else {
     showWarning(warningMessage);
-    ethnicityBreakdown.innerHTML = '';
+    raceBreakdown.innerHTML = '';
     // Clear the chart
-    if (window.ethnicityChart instanceof Chart) {
-      window.ethnicityChart.data.labels = [];
-      window.ethnicityChart.data.datasets[0].data = [];
-      window.ethnicityChart.update();
+    if (window.raceChart instanceof Chart) {
+      window.raceChart.data.labels = [];
+      window.raceChart.data.datasets[0].data = [];
+      window.raceChart.update();
     }
     // Disable the download button
     downloadButton.disabled = true;
   }
 }
 
-function displayResult(ethnicities) {
-  const sortedEthnicities = Object.entries(ethnicities)
+function displayResult(races) {
+  const sortedRaces = Object.entries(races)
     .sort((a, b) => b[1] - a[1])
     .map(([race, percent]) => [race.toUpperCase(), percent]);
 
   let resultHTML = `
-        <table class="w-full text-sm">
-          <thead>
-            <tr>
-              <th class="bg-indigo-100 dark:bg-indigo-900 text-left p-1.5 text-indigo-900 dark:text-indigo-100 font-medium">RACE</th>
-              <th class="bg-indigo-100 dark:bg-indigo-900 text-right p-1.5 text-indigo-900 dark:text-indigo-100 font-medium w-20">%</th>
-            </tr>
-          </thead>
-          <tbody>
-      `;
+    <table class="w-full text-sm">
+      <thead>
+        <tr>
+          <th class="bg-indigo-100 dark:bg-indigo-900 text-left p-1.5 text-indigo-900 dark:text-indigo-100 font-medium">RACE</th>
+          <th class="bg-indigo-100 dark:bg-indigo-900 text-right p-1.5 text-indigo-900 dark:text-indigo-100 font-medium w-20">%</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
 
-  for (const [race, percent] of sortedEthnicities) {
+  for (const [race, percent] of sortedRaces) {
     resultHTML += `
-          <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
-            <td class="p-1.5 dark:text-gray-200">${race}</td>
-            <td class="p-1.5 text-right text-indigo-600 dark:text-indigo-400">${percent.toFixed(
-              1
-            )}</td>
-          </tr>
-        `;
+      <tr class="border-b border-gray-100 dark:border-gray-700">
+        <td class="p-1.5 text-gray-900 dark:text-gray-100">${race}</td>
+        <td class="p-1.5 text-right text-indigo-600 dark:text-indigo-400">${percent.toFixed(
+          1
+        )}</td>
+      </tr>
+    `;
   }
 
   resultHTML += `
@@ -162,30 +164,30 @@ function displayResult(ethnicities) {
         </table>
       `;
 
-  ethnicityBreakdown.innerHTML = resultHTML;
-  updateChart(Object.fromEntries(sortedEthnicities));
+  raceBreakdown.innerHTML = resultHTML;
+  updateChart(Object.fromEntries(sortedRaces));
 
   if (downloadButton) {
     downloadButton.disabled = false;
   }
 }
 
-function updateChart(ethnicities) {
-  const ctx = document.getElementById('ethnicityChart');
+function updateChart(races) {
+  const ctx = document.getElementById('raceChart');
   if (!ctx) return;
 
-  if (window.ethnicityChart instanceof Chart) {
-    window.ethnicityChart.destroy();
+  if (window.raceChart instanceof Chart) {
+    window.raceChart.destroy();
   }
 
-  window.ethnicityChart = new Chart(ctx, {
+  window.raceChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
-      labels: Object.keys(ethnicities),
+      labels: Object.keys(races),
       datasets: [
         {
-          data: Object.values(ethnicities),
-          backgroundColor: ['#6366F1', '#EC4899'],
+          data: Object.values(races),
+          backgroundColor: generateColorPalette(Object.keys(races).length),
           borderWidth: 0,
           cutout: '80%',
         },
@@ -226,6 +228,76 @@ function updateChart(ethnicities) {
   });
 }
 
+function generateColorPalette(count) {
+  // Base set of vibrant colors that work well together
+  const baseColors = [
+    '#6366F1', // Indigo
+    '#EC4899', // Pink
+    '#10B981', // Emerald
+    '#F59E0B', // Amber
+    '#EF4444', // Red
+    '#8B5CF6', // Purple
+    '#3B82F6', // Blue
+    '#14B8A6', // Teal
+    '#F97316', // Orange
+    '#84CC16', // Lime
+    '#06B6D4', // Cyan
+    '#9333EA'  // Violet
+  ];
+
+  // If we need more colors than our base set, generate additional ones
+  let colors = [...baseColors];
+  
+  if (count > baseColors.length) {
+    for (let i = baseColors.length; i < count; i++) {
+      // Use golden ratio to get evenly distributed colors
+      // 0.618033988749895 is the inverse of the golden ratio
+      const h = (i * 0.618033988749895) % 1;
+      const s = 0.7; // Saturation at 70%
+      const l = 0.6; // Lightness at 60%
+      
+      // Convert HSL to hex color
+      colors.push(hslToHex(h * 360, s * 100, l * 100));
+    }
+  }
+  
+  return colors.slice(0, count);
+}
+
+// Convert HSL to Hex color
+function hslToHex(h, s, l) {
+  h /= 360;
+  s /= 100;
+  l /= 100;
+  let r, g, b;
+
+  if (s === 0) {
+    r = g = b = l; // achromatic
+  } else {
+    const hue2rgb = (p, q, t) => {
+      if (t < 0) t += 1;
+      if (t > 1) t -= 1;
+      if (t < 1/6) return p + (q - p) * 6 * t;
+      if (t < 1/2) return q;
+      if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+      return p;
+    };
+
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+    r = hue2rgb(p, q, h + 1/3);
+    g = hue2rgb(p, q, h);
+    b = hue2rgb(p, q, h - 1/3);
+  }
+
+  const toHex = x => {
+    const hex = Math.round(x * 255).toString(16);
+    return hex.length === 1 ? '0' + hex : hex;
+  };
+
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
 function validateName() {
   const nameValue = userNameInput.value.trim();
   const namePattern = /^[A-Za-z\s\-']*$/;
@@ -244,13 +316,7 @@ function validateName() {
 }
 
 function downloadResults() {
-  const ethnicityBreakdown = document.getElementById('ethnicityBreakdown');
-  const downloadButton = document.getElementById('downloadButton');
-  const userNameInput = document.getElementById('userName');
-  const nameError = document.getElementById('nameError');
-  const loadingSpinner = document.getElementById('loadingSpinner');
-
-  if (!ethnicityBreakdown || !downloadButton || !userNameInput || !nameError)
+  if (!raceBreakdown || !downloadButton || !userNameInput || !nameError || !downloadSpinner || !downloadSuccess)
     return;
 
   const nameValue = userNameInput.value.trim();
@@ -262,17 +328,22 @@ function downloadResults() {
     return;
   }
 
+  // Show loading state
+  downloadButton.disabled = true;
+  downloadSpinner.classList.remove('opacity-0');
+  downloadSpinner.classList.add('opacity-100');
+
   const capitalizedUserName = nameValue
     ? nameValue.charAt(0).toUpperCase() + nameValue.slice(1)
     : '';
-  const chartImage = window.ethnicityChart.toBase64Image('image/png', 1.0);
+  const chartImage = window.raceChart.toBase64Image('image/png', 1.0);
 
   const data = [];
-  ethnicityBreakdown.querySelectorAll('tbody tr').forEach(row => {
+  raceBreakdown.querySelectorAll('tbody tr').forEach(row => {
     const cells = row.querySelectorAll('td');
     if (cells.length >= 2) {
       data.push({
-        ethnicity: cells[0].textContent.trim(),
+        race: cells[0].textContent.trim(),
         percentage: cells[1].textContent.trim(),
       });
     }
@@ -319,7 +390,7 @@ function downloadResults() {
                       .map(
                         row => `
                         <tr>
-                          <td style="padding: 16px 18px; font-size: 18px; border-bottom: 1px solid #E2E8F0;">${row.ethnicity}</td>
+                          <td style="padding: 16px 18px; font-size: 18px; border-bottom: 1px solid #E2E8F0;">${row.race}</td>
                           <td style="padding: 16px 18px; font-size: 18px; text-align: right; color: #4F46E5; border-bottom: 1px solid #E2E8F0;">${row.percentage}</td>
                         </tr>
                       `
@@ -347,7 +418,6 @@ function downloadResults() {
       `;
 
   document.body.appendChild(container);
-  if (loadingSpinner) loadingSpinner.classList.remove('hidden');
 
   setTimeout(() => {
     html2canvas(container, {
@@ -370,7 +440,11 @@ function downloadResults() {
     })
       .then(canvas => {
         document.body.removeChild(container);
-        if (loadingSpinner) loadingSpinner.classList.add('hidden');
+
+        // Hide loading state
+        downloadSpinner.classList.remove('opacity-100');
+        downloadSpinner.classList.add('opacity-0');
+        downloadButton.disabled = false;
 
         const a = document.createElement('a');
         a.href = canvas.toDataURL('image/png', 1.0);
@@ -380,13 +454,23 @@ function downloadResults() {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
+
+        // Show success message
+        downloadSuccess.classList.remove('hidden');
+        setTimeout(() => {
+          downloadSuccess.classList.add('hidden');
+        }, 3000); // Hide success message after 3 seconds
       })
       .catch(error => {
         console.error('Error:', error);
         if (container.parentNode) container.parentNode.removeChild(container);
-        if (loadingSpinner) loadingSpinner.classList.add('hidden');
+
+        // Reset loading state on error
+        downloadSpinner.classList.remove('opacity-100');
+        downloadSpinner.classList.add('opacity-0');
+        downloadButton.disabled = false;
       });
   }, 100);
 }
 
-export { debouncedCalculateEthnicity as calculateEthnicity };
+export { debouncedCalculateRace as calculateRace };
