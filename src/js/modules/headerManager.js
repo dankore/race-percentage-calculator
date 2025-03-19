@@ -3,7 +3,6 @@
 export function setupHeaderDropdown() {
   // Run the setup on page load
   window.addEventListener('load', () => {
-    console.log('Window loaded, setting up dropdown');
     setupDropdown();
   });
   
@@ -12,30 +11,22 @@ export function setupHeaderDropdown() {
 }
 
 function setupDropdown() {
-  console.log('Setting up dropdown functionality');
-  
   // Get the elements
   const button = document.getElementById('resources-dropdown-button');
   const menu = document.getElementById('resources-dropdown-menu');
   
   if (!button) {
-    console.error('Resources dropdown button not found');
     return;
   }
   
   if (!menu) {
-    console.error('Resources dropdown menu not found');
     return;
   }
-  
-  console.log('Found dropdown elements:', { button, menu });
   
   // Toggle menu visibility when button is clicked
   button.addEventListener('click', function(e) {
     e.preventDefault();
     e.stopPropagation();
-    
-    console.log('Button clicked');
     
     // Toggle the hidden class
     const isHidden = menu.classList.contains('hidden');
@@ -48,15 +39,9 @@ function setupDropdown() {
       const buttonRect = button.getBoundingClientRect();
       menu.style.top = `${buttonRect.bottom + window.scrollY}px`;
       menu.style.left = `${buttonRect.left}px`;
-      
-      console.log('Menu shown and positioned at:', { 
-        top: menu.style.top, 
-        left: menu.style.left 
-      });
     } else {
       // Hide the menu
       menu.classList.add('hidden');
-      console.log('Menu hidden');
     }
   });
   
@@ -67,7 +52,6 @@ function setupDropdown() {
       // Check if the click was outside the button and menu
       if (!button.contains(e.target) && !menu.contains(e.target)) {
         menu.classList.add('hidden');
-        console.log('Menu hidden due to outside click');
       }
     }
   });
@@ -75,7 +59,6 @@ function setupDropdown() {
   // Prevent clicks inside the menu from closing it
   menu.addEventListener('click', function(e) {
     e.stopPropagation();
-    console.log('Click inside menu');
   });
   
   // Reposition menu on window resize
@@ -84,7 +67,6 @@ function setupDropdown() {
       const buttonRect = button.getBoundingClientRect();
       menu.style.top = `${buttonRect.bottom + window.scrollY}px`;
       menu.style.left = `${buttonRect.left}px`;
-      console.log('Menu repositioned on resize');
     }
   });
   
@@ -94,9 +76,6 @@ function setupDropdown() {
       const buttonRect = button.getBoundingClientRect();
       menu.style.top = `${buttonRect.bottom + window.scrollY}px`;
       menu.style.left = `${buttonRect.left}px`;
-      console.log('Menu repositioned on scroll');
     }
   });
-  
-  console.log('Dropdown setup complete');
 }
