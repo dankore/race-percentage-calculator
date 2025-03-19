@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark:bg-gray-900">
 
 <head>
   <meta charset="UTF-8">
@@ -174,9 +174,9 @@
   <template id="race-entry-template">
     <div class="race-entry race-entry-template bg-white dark:bg-gray-800 rounded-md shadow-sm flex items-center">
       <label for="race-input-{{id}}" class="sr-only">Race</label>
-      <input type="text" id="race-input-{{id}}" placeholder="Race" class="race-input race-input-styles" required>
+      <input type="text" id="race-input-{{id}}" placeholder="Race" class="race-input w-full p-2 rounded-l-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400 focus:outline-none transition-colors" required>
       <label for="percent-input-{{id}}" class="sr-only">Percentage</label>
-      <input type="number" id="percent-input-{{id}}" placeholder="%" min="0" max="100" class="percent-input percent-input-styles" required>
+      <input type="number" id="percent-input-{{id}}" placeholder="%" min="0" max="100" class="percent-input w-20 p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400 focus:outline-none transition-colors text-center" required>
       <button type="button"
         class="delete-entry p-2 text-red-500 hover:text-red-700 dark:hover:text-red-400 focus:outline-none"
         aria-label="Delete Entry">
@@ -197,8 +197,10 @@
   </div>
 
   <div class="container mx-auto px-4 py-8 max-w-6xl">
-    <header class="mb-8">
-      <div class="bg-gradient-to-r from-indigo-600 to-purple-700 text-white p-4 rounded-t-lg shadow-lg">
+    <header class="mb-12">
+      <div class="bg-gradient-to-r from-indigo-600 to-purple-700 text-white p-6 sm:p-8 rounded-lg shadow-xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mt-16 -mr-16 pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-48 h-48 bg-white opacity-5 rounded-full -mb-12 -ml-12 pointer-events-none"></div>
         <div class="container mx-auto">
           <div class="flex flex-col md:flex-row items-center justify-between">
             <div class="flex items-center mb-4 md:mb-0">
@@ -216,7 +218,7 @@
             <nav class="flex items-center space-x-4">
               <a href="/" class="text-white hover:text-indigo-200 transition duration-300">Home</a>
               <a href="/blog" class="text-white hover:text-indigo-200 transition duration-300">Blog</a>
-              <div class="relative" id="resources-dropdown">
+              <div class="static z-50" id="resources-dropdown">
                 <button class="text-white hover:text-indigo-200 transition duration-300 flex items-center"
                   id="resources-dropdown-button">
                   Resources
@@ -225,7 +227,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                   </svg>
                 </button>
-                <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-10"
+                <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg hidden z-50"
                   id="resources-dropdown-menu">
                   <a href="/blog/genealogy-research-tips"
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-500 hover:text-white">Genealogy
@@ -238,14 +240,14 @@
                 </div>
               </div>
               <button id="theme-toggle" aria-label="Toggle Dark Mode"
-                class="bg-white text-indigo-600 p-2 rounded-full flex items-center justify-center hover:bg-indigo-100 transition duration-300 focus:outline-none shadow-md">
-                <svg id="sun-icon" class="h-6 w-6 hidden dark:block" fill="none" stroke="currentColor"
+                class="bg-white dark:bg-gray-700 text-indigo-600 dark:text-yellow-400 p-2 rounded-full flex items-center justify-center hover:bg-indigo-100 dark:hover:bg-gray-600 transition duration-300 focus:outline-none shadow-md relative z-20">
+                <svg id="sun-icon" class="h-6 w-6 hidden" fill="none" stroke="currentColor"
                   viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
                   </path>
                 </svg>
-                <svg id="moon-icon" class="h-6 w-6 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                <svg id="moon-icon" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
@@ -255,84 +257,110 @@
           </div>
         </div>
       </div>
-      <div class="results-container">
-        <div class="container mx-auto">
+      <div class="intro-container mt-8 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+        <div class="container mx-auto p-6">
           <div class="flex flex-wrap justify-center items-center text-center gap-3 text-sm">
             <span
-              class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 rounded-full text-indigo-600 dark:text-indigo-400 font-semibold">Free
+              class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 rounded-full text-indigo-600 dark:text-indigo-200 font-semibold">Free
               Online Tool</span>
             <span
-              class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 rounded-full text-indigo-600 dark:text-indigo-400 font-semibold">Baby
+              class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 rounded-full text-indigo-600 dark:text-indigo-200 font-semibold">Baby
               Race Calculator</span>
             <span
-              class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 rounded-full text-indigo-600 dark:text-indigo-400 font-semibold">Mixed
+              class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 rounded-full text-indigo-600 dark:text-indigo-200 font-semibold">Mixed
               Race Calculator</span>
             <span
-              class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 rounded-full text-indigo-600 dark:text-indigo-400 font-semibold">Explore
+              class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 rounded-full text-indigo-600 dark:text-indigo-200 font-semibold">Explore
               Your Heritage</span>
           </div>
-          <p class="mt-4 text-center text-gray-600 dark:text-gray-300">
-            Discover your unique race mix, calculate percentages, and
-            understand your deeper heritage.
-          </p>
+          <div class="mt-12 mb-6">
+            <p class="text-center text-gray-800 dark:text-white text-lg max-w-2xl mx-auto font-medium">
+              Discover your unique race mix, calculate percentages, and
+              understand your deeper heritage.
+            </p>
+          </div>
         </div>
       </div>
     </header>
 
-    <main role="main" class="p-4 sm:p-8">
+    <main role="main" class="container mx-auto px-4 xl:px-0 mb-16">
       <div id="warningMessage" class="mb-4" aria-live="polite"></div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-10">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12">
         <div class="lg:col-span-2">
           <div class="grid grid-cols-1 gap-6 sm:gap-10">
-            <section id="race-input" class="bg-white dark:bg-slate-900 rounded-lg shadow-lg p-4 sm:p-6 space-y-4 sm:space-y-6">
-              <h2 class="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
+            <section id="race-input" class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 sm:p-8 space-y-6 sm:space-y-8 border border-gray-100 dark:border-gray-700">
+              <h2 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 tracking-tight">
                 Enter Races
               </h2>
           <div id="race-form" class="space-y-5">
             <fieldset id="mother"
-              class="parent-node bg-gradient-to-r from-pink-50 to-pink-100 dark:from-pink-900 dark:to-pink-800 rounded-lg p-3 sm:p-5 shadow-md">
-              <legend class="text-lg sm:text-xl font-semibold text-pink-700 dark:text-pink-300 px-2">
-                👩 Mother's Race
+              class="parent-node bg-gradient-to-r from-pink-50 to-pink-100 dark:from-pink-900 dark:to-pink-800 rounded-xl p-4 sm:p-6 shadow-lg border border-pink-200 dark:border-pink-700">
+              <legend class="text-lg sm:text-xl font-bold text-pink-700 dark:text-pink-300 px-2 flex items-center">
+                <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Mother's Race
               </legend>
               <div
-                class="race-entries space-y-2 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-pink-300 dark:scrollbar-thumb-pink-700 pr-1">
+                class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-pink-300 dark:scrollbar-thumb-pink-700 pr-1">
               </div>
               <button type="button"
-                class="add-entry mt-3 w-full bg-pink-500 dark:bg-pink-600 text-white py-2 px-4 rounded-md hover:bg-pink-600 dark:hover:bg-pink-700 transition duration-300 shadow-sm text-sm sm:text-base flex items-center justify-center">
+                class="add-entry mt-4 w-full bg-pink-500 dark:bg-pink-600 text-white py-2.5 px-4 rounded-lg hover:bg-pink-600 dark:hover:bg-pink-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                <span class="relative inline-flex">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
-                Add Race
+                  Add Race
+                </span>
               </button>
             </fieldset>
 
             <fieldset id="father"
-              class="parent-node bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-lg p-3 sm:p-5 shadow-md">
-              <legend class="text-lg sm:text-xl font-semibold text-blue-700 dark:text-blue-300 px-2">
-                👨 Father's Race
+              class="parent-node bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-xl p-4 sm:p-6 shadow-lg border border-blue-200 dark:border-blue-700">
+              <legend class="text-lg sm:text-xl font-bold text-blue-700 dark:text-blue-300 px-2 flex items-center">
+                <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Father's Race
               </legend>
               <div
-                class="race-entries space-y-2 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 dark:scrollbar-thumb-blue-700 pr-1">
+                class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 dark:scrollbar-thumb-blue-700 pr-1">
               </div>
               <button type="button"
-                class="add-entry mt-3 w-full bg-blue-500 dark:bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-600 dark:hover:bg-blue-700 transition duration-300 shadow-sm text-sm sm:text-base flex items-center justify-center">
+                class="add-entry mt-4 w-full bg-blue-500 dark:bg-blue-600 text-white py-2.5 px-4 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                <span class="relative inline-flex">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
-                Add Race
+                  Add Race
+                </span>
               </button>
             </fieldset>
           </div>
         </section>
 
-        <section id="results" class="bg-white dark:bg-slate-900 rounded-lg shadow-lg p-4 sm:p-6 flex flex-col">
-          <h2 class="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 mb-4">
+        <section id="results" class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 sm:p-8 flex flex-col border border-gray-100 dark:border-gray-700">
+          <h2 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 mb-6 tracking-tight">
             Results
           </h2>
-            <div class="chart-container">
-              <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 p-4 rounded-t-lg">
-                <h3 class="text-lg font-bold text-white">Race Breakdown</h3>
+            <div class="chart-container rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700">
+              <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 p-5 rounded-t-xl">
+                <h3 class="text-lg font-bold text-white flex items-center">
+                  <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 4.75V6.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M17.1266 6.87347L16.0659 7.93413" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M19.25 12L17.75 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M17.1266 17.1265L16.0659 16.0659" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M12 17.75V19.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M7.9342 16.0659L6.87354 17.1265" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M6.25 12L4.75 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M7.9342 7.93413L6.87354 6.87347" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M12 14.25C13.2426 14.25 14.25 13.2426 14.25 12C14.25 10.7574 13.2426 9.75 12 9.75C10.7574 9.75 9.75 10.7574 9.75 12C9.75 13.2426 10.7574 14.25 12 14.25Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg>
+                  Race Breakdown</h3>
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 p-5 flex-grow">
@@ -341,23 +369,6 @@
                   <div id="raceBreakdown"
                     class="bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner overflow-hidden">
                     <!-- Table will be inserted here with border styling -->
-                    <!-- 
-                    The table structure will use the following format:
-                    <table class="w-full text-sm">
-                      <thead>
-                        <tr>
-                          <th class="bg-indigo-100 dark:bg-indigo-900 text-left p-1.5 text-indigo-900 dark:text-indigo-100 font-medium">RACE</th>
-                          <th class="bg-indigo-100 dark:bg-indigo-900 text-right p-1.5 text-indigo-900 dark:text-indigo-100 font-medium w-20">%</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr class="border-b border-gray-100 dark:border-gray-700">
-                          <td class="p-1.5 text-gray-900 dark:text-gray-100">RACE_NAME</td>
-                          <td class="p-1.5 text-right text-indigo-600 dark:text-indigo-400">PERCENTAGE</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    -->
                   </div>
                 </div>
 
@@ -430,14 +441,10 @@
               <!-- Premium Loading Spinner -->
               <div id="loadingSpinner"
                 class="absolute inset-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm flex-col items-center justify-center rounded-lg z-50 hidden">
-                <div class="relative w-20 h-20">
-                  <div
-                    class="absolute inset-0 rounded-full border-4 border-t-indigo-600 border-r-indigo-400 border-b-indigo-300 border-l-indigo-500 animate-spin">
-                  </div>
-
-                  <div class="absolute inset-2 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-600 to-purple-600 animate-pulse">
-                    </div>
+                <div class="premium-spinner-container">
+                  <div class="spinner-inner"></div>
+                  <div class="spinner-center">
+                    <div class="spinner-core"></div>
                   </div>
                 </div>
 
@@ -449,7 +456,14 @@
             </div>
           </section>
 
-          <div class="grid grid-cols-2 gap-3 mt-4 bg-white dark:bg-slate-900 rounded-lg shadow-lg p-4">
+          <div class="grid grid-cols-2 gap-4 mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 border border-gray-100 dark:border-gray-700">
+            <h3 class="text-lg font-bold text-gray-800 dark:text-white col-span-2 mb-2 flex items-center">
+              <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 12.75L11.25 15L15 9.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 13.9021 3.5901 15.6665 4.59721 17.1199C4.70168 17.2707 4.7226 17.4653 4.64529 17.6317L3.42747 20.2519C3.23699 20.5853 3.47768 21 3.86159 21H12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Share Results
+            </h3>
             <button data-share="facebook"
               class="btn-gradient-blue">
               <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
@@ -490,17 +504,25 @@
         </div>
       </div>
       
-      <section class="mt-8 bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md">
-        <h2 class="text-2xl font-semibold text-indigo-800 dark:text-indigo-200 mb-4">
+      <section class="fortune-section">
+        <h2 class="section-heading">
+          <svg class="heading-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 20H7C5.89543 20 5 19.1046 5 18V10.9199C5 10.336 5.25513 9.78132 5.69842 9.40136L12.6984 3.40136C13.4474 2.76135 14.5526 2.76135 15.3016 3.40136L22.3016 9.40136C22.7449 9.78132 23 10.336 23 10.9199V18C23 19.1046 22.1046 20 21 20H19M9 20V14C9 13.4477 9.44772 13 10 13H14C14.5523 13 15 13.4477 15 14V20M9 20H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          
+          <svg class="heading-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 12.75L11.25 15L15 9.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 13.9021 3.5901 15.6665 4.59721 17.1199C4.70168 17.2707 4.7226 17.4653 4.64529 17.6317L3.42747 20.2519C3.23699 20.5853 3.47768 21 3.86159 21H12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
           Baby Race Calculator
         </h2>
         <div class="flex flex-col md:flex-row gap-6">
           <div class="md:w-2/3">
-            <p class="text-gray-600 dark:text-gray-400 mb-4">
+            <p class="race-calculator-intro mb-4">
               Planning a family? Use our Race Calculator to predict your future child's racial and ethnic makeup.
               Simply enter both parents' race breakdowns to visualize your baby's potential heritage.
             </p>
-            <div class="bg-pink-50 dark:bg-pink-900 p-4 rounded-lg">
+            <div class="bg-pink-50 dark:bg-pink-900 p-4 rounded-lg shadow-inner">
               <h3 class="font-semibold text-pink-700 dark:text-pink-300 mb-2">How To Calculate Baby's Race</h3>
               <p class="text-gray-600 dark:text-gray-400">
                 Enter the mother's race details in the Mother section and the father's details in the Father section.
@@ -525,8 +547,15 @@
         </div>
       </section>
 
-      <section class="mt-8 bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md">
-        <h2 class="text-2xl font-semibold text-indigo-800 dark:text-indigo-200 mb-4">
+      <section class="fortune-section">
+        <h2 class="section-heading">
+          <svg class="heading-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 20H7C5.89543 20 5 19.1046 5 18V10.9199C5 10.336 5.25513 9.78132 5.69842 9.40136L12.6984 3.40136C13.4474 2.76135 14.5526 2.76135 15.3016 3.40136L22.3016 9.40136C22.7449 9.78132 23 10.336 23 10.9199V18C23 19.1046 22.1046 20 21 20H19M9 20V14C9 13.4477 9.44772 13 10 13H14C14.5523 13 15 13.4477 15 14V20M9 20H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          
+          <svg class="heading-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15.5 10.5L13.5 8.5M10.5 5.5L8.5 3.5M8.5 3.5L6.5 5.5M8.5 3.5V11.5M15.5 17.5L17.5 15.5M15.5 17.5L13.5 19.5M15.5 17.5H8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
           Multiple Calculator Uses
         </h2>
 
@@ -595,8 +624,12 @@
         </div>
       </div>
 
-      <section id="how-to-use" class="mt-8 bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md">
-        <h2 class="text-2xl font-semibold text-indigo-800 dark:text-indigo-200 mb-4">
+      <section id="how-to-use" class="fortune-section">
+        <h2 class="section-heading">
+          <svg class="heading-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 20H7C5.89543 20 5 19.1046 5 18V10.9199C5 10.336 5.25513 9.78132 5.69842 9.40136L12.6984 3.40136C13.4474 2.76135 14.5526 2.76135 15.3016 3.40136L22.3016 9.40136C22.7449 9.78132 23 10.336 23 10.9199V18C23 19.1046 22.1046 20 21 20H19M9 20V14C9 13.4477 9.44772 13 10 13H14C14.5523 13 15 13.4477 15 14V20M9 20H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          
           How to Use the Race Percentage Calculator
         </h2>
 
@@ -691,8 +724,12 @@
         </p>
       </section>
 
-      <section id="faq" class="mt-8 bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md">
-        <h2 class="text-2xl font-semibold text-indigo-800 dark:text-indigo-200 mb-4">
+      <section id="faq" class="fortune-section">
+        <h2 class="section-heading">
+          <svg class="heading-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 20H7C5.89543 20 5 19.1046 5 18V10.9199C5 10.336 5.25513 9.78132 5.69842 9.40136L12.6984 3.40136C13.4474 2.76135 14.5526 2.76135 15.3016 3.40136L22.3016 9.40136C22.7449 9.78132 23 10.336 23 10.9199V18C23 19.1046 22.1046 20 21 20H19M9 20V14C9 13.4477 9.44772 13 10 13H14C14.5523 13 15 13.4477 15 14V20M9 20H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          
           Frequently Asked Questions
         </h2>
 
@@ -746,21 +783,25 @@
         </div>
       </section>
 
-      <section id="testimonials" class="mt-8 bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md">
-        <h2 class="text-2xl font-semibold text-indigo-800 dark:text-indigo-200 mb-4">
+      <section id="testimonials" class="fortune-section">
+        <h2 class="section-heading">
+          <svg class="heading-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 20H7C5.89543 20 5 19.1046 5 18V10.9199C5 10.336 5.25513 9.78132 5.69842 9.40136L12.6984 3.40136C13.4474 2.76135 14.5526 2.76135 15.3016 3.40136L22.3016 9.40136C22.7449 9.78132 23 10.336 23 10.9199V18C23 19.1046 22.1046 20 21 20H19M9 20V14C9 13.4477 9.44772 13 10 13H14C14.5523 13 15 13.4477 15 14V20M9 20H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          
           What Our Users Say
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <blockquote class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
-            <p class="text-gray-600 dark:text-gray-400 italic">
+          <blockquote class="testimonial-card">
+            <p class="testimonial-text">
               "This race percentage calculator gave me such insight into my
               background. Super user-friendly!"
             </p>
           </blockquote>
 
-          <blockquote class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
-            <p class="text-gray-600 dark:text-gray-400 italic">
+          <blockquote class="testimonial-card">
+            <p class="testimonial-text">
               "As soon-to-be parents, we loved using this to estimate our
               baby's race makeup. Really fascinating!"
             </p>
@@ -768,8 +809,15 @@
         </div>
       </section>
 
-      <section id="related-resources" class="mt-8 bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md">
-        <h2 class="text-2xl font-semibold text-indigo-800 dark:text-indigo-200 mb-4">
+      <section id="related-resources" class="fortune-section">
+        <h2 class="section-heading">
+          <svg class="heading-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 20H7C5.89543 20 5 19.1046 5 18V10.9199C5 10.336 5.25513 9.78132 5.69842 9.40136L12.6984 3.40136C13.4474 2.76135 14.5526 2.76135 15.3016 3.40136L22.3016 9.40136C22.7449 9.78132 23 10.336 23 10.9199V18C23 19.1046 22.1046 20 21 20H19M9 20V14C9 13.4477 9.44772 13 10 13H14C14.5523 13 15 13.4477 15 14V20M9 20H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          
+          <svg class="heading-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 6V9M12 18V21M9 15H6M18 15H15M14.1213 14.1213L16.2426 16.2426M7.75736 7.75736L9.87868 9.87868M14.1213 9.87868L16.2426 7.75736M7.75736 16.2426L9.87868 14.1213M12 12V12.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
           Explore More About Your Heritage
         </h2>
 
@@ -809,8 +857,12 @@
       </section>
 
       <!-- SEO Keywords Section (No Links) -->
-      <section class="mt-8 bg-white dark:bg-gray-900 rounded-lg p-6 shadow-md">
-        <h2 class="text-2xl font-semibold text-indigo-800 dark:text-indigo-200 mb-4">
+      <section class="fortune-section">
+        <h2 class="section-heading">
+          <svg class="heading-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 20H7C5.89543 20 5 19.1046 5 18V10.9199C5 10.336 5.25513 9.78132 5.69842 9.40136L12.6984 3.40136C13.4474 2.76135 14.5526 2.76135 15.3016 3.40136L22.3016 9.40136C22.7449 9.78132 23 10.336 23 10.9199V18C23 19.1046 22.1046 20 21 20H19M9 20V14C9 13.4477 9.44772 13 10 13H14C14.5523 13 15 13.4477 15 14V20M9 20H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          
           Calculator Features
         </h2>
         <p class="text-gray-600 dark:text-gray-400 mb-4">
@@ -852,11 +904,11 @@
         <div class="w-full bg-gray-100 dark:bg-gray-800 sm:rounded-lg h-auto overflow-hidden space-y-4">
 
           <!-- First Ad (Responsive Display) -->
-          <ins class="adsbygoogle w-full" style="display:block; height: 150px" data-ad-client="ca-pub-7174503033473057"
+          <ins class="adsbygoogle w-full ad-responsive" data-ad-client="ca-pub-7174503033473057"
             data-ad-slot="1430802672" data-ad-format="auto" data-full-width-responsive="true"></ins>
 
           <!-- Second Ad (Multiplex Ad) -->
-          <ins class="adsbygoogle w-full" style="display:block" data-ad-client="ca-pub-7174503033473057"
+          <ins class="adsbygoogle w-full ad-multiplex" data-ad-client="ca-pub-7174503033473057"
             data-ad-slot="2733986887" data-ad-format="multiplex"></ins>
 
           <!-- Third Ad (Autorelaxed for Seamless Ad Experience) -->
@@ -979,6 +1031,8 @@
       </div>
     </footer>
   </div>
+
+
 </body>
 
 </html>

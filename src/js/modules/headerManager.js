@@ -1,28 +1,38 @@
 // headerManager.js
 
 export function setupHeaderDropdown() {
-  const dropdownButton = document.getElementById('resources-dropdown-button');
-  const dropdownMenu = document.getElementById('resources-dropdown-menu');
-  const dropdownContainer = document.getElementById('resources-dropdown');
-
-  if (!dropdownButton || !dropdownMenu || !dropdownContainer) {
-    console.warn('Header dropdown elements not found');
-    return;
+  // Wait for DOM to be fully loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeaderDropdown);
+  } else {
+    initHeaderDropdown();
   }
 
-  dropdownButton.addEventListener('click', e => {
-    e.stopPropagation();
-    dropdownMenu.classList.toggle('hidden');
-  });
+  function initHeaderDropdown() {
+    const dropdownButton = document.getElementById('resources-dropdown-button');
+    const dropdownMenu = document.getElementById('resources-dropdown-menu');
+    const dropdownContainer = document.getElementById('resources-dropdown');
 
-  document.addEventListener('click', e => {
-    if (!dropdownContainer.contains(e.target)) {
-      dropdownMenu.classList.add('hidden');
+    if (!dropdownButton || !dropdownMenu || !dropdownContainer) {
+      console.warn('Header dropdown elements not found');
+      return;
     }
-  });
 
-  // Prevent the dropdown from closing when clicking inside it
-  dropdownMenu.addEventListener('click', e => {
-    e.stopPropagation();
-  });
+    dropdownButton.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropdownMenu.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', e => {
+      if (!dropdownContainer.contains(e.target)) {
+        dropdownMenu.classList.add('hidden');
+      }
+    });
+
+    // Prevent the dropdown from closing when clicking inside it
+    dropdownMenu.addEventListener('click', e => {
+      e.stopPropagation();
+    });
+  }
 }

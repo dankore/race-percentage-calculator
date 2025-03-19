@@ -1,39 +1,89 @@
 import { showWarning, hideWarning } from './uiHandlers.js';
 
-const motherNode = document.getElementById('mother');
-const fatherNode = document.getElementById('father');
-const raceBreakdown = document.getElementById('raceBreakdown');
-const entryTemplate = document.getElementById('race-entry-template');
-const downloadButton = document.getElementById('downloadButton');
-const userNameInput = document.getElementById('userName');
-const nameError = document.getElementById('nameError');
-const downloadSpinner = document.getElementById('downloadSpinner');
-const downloadSuccess = document.getElementById('downloadSuccess');
+// Instead of global constants, we'll get fresh elements when needed
+let motherNode, fatherNode, raceBreakdown, entryTemplate, downloadButton, userNameInput, nameError, downloadSpinner, downloadSuccess;
+
+// Initialize DOM references
+function initializeDOMReferences() {
+  motherNode = document.getElementById('mother');
+  fatherNode = document.getElementById('father');
+  raceBreakdown = document.getElementById('raceBreakdown');
+  entryTemplate = document.getElementById('race-entry-template');
+  downloadButton = document.getElementById('downloadButton');
+  userNameInput = document.getElementById('userName');
+  nameError = document.getElementById('nameError');
+  downloadSpinner = document.getElementById('downloadSpinner');
+  downloadSuccess = document.getElementById('downloadSuccess');
+  
+  if (!motherNode || !fatherNode || !entryTemplate) {
+    console.error('Critical race calculator elements not found:', { motherNode, fatherNode, entryTemplate });
+    return false;
+  }
+  
+  return true;
+}
 
 let debounceTimer;
 
 export function initializeNodes() {
+  // Get fresh DOM references
+  if (!initializeDOMReferences()) {
+    return false;
+  }
+  
+  // Add initial race entries and set up event listeners
   [motherNode, fatherNode].forEach(node => {
+
     addRaceEntry(node);
+    
     const addButton = node.querySelector('.add-entry');
     if (addButton) {
-      addButton.addEventListener('click', () => addRaceEntry(node));
+      addButton.addEventListener('click', () => {
+        addRaceEntry(node);
+      });
     }
   });
 
-  downloadButton.addEventListener('click', downloadResults);
-  userNameInput.addEventListener('input', validateName);
+  if (downloadButton) {
+    downloadButton.addEventListener('click', downloadResults);
+  }
+  
+  if (userNameInput) {
+    userNameInput.addEventListener('input', validateName);
+  }
+  
+  return true;
 }
 
 export function addRaceEntry(parentNode) {
   const entriesContainer = parentNode.querySelector('.race-entries');
+  
+  if (!entriesContainer || !entryTemplate) {
+    return;
+  }
+  
+  // Generate a unique ID for this entry
+  const uniqueId = Date.now() + Math.floor(Math.random() * 1000);
+  
+  // Clone the template
   const newEntry = document.importNode(entryTemplate.content, true);
+  
+  // Replace the {{id}} placeholders with the unique ID
+  newEntry.querySelectorAll('[id*="{{id}}"]').forEach(el => {
+    el.id = el.id.replace('{{id}}', uniqueId);
+  });
+  
+  // Add the entry to the container
   entriesContainer.appendChild(newEntry);
 
+  // Set up event listeners
   setupEntryListeners(newEntry);
 
+  // Update UI
   checkScrolling(entriesContainer);
   debouncedCalculateRace();
+  
+
 }
 
 function setupEntryListeners(entry) {

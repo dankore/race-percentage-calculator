@@ -15,39 +15,54 @@ function setDynamicYear() {
   }
 }
 
-if (document.readyState !== 'loading') {
-  document.addEventListener('DOMContentLoaded', function () {
-    setupAnalytics()
-    setupThemeToggle();
-    setupUIHandlers();
+function initializeApp() {
+  setupAnalytics();
+  setupThemeToggle();
+  setupUIHandlers();
+  setupHeaderDropdown();
+  setupSocialSharing();
+  setDynamicYear();
+  
+  // Initialize race calculator with a slight delay to ensure DOM is ready
+  setTimeout(() => {
     if (document.getElementById('race-entry-template')) {
-      initializeNodes();
-      calculateRace();
+      const success = initializeNodes();
+      if (success) {
+        calculateRace();
+      }
     }
-    setupHeaderDropdown();
-    setupSocialSharing();
-    setDynamicYear();
+  }, 100);
+  
+  // Register service worker
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+      .register('/service-worker.js')
+      .then(registration => {
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
 
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('/service-worker.js')
-        .then(registration => {
-          registration.addEventListener('updatefound', () => {
-            const newWorker = registration.installing;
-            newWorker.addEventListener('statechange', () => {
-              if (
-                newWorker.state === 'installed' &&
-                navigator.serviceWorker.controller
-              ) {
-                window.location.reload();
-              }
-            });
+          newWorker.addEventListener('statechange', () => {
+            if (
+              newWorker.state === 'installed' &&
+              navigator.serviceWorker.controller
+            ) {
+              window.location.reload();
+            }
           });
-        })
-        .catch(() => {});
-      navigator.serviceWorker.getRegistrations().then(registrations => {
-        registrations.forEach(registration => registration.update());
-      });
-    }
-  });
+        });
+      })
+      .catch(() => {});
+    navigator.serviceWorker.getRegistrations().then(registrations => {
+      registrations.forEach(registration => registration.update());
+    });
+  }
+}
+
+// Check if document is already loaded
+if (document.readyState === 'loading') {
+  // Document still loading, add event listener
+  document.addEventListener('DOMContentLoaded', initializeApp);
+} else {
+  // Document already loaded, run immediately
+  initializeApp();
 }
