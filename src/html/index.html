@@ -488,9 +488,10 @@
   </template>
 
   <div class="mx-auto max-w-6xl px-4 py-0">
-    <div class="w-full bg-gray-100 dark:bg-gray-800 sm:rounded-b-lg h-[50px] overflow-hidden">
-      <ins class="adsbygoogle w-full" style="display: block; height: 50px" data-ad-client="ca-pub-7174503033473057"
-        data-ad-slot="1072106496" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <div class="w-full bg-gray-100 dark:bg-gray-800 sm:rounded-b-lg !h-[150px] overflow-hidden">
+      <ins class="adsbygoogle w-full"
+        data-ad-client="ca-pub-7174503033473057" data-ad-slot="1072106496" data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
     </div>
   </div>
 
@@ -799,7 +800,7 @@
                       </p>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="grid grid-cols-2 gap-3">
                       <button id="downloadButton"
                         class="w-full bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 whitespace-nowrap shadow-md disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-indigo-500 disabled:hover:to-indigo-600"
                         disabled>
@@ -915,17 +916,20 @@
 
             <div
               class="grid grid-cols-2 gap-4 mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl">
-              <h3 class="text-lg font-bold text-indigo-800 dark:text-indigo-200 col-span-2 mb-2 flex items-center">
-                <svg class="w-5 h-5 mr-2 text-indigo-700 dark:text-indigo-200" viewBox="0 0 24 24" fill="none"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path d="M9 12.75L11.25 15L15 9.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                    stroke-linejoin="round" />
-                  <path
-                    d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 13.9021 3.5901 15.6665 4.59721 17.1199C4.70168 17.2707 4.7226 17.4653 4.64529 17.6317L3.42747 20.2519C3.23699 20.5853 3.47768 21 3.86159 21H12Z"
-                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                Share Results
-              </h3>
+              <h2 class="section-heading-container col-span-2 mb-2">
+                <span
+                  class="section-heading-icon bg-indigo-100 dark:bg-indigo-900 w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center shadow-sm">
+                  <svg class="w-4 h-4 text-indigo-700 dark:text-indigo-200" viewBox="0 0 24 24" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 12.75L11.25 15L15 9.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path
+                      d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 13.9021 3.5901 15.6665 4.59721 17.1199C4.70168 17.2707 4.7226 17.4653 4.64529 17.6317L3.42747 20.2519C3.23699 20.5853 3.47768 21 3.86159 21H12Z"
+                      stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+                <span class="section-heading-text">Share Results</span>
+              </h2>
               <button data-share="facebook"
                 class="flex items-center justify-center px-4 py-3 bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white rounded-lg transition-all duration-300 shadow-md dark:from-indigo-500 dark:to-indigo-600 dark:hover:from-indigo-600 dark:hover:to-indigo-700">
                 <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
