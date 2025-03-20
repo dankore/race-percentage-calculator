@@ -73,6 +73,93 @@
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script defer src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
+  <style>
+    @keyframes gentle-pulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .pulse-attention {
+      animation: gentle-pulse 2s infinite;
+    }
+
+    /* Custom styles for floating results */
+    .floating-results {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-top: 1px solid rgba(99, 102, 241, 0.2);
+      box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06);
+      z-index: 50;
+      transform: translateY(100%);
+      transition: transform 0.3s ease-in-out;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .floating-results.visible {
+      transform: translateY(0);
+    }
+
+    .dark .floating-results {
+      background-color: rgba(31, 41, 55, 0.95);
+      border-top: 1px solid rgba(99, 102, 241, 0.4);
+    }
+
+    .mini-chart-container {
+      height: 60px;
+      width: 60px;
+    }
+
+    .expand-button {
+      display: flex;
+      align-items: center;
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.375rem;
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      background-color: rgba(99, 102, 241, 0.1);
+      color: rgb(79, 70, 229);
+    }
+
+    .dark .expand-button {
+      background-color: rgba(99, 102, 241, 0.2);
+      color: rgb(165, 180, 252);
+    }
+
+    .race-pill {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      margin-right: 0.25rem;
+      margin-bottom: 0.25rem;
+      white-space: nowrap;
+      background-color: rgba(99, 102, 241, 0.1);
+      color: rgb(79, 70, 229);
+    }
+
+    .dark .race-pill {
+      background-color: rgba(99, 102, 241, 0.2);
+      color: rgb(165, 180, 252);
+    }
+  </style>
+
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -166,26 +253,6 @@
       }]
     }
   </script>
-
-  <style>
-    @keyframes gentle-pulse {
-      0% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.05);
-      }
-
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    .pulse-attention {
-      animation: gentle-pulse 2s infinite;
-    }
-  </style>
 </head>
 
 <body
@@ -1243,6 +1310,32 @@
     <a href="/blog/cultural-heritage-resources"
       class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">Cultural
       Heritage</a>
+  </div>
+
+  <script src="../assets/js/main.js"></script>
+  <!-- Specific page scripts -->
+  <script src="../js/modules/raceCalculator.js"></script>
+  <script src="../js/modules/analytics.js"></script>
+
+  <!-- Floating results bar that's always visible -->
+  <div class="floating-results" id="floatingResults">
+    <div class="flex items-center gap-2">
+      <div class="mini-chart-container">
+        <canvas id="miniRaceChart"></canvas>
+      </div>
+      <div class="flex flex-col">
+        <h4 class="text-sm font-medium text-indigo-700 dark:text-indigo-300">Results Summary</h4>
+        <div class="race-pills" id="floatingRacePills">
+          <!-- Race pills will be inserted here -->
+        </div>
+      </div>
+    </div>
+    <a href="#results" class="expand-button">
+      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+      </svg>
+      Full Results
+    </a>
   </div>
 </body>
 

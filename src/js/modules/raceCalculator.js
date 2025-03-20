@@ -259,6 +259,14 @@ function calculateRace() {
     }
   });
 
+  // If results are invalid, hide the floating results bar
+  if (!isValid) {
+    const floatingResults = document.getElementById('floatingResults');
+    if (floatingResults) {
+      floatingResults.classList.remove('visible');
+    }
+  }
+
   return { races, isValid, warningMessage };
 }
 
@@ -370,6 +378,70 @@ function updateChart(races) {
               return `${context.raw.toFixed(1)}%`;
             },
           },
+        },
+      },
+    },
+  });
+
+  // Update the floating results bar with mini chart
+  updateFloatingResultsBar(races);
+}
+
+// Function to update the floating results bar
+function updateFloatingResultsBar(races) {
+  const floatingResults = document.getElementById('floatingResults');
+  const floatingRacePills = document.getElementById('floatingRacePills');
+  const miniChartCtx = document.getElementById('miniRaceChart');
+
+  if (!floatingResults || !floatingRacePills || !miniChartCtx) return;
+
+  // Make the floating bar visible
+  floatingResults.classList.add('visible');
+
+  // Clear existing race pills
+  floatingRacePills.innerHTML = '';
+
+  // Create the mini chart
+  if (window.miniRaceChart instanceof Chart) {
+    window.miniRaceChart.destroy();
+  }
+
+  // Get top 3 races or all if less than 3
+  const sortedRaces = Object.entries(races)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3);
+
+  // Create pills for top races
+  sortedRaces.forEach(([race, percent]) => {
+    const pill = document.createElement('span');
+    pill.className = 'race-pill';
+    pill.textContent = `${race}: ${percent.toFixed(1)}%`;
+    floatingRacePills.appendChild(pill);
+  });
+
+  // Create mini chart
+  window.miniRaceChart = new Chart(miniChartCtx, {
+    type: 'doughnut',
+    data: {
+      labels: sortedRaces.map(r => r[0]),
+      datasets: [
+        {
+          data: sortedRaces.map(r => r[1]),
+          backgroundColor: generateColorPalette(sortedRaces.length),
+          borderWidth: 0,
+          cutout: '70%',
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: {
+          display: false,
+        },
+        tooltip: {
+          enabled: false,
         },
       },
     },
