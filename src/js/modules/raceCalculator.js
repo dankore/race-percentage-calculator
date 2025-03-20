@@ -856,12 +856,20 @@ function updateSavedResultsList() {
               <span>${date}, ${time}</span>
             </div>
           </div>
-          <button class="load-result-btn text-sm bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-100 py-1.5 px-3 rounded font-medium hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors duration-150 ease-in-out flex items-center justify-center shadow-sm" data-index="${index}">
-            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
-            </svg>
-            Load Result
-          </button>
+          <div class="flex space-x-2">
+            <button class="load-result-btn text-sm bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-100 py-1.5 px-3 rounded font-medium hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors duration-150 ease-in-out flex items-center justify-center shadow-sm" data-index="${index}">
+              <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+              </svg>
+              Load
+            </button>
+            <button class="delete-result-btn text-sm bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100 py-1.5 px-3 rounded font-medium hover:bg-red-200 dark:hover:bg-red-800 transition-colors duration-150 ease-in-out flex items-center justify-center shadow-sm" data-index="${index}">
+              <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+              </svg>
+              Delete
+            </button>
+          </div>
         </div>
         <div class="mt-3 flex flex-wrap gap-1.5">
           ${result.labels
@@ -890,6 +898,69 @@ function updateSavedResultsList() {
       loadSavedResult(index);
     });
   });
+
+  // Add event listeners to the delete buttons
+  savedResultsList.querySelectorAll('.delete-result-btn').forEach(button => {
+    button.addEventListener('click', e => {
+      const index = parseInt(
+        e.target.dataset.index ||
+          e.target.closest('.delete-result-btn').dataset.index,
+        10
+      );
+      deleteSavedResult(index);
+    });
+  });
+}
+
+// Function to delete a saved result
+function deleteSavedResult(index) {
+  // Get current saved results
+  const savedResults = JSON.parse(
+    localStorage.getItem('raceCalculatorResults') || '[]'
+  );
+
+  // Check if the index is valid
+  if (index < 0 || index >= savedResults.length) return;
+
+  // Ask for confirmation
+  if (confirm('Are you sure you want to delete this saved result?')) {
+    // Remove the result at the specified index
+    savedResults.splice(index, 1);
+
+    // Save the updated array back to localStorage
+    localStorage.setItem('raceCalculatorResults', JSON.stringify(savedResults));
+
+    // Show a brief deletion message
+    const savedResultsList = document.getElementById('savedResultsList');
+    const deleteFeedback = document.createElement('div');
+    deleteFeedback.className =
+      'bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 text-sm py-2 px-3 rounded-md transition-all duration-300 mb-2 text-center font-medium';
+    deleteFeedback.innerHTML = `
+      <div class="flex items-center justify-center space-x-1">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        <span>Result deleted successfully!</span>
+      </div>
+    `;
+
+    // Insert the feedback at the top of the list
+    if (savedResultsList.firstChild) {
+      savedResultsList.insertBefore(
+        deleteFeedback,
+        savedResultsList.firstChild
+      );
+    } else {
+      savedResultsList.appendChild(deleteFeedback);
+    }
+
+    // Remove the feedback message after 3 seconds
+    setTimeout(() => {
+      deleteFeedback.remove();
+      // Update the saved results list
+      updateSavedResultsList();
+    }, 1500);
+  }
 }
 
 function loadSavedResult(index) {
