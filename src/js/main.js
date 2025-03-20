@@ -1,12 +1,10 @@
-import {
-  initializeNodes,
-  calculateRace,
-} from './modules/raceCalculator.js';
+import { initializeNodes, calculateRace } from './modules/raceCalculator.js';
 import { setupThemeToggle } from './modules/themeManager.js';
 import { setupUIHandlers } from './modules/uiHandlers.js';
 import { setupHeaderDropdown } from './modules/headerManager.js';
 import { setupSocialSharing } from './modules/socialSharing.js';
 import { setupAnalytics } from './modules/analytics.js';
+import { setupBackToTop } from './modules/backToTop.js';
 
 function setDynamicYear() {
   const yearElement = document.querySelector('.copyright-year');
@@ -21,8 +19,9 @@ function initializeApp() {
   setupUIHandlers();
   setupHeaderDropdown();
   setupSocialSharing();
+  setupBackToTop();
   setDynamicYear();
-  
+
   // Initialize race calculator with a slight delay to ensure DOM is ready
   setTimeout(() => {
     if (document.getElementById('race-entry-template')) {
@@ -32,7 +31,7 @@ function initializeApp() {
       }
     }
   }, 100);
-  
+
   // Register service worker
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker
