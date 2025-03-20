@@ -88,6 +88,16 @@
       }
     }
 
+    body {
+      padding-bottom: 100px;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding-bottom: 120px;
+      }
+    }
+
     .pulse-attention {
       animation: gentle-pulse 2s infinite;
     }
@@ -235,18 +245,33 @@
 
     @media (max-width: 640px) {
       .floating-results {
-        padding: 0.5rem 1rem;
+        padding: 0.5rem 0.75rem;
+        flex-direction: column;
+        align-items: flex-start;
       }
 
       .mini-chart-container {
-        height: 50px;
-        width: 50px;
+        height: 48px;
+        width: 48px;
       }
 
       .expand-button {
         padding: 0.3rem 0.6rem;
         font-size: 0.7rem;
-        margin-left: 0.5rem;
+        margin-left: 0;
+        margin-top: 0.5rem;
+        width: 100%;
+      }
+
+      .race-pill {
+        font-size: 0.65rem;
+        padding: 0.15rem 0.4rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .results-summary h4 {
+        font-size: 0.8rem;
+        margin-bottom: 0.1rem;
       }
     }
   </style>
@@ -392,7 +417,7 @@
     </div>
   </div>
 
-  <div class="container mx-auto px-4 py-8 max-w-6xl relative">
+  <div class="container mx-auto px-2 sm:px-4 py-6 sm:py-8 max-w-6xl relative">
     <header class="mb-12">
       <div
         class="bg-gradient-to-r from-indigo-600 to-purple-700 text-white p-6 sm:p-8 rounded-lg shadow-xl relative overflow-hidden border border-indigo-400 backdrop-blur-sm">
@@ -518,14 +543,14 @@
       </div>
     </header>
 
-    <main role="main" class="container mx-auto px-4 xl:px-0 mb-16">
+    <main role="main" class="container mx-auto px-0 sm:px-4 xl:px-0 mb-16">
       <div id="warningMessage" class="mb-4" aria-live="polite"></div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12">
         <div class="lg:col-span-2">
           <div class="grid grid-cols-1 gap-6 sm:gap-10">
             <section id="race-input"
-              class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 sm:p-8 space-y-6 sm:space-y-8 border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl relative overflow-hidden">
+              class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6 md:space-y-8 border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl relative overflow-hidden">
               <div
                 class="absolute top-0 right-0 w-40 h-40 bg-indigo-50 dark:bg-indigo-900/20 rounded-full -mt-20 -mr-20 pointer-events-none opacity-50">
               </div>
@@ -544,7 +569,7 @@
               </h2>
               <div id="race-form" class="space-y-5">
                 <fieldset id="mother"
-                  class="parent-node bg-gradient-to-r from-pink-50 to-pink-100 dark:from-pink-900 dark:to-pink-800 rounded-xl p-4 sm:p-6 shadow-lg border border-pink-200 dark:border-pink-700">
+                  class="parent-node bg-gradient-to-r from-pink-50 to-pink-100 dark:from-pink-900 dark:to-pink-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-pink-200 dark:border-pink-700">
                   <legend class="text-lg sm:text-xl font-bold text-pink-700 dark:text-pink-300 px-2 flex items-center">
                     <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -568,7 +593,7 @@
                 </fieldset>
 
                 <fieldset id="father"
-                  class="parent-node bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-xl p-4 sm:p-6 shadow-lg border border-blue-200 dark:border-blue-700">
+                  class="parent-node bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-blue-200 dark:border-blue-700">
                   <legend class="text-lg sm:text-xl font-bold text-blue-700 dark:text-blue-300 px-2 flex items-center">
                     <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -605,7 +630,7 @@
             </section>
 
             <section id="results"
-              class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 sm:p-8 flex flex-col border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl relative overflow-hidden">
+              class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-4 sm:p-6 md:p-8 flex flex-col border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl relative overflow-hidden">
               <div
                 class="absolute top-0 right-0 w-40 h-40 bg-indigo-50 dark:bg-indigo-900/20 rounded-full -mt-20 -mr-20 pointer-events-none opacity-50">
               </div>
@@ -785,7 +810,7 @@
 
             <!-- Saved Results Section -->
             <section id="saved-results"
-              class="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 sm:p-8 flex flex-col border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl relative overflow-hidden">
+              class="mt-6 sm:mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-4 sm:p-6 md:p-8 flex flex-col border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl relative overflow-hidden">
               <div
                 class="absolute top-0 right-0 w-40 h-40 bg-indigo-50 dark:bg-indigo-900/30 rounded-full -mt-20 -mr-20 pointer-events-none opacity-50">
               </div>
@@ -1145,7 +1170,7 @@
       </section>
 
       <section id="testimonials"
-        class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md border border-gray-200 dark:border-gray-700 mt-8 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
+        class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-md border border-gray-200 dark:border-gray-700 mt-6 sm:mt-8 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
         <div
           class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/20 rounded-full -mt-16 -mr-16 pointer-events-none opacity-30">
         </div>
@@ -1159,16 +1184,16 @@
           What Our Users Say
         </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           <blockquote class="testimonial-card">
-            <p class="testimonial-text">
+            <p class="testimonial-text text-sm sm:text-base">
               "This race percentage calculator gave me such insight into my
               background. Super user-friendly!"
             </p>
           </blockquote>
 
           <blockquote class="testimonial-card">
-            <p class="testimonial-text">
+            <p class="testimonial-text text-sm sm:text-base">
               "As soon-to-be parents, we loved using this to estimate our
               baby's race makeup. Really fascinating!"
             </p>
@@ -1176,7 +1201,8 @@
         </div>
       </section>
 
-      <section id="related-resources" class="fortune-section relative overflow-hidden">
+      <section id="related-resources"
+        class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-md border border-gray-200 dark:border-gray-700 mt-6 sm:mt-8 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
         <div
           class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/20 rounded-full -mt-16 -mr-16 pointer-events-none opacity-30">
         </div>
@@ -1428,13 +1454,13 @@
 
   <!-- Floating results bar that's always visible -->
   <div class="floating-results" id="floatingResults">
-    <div class="flex items-center">
+    <div class="flex items-center w-full">
       <div class="mini-chart-container">
         <canvas id="miniRaceChart"></canvas>
       </div>
-      <div class="results-summary">
-        <h4>Race Composition</h4>
-        <div class="race-pills" id="floatingRacePills">
+      <div class="results-summary flex-1 overflow-hidden">
+        <h4 class="text-sm font-semibold">Race Composition</h4>
+        <div class="race-pills flex flex-wrap" id="floatingRacePills">
           <!-- Race pills will be inserted here -->
         </div>
       </div>
