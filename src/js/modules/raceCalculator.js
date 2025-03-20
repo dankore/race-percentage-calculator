@@ -6,6 +6,7 @@ let motherNode,
   raceBreakdown,
   entryTemplate,
   downloadButton,
+  saveButton,
   userNameInput,
   nameError,
   downloadSpinner,
@@ -19,6 +20,7 @@ function initializeDOMReferences() {
   raceBreakdown = document.getElementById('raceBreakdown');
   entryTemplate = document.getElementById('race-entry-template');
   downloadButton = document.getElementById('downloadButton');
+  saveButton = document.getElementById('saveButton');
   userNameInput = document.getElementById('userName');
   nameError = document.getElementById('nameError');
   downloadSpinner = document.getElementById('downloadSpinner');
@@ -59,6 +61,10 @@ export function initializeNodes() {
 
   if (downloadButton) {
     downloadButton.addEventListener('click', downloadResults);
+  }
+
+  if (saveButton) {
+    saveButton.addEventListener('click', saveResults);
   }
 
   if (userNameInput) {
@@ -289,8 +295,9 @@ function updateDisplay(races, isValid, warningMessage) {
       window.raceChart.data.datasets[0].data = [];
       window.raceChart.update();
     }
-    // Disable the download button
-    downloadButton.disabled = true;
+    // Disable the download and save buttons
+    if (downloadButton) downloadButton.disabled = true;
+    if (saveButton) saveButton.disabled = true;
   }
 }
 
@@ -331,6 +338,10 @@ function displayResult(races) {
 
   if (downloadButton) {
     downloadButton.disabled = false;
+  }
+
+  if (saveButton) {
+    saveButton.disabled = false;
   }
 }
 
@@ -752,4 +763,178 @@ function resetRaceEntries() {
   hideWarning();
 }
 
-export { debouncedCalculateRace as calculateRace };
+export { debouncedCalculateRace as calculateRace, updateSavedResultsList };
+
+function saveResults() {
+  // Get the current calculation results
+  if (!window.raceChart || !window.raceChart.data) {
+    return;
+  }
+
+  // Create a timestamp for the saved result
+  const timestamp = new Date().toISOString();
+  const name =
+    userNameInput && userNameInput.value.trim()
+      ? userNameInput.value.trim()
+      : 'Unnamed';
+
+  // Create the data object to save
+  const saveData = {
+    timestamp,
+    name,
+    labels: window.raceChart.data.labels,
+    data: window.raceChart.data.datasets[0].data,
+  };
+
+  // Get existing saved results from localStorage or initialize empty array
+  let savedResults = JSON.parse(
+    localStorage.getItem('raceCalculatorResults') || '[]'
+  );
+
+  // Add the new result to the beginning of the array (most recent first)
+  savedResults.unshift(saveData);
+
+  // Limit to 10 saved results to prevent localStorage from filling up
+  if (savedResults.length > 10) {
+    savedResults = savedResults.slice(0, 10);
+  }
+
+  // Save back to localStorage
+  localStorage.setItem('raceCalculatorResults', JSON.stringify(savedResults));
+
+  // Show feedback to the user
+  const saveSuccess = document.getElementById('saveSuccess');
+  if (saveSuccess) {
+    saveSuccess.classList.remove('hidden');
+    setTimeout(() => {
+      saveSuccess.classList.add('hidden');
+    }, 3000);
+  }
+
+  // Update any UI that shows saved results (if implemented)
+  updateSavedResultsList();
+}
+
+function updateSavedResultsList() {
+  const savedResultsList = document.getElementById('savedResultsList');
+  if (!savedResultsList) return;
+
+  // Get saved results from localStorage
+  const savedResults = JSON.parse(
+    localStorage.getItem('raceCalculatorResults') || '[]'
+  );
+
+  if (savedResults.length === 0) {
+    savedResultsList.innerHTML =
+      '<p class="text-gray-700 dark:text-gray-200 text-sm italic p-4">No saved results yet.</p>';
+    return;
+  }
+
+  // Generate the HTML for the list
+  let html = '';
+
+  savedResults.forEach((result, index) => {
+    const date = new Date(result.timestamp).toLocaleDateString();
+    const time = new Date(result.timestamp).toLocaleTimeString();
+
+    html += `
+      <div class="saved-result p-4 border-b border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-150 ease-in-out">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+          <div>
+            <div class="flex items-center mb-1">
+              <svg class="w-4 h-4 text-indigo-700 dark:text-indigo-300 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+              </svg>
+              <span class="font-semibold text-gray-900 dark:text-white">${
+                result.name
+              }</span>
+            </div>
+            <div class="flex items-center text-xs text-gray-700 dark:text-gray-200">
+              <svg class="w-3.5 h-3.5 text-gray-600 dark:text-gray-300 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <span>${date}, ${time}</span>
+            </div>
+          </div>
+          <button class="load-result-btn text-sm bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-100 py-1.5 px-3 rounded font-medium hover:bg-indigo-200 dark:hover:bg-indigo-800 transition-colors duration-150 ease-in-out flex items-center justify-center shadow-sm" data-index="${index}">
+            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+            </svg>
+            Load Result
+          </button>
+        </div>
+        <div class="mt-3 flex flex-wrap gap-1.5">
+          ${result.labels
+            .map(
+              (label, i) =>
+                `<span class="text-xs px-2.5 py-1 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-full border border-gray-300 dark:border-gray-600 font-medium">${label}: <span class="text-indigo-800 dark:text-indigo-200 font-semibold">${result.data[
+                  i
+                ].toFixed(1)}%</span></span>`
+            )
+            .join('')}
+        </div>
+      </div>
+    `;
+  });
+
+  savedResultsList.innerHTML = html;
+
+  // Add event listeners to the load buttons
+  savedResultsList.querySelectorAll('.load-result-btn').forEach(button => {
+    button.addEventListener('click', e => {
+      const index = parseInt(
+        e.target.dataset.index ||
+          e.target.closest('.load-result-btn').dataset.index,
+        10
+      );
+      loadSavedResult(index);
+    });
+  });
+}
+
+function loadSavedResult(index) {
+  const savedResults = JSON.parse(
+    localStorage.getItem('raceCalculatorResults') || '[]'
+  );
+  if (!savedResults[index]) return;
+
+  const result = savedResults[index];
+
+  // Show loading effect on the button
+  const buttons = document.querySelectorAll('.load-result-btn');
+  buttons.forEach(btn => {
+    if (parseInt(btn.dataset.index, 10) === index) {
+      // Add loading state
+      const originalContent = btn.innerHTML;
+      btn.innerHTML = `
+        <svg class="animate-spin h-4 w-4 text-indigo-700 dark:text-indigo-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span class="ml-1.5">Loading...</span>
+      `;
+
+      // Restore original content after a short delay
+      setTimeout(() => {
+        btn.innerHTML = originalContent;
+      }, 1000);
+    }
+  });
+
+  // Update the name input if it exists
+  if (userNameInput) {
+    userNameInput.value = result.name;
+  }
+
+  // Create a races object to update the display
+  const races = {};
+  result.labels.forEach((label, i) => {
+    races[label] = result.data[i];
+  });
+
+  // Update the display which will also create/update the chart
+  displayResult(races);
+
+  // Scroll to results section
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+}

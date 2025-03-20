@@ -28,6 +28,16 @@ function initializeApp() {
       const success = initializeNodes();
       if (success) {
         calculateRace();
+
+        // Initialize saved results list if it exists
+        if (document.getElementById('savedResultsList')) {
+          // Import dynamically to avoid circular dependencies
+          import('./modules/raceCalculator.js').then(module => {
+            if (typeof module.updateSavedResultsList === 'function') {
+              module.updateSavedResultsList();
+            }
+          });
+        }
       }
     }
   }, 100);
