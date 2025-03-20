@@ -1,7 +1,15 @@
 import { showWarning, hideWarning } from './uiHandlers.js';
 
 // Instead of global constants, we'll get fresh elements when needed
-let motherNode, fatherNode, raceBreakdown, entryTemplate, downloadButton, userNameInput, nameError, downloadSpinner, downloadSuccess;
+let motherNode,
+  fatherNode,
+  raceBreakdown,
+  entryTemplate,
+  downloadButton,
+  userNameInput,
+  nameError,
+  downloadSpinner,
+  downloadSuccess;
 
 // Initialize DOM references
 function initializeDOMReferences() {
@@ -14,12 +22,16 @@ function initializeDOMReferences() {
   nameError = document.getElementById('nameError');
   downloadSpinner = document.getElementById('downloadSpinner');
   downloadSuccess = document.getElementById('downloadSuccess');
-  
+
   if (!motherNode || !fatherNode || !entryTemplate) {
-    console.error('Critical race calculator elements not found:', { motherNode, fatherNode, entryTemplate });
+    console.error('Critical race calculator elements not found:', {
+      motherNode,
+      fatherNode,
+      entryTemplate,
+    });
     return false;
   }
-  
+
   return true;
 }
 
@@ -30,12 +42,11 @@ export function initializeNodes() {
   if (!initializeDOMReferences()) {
     return false;
   }
-  
+
   // Add initial race entries and set up event listeners
   [motherNode, fatherNode].forEach(node => {
-
     addRaceEntry(node);
-    
+
     const addButton = node.querySelector('.add-entry');
     if (addButton) {
       addButton.addEventListener('click', () => {
@@ -47,32 +58,119 @@ export function initializeNodes() {
   if (downloadButton) {
     downloadButton.addEventListener('click', downloadResults);
   }
-  
+
   if (userNameInput) {
     userNameInput.addEventListener('input', validateName);
   }
-  
+
+  // Initialize sample race buttons
+  initializeSampleRaceButtons();
+
   return true;
+}
+
+function initializeSampleRaceButtons() {
+  const sampleButtons = document.querySelectorAll('.sample-race-btn');
+  let hasClickedOnce = false;
+
+  sampleButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      try {
+        // Stop the pulse animation after first click on any button
+        if (!hasClickedOnce) {
+          document.querySelectorAll('.pulse-attention').forEach(el => {
+            el.classList.remove('pulse-attention');
+          });
+          hasClickedOnce = true;
+        }
+
+        const racesData = JSON.parse(button.getAttribute('data-races'));
+
+        // Process both parents if data is available
+        if (racesData && racesData.mother && racesData.father) {
+          populateParentRaces('mother', racesData.mother);
+          populateParentRaces('father', racesData.father);
+
+          // Calculate the race after both parents are populated
+          debouncedCalculateRace();
+        }
+      } catch (error) {
+        console.error('Error applying sample race:', error);
+      }
+    });
+  });
+}
+
+function populateParentRaces(parentId, racesData) {
+  if (!Array.isArray(racesData) || racesData.length === 0) {
+    return;
+  }
+
+  const parentNode = document.getElementById(parentId);
+  if (!parentNode) {
+    return;
+  }
+
+  // Clear existing entries except for the first one
+  const entriesContainer = parentNode.querySelector('.race-entries');
+  if (!entriesContainer) {
+    return;
+  }
+
+  while (entriesContainer.children.length > 1) {
+    entriesContainer.removeChild(entriesContainer.lastChild);
+  }
+
+  // Fill the first entry
+  const firstEntry = entriesContainer.querySelector('.race-entry');
+  if (firstEntry) {
+    const raceInput = firstEntry.querySelector('.race-input');
+    const percentInput = firstEntry.querySelector('.percent-input');
+
+    if (raceInput && percentInput && racesData[0]) {
+      raceInput.value = racesData[0].race;
+      percentInput.value = racesData[0].percent;
+    }
+  }
+
+  // Add additional entries for remaining races
+  for (let i = 1; i < racesData.length; i++) {
+    addRaceEntry(parentNode);
+    const entryElement = entriesContainer.lastElementChild;
+
+    if (entryElement) {
+      const raceInput = entryElement.querySelector('.race-input');
+      const percentInput = entryElement.querySelector('.percent-input');
+
+      if (raceInput && percentInput) {
+        raceInput.value = racesData[i].race;
+        percentInput.value = racesData[i].percent;
+      }
+    }
+  }
+
+  // Update UI for this parent
+  checkScrolling(entriesContainer);
 }
 
 export function addRaceEntry(parentNode) {
   const entriesContainer = parentNode.querySelector('.race-entries');
-  
+
   if (!entriesContainer || !entryTemplate) {
     return;
   }
-  
+
   // Generate a unique ID for this entry
   const uniqueId = Date.now() + Math.floor(Math.random() * 1000);
-  
+
   // Clone the template
   const newEntry = document.importNode(entryTemplate.content, true);
-  
+
   // Replace the {{id}} placeholders with the unique ID
   newEntry.querySelectorAll('[id*="{{id}}"]').forEach(el => {
     el.id = el.id.replace('{{id}}', uniqueId);
   });
-  
+
   // Add the entry to the container
   entriesContainer.appendChild(newEntry);
 
@@ -82,8 +180,8 @@ export function addRaceEntry(parentNode) {
   // Update UI
   checkScrolling(entriesContainer);
   debouncedCalculateRace();
-  
 
+  return newEntry;
 }
 
 function setupEntryListeners(entry) {
@@ -292,12 +390,12 @@ function generateColorPalette(count) {
     '#F97316', // Orange
     '#84CC16', // Lime
     '#06B6D4', // Cyan
-    '#9333EA'  // Violet
+    '#9333EA', // Violet
   ];
 
   // If we need more colors than our base set, generate additional ones
   let colors = [...baseColors];
-  
+
   if (count > baseColors.length) {
     for (let i = baseColors.length; i < count; i++) {
       // Use golden ratio to get evenly distributed colors
@@ -305,12 +403,12 @@ function generateColorPalette(count) {
       const h = (i * 0.618033988749895) % 1;
       const s = 0.7; // Saturation at 70%
       const l = 0.6; // Lightness at 60%
-      
+
       // Convert HSL to hex color
       colors.push(hslToHex(h * 360, s * 100, l * 100));
     }
   }
-  
+
   return colors.slice(0, count);
 }
 
@@ -327,17 +425,17 @@ function hslToHex(h, s, l) {
     const hue2rgb = (p, q, t) => {
       if (t < 0) t += 1;
       if (t > 1) t -= 1;
-      if (t < 1/6) return p + (q - p) * 6 * t;
-      if (t < 1/2) return q;
-      if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+      if (t < 1 / 6) return p + (q - p) * 6 * t;
+      if (t < 1 / 2) return q;
+      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
       return p;
     };
 
     const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
     const p = 2 * l - q;
-    r = hue2rgb(p, q, h + 1/3);
+    r = hue2rgb(p, q, h + 1 / 3);
     g = hue2rgb(p, q, h);
-    b = hue2rgb(p, q, h - 1/3);
+    b = hue2rgb(p, q, h - 1 / 3);
   }
 
   const toHex = x => {
@@ -366,7 +464,14 @@ function validateName() {
 }
 
 function downloadResults() {
-  if (!raceBreakdown || !downloadButton || !userNameInput || !nameError || !downloadSpinner || !downloadSuccess)
+  if (
+    !raceBreakdown ||
+    !downloadButton ||
+    !userNameInput ||
+    !nameError ||
+    !downloadSpinner ||
+    !downloadSuccess
+  )
     return;
 
   const nameValue = userNameInput.value.trim();

@@ -166,6 +166,26 @@
       }]
     }
   </script>
+
+  <style>
+    @keyframes gentle-pulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .pulse-attention {
+      animation: gentle-pulse 2s infinite;
+    }
+  </style>
 </head>
 
 <body
@@ -175,9 +195,21 @@
     <div
       class="race-entry race-entry-template bg-white dark:bg-gray-800 rounded-md shadow-sm flex items-center border border-gray-200 dark:border-gray-700">
       <label for="race-input-{{id}}" class="sr-only">Race</label>
-      <input type="text" id="race-input-{{id}}" placeholder="Race"
+      <input type="text" id="race-input-{{id}}" placeholder="Race (e.g. Asian)" list="race-suggestions-{{id}}"
         class="race-input w-full p-2 rounded-l-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400 focus:outline-none transition-colors"
         required>
+      <datalist id="race-suggestions-{{id}}">
+        <option value="African">
+        <option value="African American">
+        <option value="Asian">
+        <option value="Caucasian">
+        <option value="European">
+        <option value="Hispanic">
+        <option value="Latino">
+        <option value="Middle Eastern">
+        <option value="Native American">
+        <option value="Pacific Islander">
+      </datalist>
       <label for="percent-input-{{id}}" class="sr-only">Percentage</label>
       <input type="number" id="percent-input-{{id}}" placeholder="%" min="0" max="100"
         class="percent-input w-20 p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400 focus:outline-none transition-colors text-center"
@@ -290,6 +322,44 @@
               understand your deeper heritage.
             </p>
           </div>
+        </div>
+      </div>
+
+      <!-- Add sample race combinations section here -->
+      <div class="my-4">
+        <h3 class="text-lg font-bold mb-2 text-indigo-800 dark:text-white">Choose a Sample Mix:</h3>
+        <p class="text-indigo-700 dark:text-white text-xs mb-2 font-medium">👇 Click any button to try a sample!</p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+          <button type="button"
+            class="sample-race-btn pulse-attention px-3 py-1.5 bg-white dark:bg-gray-800 shadow-sm hover:shadow active:scale-95 rounded-md text-sm font-medium transition-all duration-200 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center gap-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
+            data-races='{"mother":[{"race":"African","percent":50},{"race":"European","percent":50}],"father":[{"race":"African","percent":25},{"race":"European","percent":75}]}'>
+            <span class="emoji text-base">👨‍👩‍👧</span>
+            African/European
+          </button>
+          <button type="button"
+            class="sample-race-btn px-3 py-1.5 bg-white dark:bg-gray-800 shadow-sm hover:shadow active:scale-95 rounded-md text-sm font-medium transition-all duration-200 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center gap-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
+            data-races='{"mother":[{"race":"Asian","percent":50},{"race":"Caucasian","percent":50}],"father":[{"race":"Asian","percent":75},{"race":"European","percent":25}]}'>
+            <span class="emoji text-base">👨‍👩‍👦</span>
+            Asian/Caucasian
+          </button>
+          <button type="button"
+            class="sample-race-btn px-3 py-1.5 bg-white dark:bg-gray-800 shadow-sm hover:shadow active:scale-95 rounded-md text-sm font-medium transition-all duration-200 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center gap-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
+            data-races='{"mother":[{"race":"Hispanic","percent":50},{"race":"Native American","percent":50}],"father":[{"race":"European","percent":50},{"race":"Hispanic","percent":50}]}'>
+            <span class="emoji text-base">👨‍👩‍👧‍👦</span>
+            Hispanic/Native
+          </button>
+          <button type="button"
+            class="sample-race-btn px-3 py-1.5 bg-white dark:bg-gray-800 shadow-sm hover:shadow active:scale-95 rounded-md text-sm font-medium transition-all duration-200 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center gap-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
+            data-races='{"mother":[{"race":"Asian","percent":100}],"father":[{"race":"African","percent":100}]}'>
+            <span class="emoji text-base">👪</span>
+            Asian & African
+          </button>
+          <button type="button"
+            class="sample-race-btn px-3 py-1.5 bg-white dark:bg-gray-800 shadow-sm hover:shadow active:scale-95 rounded-md text-sm font-medium transition-all duration-200 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center gap-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
+            data-races='{"mother":[{"race":"Native American","percent":75},{"race":"European","percent":25}],"father":[{"race":"African American","percent":50},{"race":"Hispanic","percent":50}]}'>
+            <span class="emoji text-base">🌈</span>
+            Super Mix
+          </button>
         </div>
       </div>
     </header>
