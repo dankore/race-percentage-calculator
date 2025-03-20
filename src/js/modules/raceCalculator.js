@@ -9,7 +9,8 @@ let motherNode,
   userNameInput,
   nameError,
   downloadSpinner,
-  downloadSuccess;
+  downloadSuccess,
+  resetRaceButton;
 
 // Initialize DOM references
 function initializeDOMReferences() {
@@ -22,6 +23,7 @@ function initializeDOMReferences() {
   nameError = document.getElementById('nameError');
   downloadSpinner = document.getElementById('downloadSpinner');
   downloadSuccess = document.getElementById('downloadSuccess');
+  resetRaceButton = document.getElementById('resetRaceButton');
 
   if (!motherNode || !fatherNode || !entryTemplate) {
     console.error('Critical race calculator elements not found:', {
@@ -61,6 +63,10 @@ export function initializeNodes() {
 
   if (userNameInput) {
     userNameInput.addEventListener('input', validateName);
+  }
+
+  if (resetRaceButton) {
+    resetRaceButton.addEventListener('click', resetRaceEntries);
   }
 
   // Initialize sample race buttons
@@ -698,6 +704,52 @@ function downloadResults() {
         downloadButton.disabled = false;
       });
   }, 100);
+}
+
+// Function to reset race entries to default
+function resetRaceEntries() {
+  if (!motherNode || !fatherNode) return;
+
+  [motherNode, fatherNode].forEach(node => {
+    // Get the race entries container
+    const entriesContainer = node.querySelector('.race-entries');
+    if (!entriesContainer) return;
+
+    // Clear existing entries
+    entriesContainer.innerHTML = '';
+
+    // Add a single empty entry
+    addRaceEntry(node);
+
+    // Update UI for this parent
+    checkScrolling(entriesContainer);
+  });
+
+  // Clear the results
+  if (raceBreakdown) {
+    raceBreakdown.innerHTML = '';
+  }
+
+  // Clear the chart
+  if (window.raceChart instanceof Chart) {
+    window.raceChart.data.labels = [];
+    window.raceChart.data.datasets[0].data = [];
+    window.raceChart.update();
+  }
+
+  // Hide the floating results bar
+  const floatingResults = document.getElementById('floatingResults');
+  if (floatingResults) {
+    floatingResults.classList.remove('visible');
+  }
+
+  // Disable the download button
+  if (downloadButton) {
+    downloadButton.disabled = true;
+  }
+
+  // Clear any warnings
+  hideWarning();
 }
 
 export { debouncedCalculateRace as calculateRace };
