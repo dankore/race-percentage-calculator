@@ -25,8 +25,6 @@ function setupDropdown() {
   const button = document.getElementById('resources-dropdown-button');
   const menu = document.getElementById('resources-dropdown-menu');
 
-  console.log('Setting up dropdown:', button, menu);
-
   if (!button || !menu) {
     // Elements not found, perhaps try again later
     setTimeout(setupDropdown, 100);
