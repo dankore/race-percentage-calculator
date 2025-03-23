@@ -1,3 +1,23 @@
 /node_modules
 /yarn-error.log
 /dist
+
+
+# Android/Bubblewrap files
+.gradle/
+app/
+gradle/
+build.gradle
+gradle.properties
+gradlew
+gradlew.bat
+settings.gradle
+*.apk
+*.aab
+*.idsig
+app-release-*
+manifest-checksum.txt
+store_icon.png
+
+# Android keystore (contains sensitive signing information)
+android.keystore

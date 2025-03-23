@@ -1,0 +1,74 @@
+{
+  "packageId": "com.dankoresoft.race_calculator.twa",
+  "host": "race-calculator.dankoresoft.com",
+  "name": "Race Percentage Calculator",
+  "launcherName": "Race%Calc",
+  "display": "standalone",
+  "themeColor": "#FFFFFF",
+  "themeColorDark": "#000000",
+  "navigationColor": "#000000",
+  "navigationColorDark": "#000000",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#FFFFFF",
+  "enableNotifications": true,
+  "startUrl": "/",
+  "iconUrl": "https://race-calculator.dankoresoft.com/assets/images/icons/android-icon-512x512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "/Users/dankore/sources/race-percentage-calculator/android.keystore",
+    "alias": "android"
+  },
+  "appVersionName": "2",
+  "appVersionCode": 2,
+  "shortcuts": [
+    {
+      "name": "Blog",
+      "shortName": "Blog",
+      "url": "/blog",
+      "chosenIconUrl": "https://race-calculator.dankoresoft.com/assets/images/icons/android-icon-96x96.png"
+    },
+    {
+      "name": "Genealogy Tips",
+      "shortName": "Genealogy",
+      "url": "/blog/genealogy-research-tips",
+      "chosenIconUrl": "https://race-calculator.dankoresoft.com/assets/images/icons/android-icon-96x96.png"
+    },
+    {
+      "name": "DNA Tests",
+      "shortName": "DNA Tests",
+      "url": "/blog/understanding-dna-tests",
+      "chosenIconUrl": "https://race-calculator.dankoresoft.com/assets/images/icons/android-icon-96x96.png"
+    },
+    {
+      "name": "Cultural Heritage",
+      "shortName": "Heritage",
+      "url": "/blog/cultural-heritage-resources",
+      "chosenIconUrl": "https://race-calculator.dankoresoft.com/assets/images/icons/android-icon-96x96.png"
+    }
+  ],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://race-calculator.dankoresoft.com/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {
+    "playBilling": {
+      "enabled": true
+    },
+    "locationDelegation": {
+      "enabled": true
+    }
+  },
+  "alphaDependencies": {
+    "enabled": true
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://race-calculator.dankoresoft.com/",
+  "minSdkVersion": 21,
+  "orientation": "portrait",
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "appVersion": "2"
+}
