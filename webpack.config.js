@@ -125,17 +125,54 @@ module.exports = (env, argv) => {
             from: 'src/assets/images/icons/manifest.json',
             to: 'manifest.json',
           },
+          { 
+            from: 'src/.well-known',
+            to: '.well-known',
+          },
         ],
       }),
       new GenerateSW({
         clientsClaim: true,
         skipWaiting: true,
+        swDest: 'service-worker.js',
         runtimeCaching: [
           {
             urlPattern: new RegExp(
               '^https://race-calculator\\.dankoresoft\\.com/'
             ),
             handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'site-cache',
+              expiration: {
+                maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+              },
+            },
+          },
+          {
+            urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'images-cache',
+              expiration: {
+                maxEntries: 60,
+                maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+              },
+            },
+          },
+          {
+            urlPattern: /\.(?:js|css)$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'static-resources',
+            },
+          },
+          {
+            urlPattern: /^https?:\/\//,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'external-resources',
+              networkTimeoutSeconds: 10,
+            },
           },
         ],
       })
