@@ -41,7 +41,6 @@ function setupDropdown() {
 
     // Toggle the hidden class
     const isHidden = menu.classList.contains('hidden');
-    console.log('Menu hidden?', isHidden);
 
     if (isHidden) {
       // Show the menu
@@ -52,11 +51,9 @@ function setupDropdown() {
       menu.style.position = 'absolute';
       menu.style.top = `${buttonRect.bottom + window.scrollY}px`;
       menu.style.left = `${buttonRect.left}px`;
-      console.log('Menu should now be visible');
     } else {
       // Hide the menu
       menu.classList.add('hidden');
-      console.log('Menu should now be hidden');
     }
   });
 
@@ -94,5 +91,4 @@ function setupDropdown() {
     }
   });
 
-  console.log('Dropdown setup complete');
 }

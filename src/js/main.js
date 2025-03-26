@@ -5,6 +5,7 @@ import { setupHeaderDropdown } from './modules/headerManager.js';
 import { setupSocialSharing } from './modules/socialSharing.js';
 import { setupAnalytics } from './modules/analytics.js';
 import { setupBackToTop } from './modules/backToTop.js';
+import { initializeUIEnhancements } from './modules/uiEnhancements.js';
 
 function setDynamicYear() {
   const yearElement = document.querySelector('.copyright-year');
@@ -20,6 +21,7 @@ function initializeApp() {
   setupHeaderDropdown();
   setupSocialSharing();
   setupBackToTop();
+  initializeUIEnhancements();
   setDynamicYear();
 
   // Initialize race calculator with a slight delay to ensure DOM is ready
