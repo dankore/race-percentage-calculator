@@ -535,6 +535,54 @@
   background-color: rgba(31, 41, 55, 0.5);
 }
 
+/* Race pills styling in the floating results bar */
+.race-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  max-height: 60px;
+  overflow-y: auto;
+  padding-right: 0.3rem;
+  scrollbar-width: thin;
+}
+
+.race-pills::-webkit-scrollbar {
+  width: 4px;
+}
+
+.race-pills::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.race-pills::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.dark .race-pills::-webkit-scrollbar-track {
+  background: #374151;
+}
+
+.dark .race-pills::-webkit-scrollbar-thumb {
+  background: #4B5563;
+}
+
+.race-pill {
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  background-color: #EEF0FE;
+  color: #4E28BC;
+  white-space: nowrap;
+  margin-bottom: 0.2rem;
+}
+
+.dark .race-pill {
+  background-color: #374151;
+  color: #C0B6FC;
+}
+
 @media (max-width: 768px) {
   .ad-wrapper {
     height: 300px;

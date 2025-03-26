@@ -423,18 +423,25 @@ function updateFloatingResultsBar(races) {
     window.miniRaceChart.destroy();
   }
 
-  // Get top 3 races or all if less than 3
+  // Get all races sorted by percentage
   const sortedRaces = Object.entries(races)
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 3);
+    .filter(([_, percent]) => percent > 0); // Only include races with percentage > 0
 
-  // Create pills for top races
+  // Create pills for all races
   sortedRaces.forEach(([race, percent]) => {
     const pill = document.createElement('span');
     pill.className = 'race-pill';
     pill.textContent = `${race}: ${percent.toFixed(1)}%`;
     floatingRacePills.appendChild(pill);
   });
+  
+  // Add a pill indicating the total number of races if there are many
+  if (sortedRaces.length > 5) {
+    floatingRacePills.classList.add('has-many-races');
+  } else {
+    floatingRacePills.classList.remove('has-many-races');
+  }
 
   // Create mini chart
   window.miniRaceChart = new Chart(miniChartCtx, {
