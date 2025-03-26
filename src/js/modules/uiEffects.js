@@ -333,8 +333,8 @@ function setupFloatingActionButton() {
           }
         }
         else if (button.id === 'fab-share') {
-          // Find and click the share button
-          const shareButton = document.querySelector('#copyShareLinkBtn');
+          // Find and click the Twitter share button
+          const shareButton = document.querySelector('button[data-share="twitter"]');
           if (shareButton) {
             shareButton.click();
           } else {
