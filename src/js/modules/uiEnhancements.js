@@ -138,7 +138,6 @@ function initializeUIEnhancements() {
   document.addEventListener('DOMContentLoaded', () => {
     initializeFirstTimeGuide();
     setupSmoothScrolling();
-    console.log('UI Enhancements initialized');
   });
 }
 

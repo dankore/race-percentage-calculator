@@ -55,7 +55,6 @@ export function setupAnalytics() {
       'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7174503033473057';
     adsScript.crossOrigin = 'anonymous';
     adsScript.onload = function () {
-      console.log('Google Ads script loaded successfully');
       initializeGoogleAds();
     };
     document.head.appendChild(adsScript);

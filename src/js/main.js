@@ -6,6 +6,7 @@ import { setupSocialSharing } from './modules/socialSharing.js';
 import { setupAnalytics } from './modules/analytics.js';
 import { setupBackToTop } from './modules/backToTop.js';
 import { initializeUIEnhancements } from './modules/uiEnhancements.js';
+import { setupEnhancedUI } from './modules/uiEffects.js';
 
 function setDynamicYear() {
   const yearElement = document.querySelector('.copyright-year');
@@ -19,6 +20,7 @@ function initializeApp() {
   setupThemeToggle();
   setupUIHandlers();
   setupHeaderDropdown();
+  setupEnhancedUI();
   setupSocialSharing();
   setupBackToTop();
   initializeUIEnhancements();

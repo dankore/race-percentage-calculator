@@ -12,7 +12,7 @@ export function setupBackToTop() {
 
   // Add classes for styling
   backToTopBtn.className =
-    'fixed bottom-6 right-6 z-50 p-3 rounded-full bg-indigo-600 dark:bg-indigo-500 text-white shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none transform hover:-translate-y-1';
+    'fixed bottom-6 left-6 z-[1002] p-3 rounded-full bg-indigo-600 dark:bg-indigo-500 text-white shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none transform hover:-translate-y-1';
 
   // Add to DOM
   document.body.appendChild(backToTopBtn);
