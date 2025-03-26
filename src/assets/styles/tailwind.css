@@ -499,9 +499,55 @@
 }
 
 .ad-multiplex {
-  display: block;
+  min-height: 250px;
+  height: 100% !important;
+  overflow: hidden;
+  display: block !important;
+  margin: 0 auto;
+  max-width: 100%;
+  width: 100%;
 }
 
 .ad-autorelaxed {
+  min-height: 280px;
+  height: 100% !important;
+  overflow: hidden;
+  display: block !important;
+  margin: 0 auto;
+  max-width: 100%;
+  width: 100%;
+}
+
+.ad-wrapper {
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 0;
+  margin: 0 auto;
+  width: 100%;
+  height: 300px;
+  max-width: 100%;
   display: block;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.dark .ad-wrapper {
+  background-color: rgba(31, 41, 55, 0.5);
+}
+
+@media (max-width: 768px) {
+  .ad-wrapper {
+    height: 300px;
+  }
+  
+  .ad-multiplex,
+  .ad-autorelaxed {
+    height: 100% !important;
+    min-height: 300px;
+  }
+  
+  [data-ad-format="multiplex"],
+  [data-ad-format="autorelaxed"] {
+    height: 100% !important;
+  }
 }
