@@ -8,6 +8,7 @@ function initializeFirstTimeGuide() {
   const firstTimeGuide = document.getElementById('first-time-guide');
   const showGuideButton = document.getElementById('show-guide');
   const closeGuideButton = document.getElementById('close-guide');
+  const closeGuideAltButton = document.getElementById('close-guide-alt');
   const dontShowAgainButton = document.getElementById('dont-show-again');
   const startUsingButton = document.getElementById('start-using');
   const americanMixButton = document.getElementById('guide-american-mix');
@@ -44,6 +45,15 @@ function initializeFirstTimeGuide() {
     });
   }
 
+  if (closeGuideAltButton) {
+    closeGuideAltButton.addEventListener('click', () => {
+      if (firstTimeGuide) {
+        firstTimeGuide.classList.remove('flex');
+        firstTimeGuide.classList.add('hidden');
+      }
+    });
+  }
+
   if (dontShowAgainButton) {
     dontShowAgainButton.addEventListener('click', () => {
       if (firstTimeGuide) {
@@ -71,7 +81,7 @@ function initializeFirstTimeGuide() {
         firstTimeGuide.classList.remove('flex');
         firstTimeGuide.classList.add('hidden');
       }
-      
+
       // Find and click the African/European Mix button (first sample button)
       const sampleButtons = document.querySelectorAll('.sample-race-btn');
       if (sampleButtons.length > 0) {
@@ -88,7 +98,7 @@ function initializeFirstTimeGuide() {
         firstTimeGuide.classList.remove('flex');
         firstTimeGuide.classList.add('hidden');
       }
-      
+
       // Find and click the Super Mix button (last sample button)
       const sampleButtons = document.querySelectorAll('.sample-race-btn');
       if (sampleButtons.length > 0) {
@@ -102,25 +112,25 @@ function initializeFirstTimeGuide() {
 // Smooth scrolling for anchor links
 function setupSmoothScrolling() {
   const quickNavLinks = document.querySelectorAll('#quick-nav a[href^="#"]');
-  
+
   quickNavLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
+    link.addEventListener('click', function (e) {
       e.preventDefault();
-      
+
       const targetId = this.getAttribute('href');
       const targetElement = document.querySelector(targetId);
-      
+
       if (targetElement) {
         // Add a highlight effect when scrolled to
         const originalBackground = targetElement.style.backgroundColor;
         targetElement.style.transition = 'background-color 0.5s ease';
-        
+
         // Scroll to element with offset for header
         window.scrollTo({
           top: targetElement.offsetTop - 80,
-          behavior: 'smooth'
+          behavior: 'smooth',
         });
-        
+
         // Highlight effect
         setTimeout(() => {
           targetElement.style.backgroundColor = 'rgba(79, 70, 229, 0.1)';
