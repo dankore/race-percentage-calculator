@@ -1788,11 +1788,18 @@
                     Generate results to see your card preview.
                   </div>
                   <div>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">
-                      Embed snippet
-                    </p>
+                    <div class="flex items-center justify-between gap-3 mb-1">
+                      <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                        Embed snippet
+                      </p>
+                      <button id="storyCardEmbedToggle" type="button" aria-controls="storyCardEmbedCode"
+                        aria-expanded="false"
+                        class="text-xs font-semibold text-indigo-600 dark:text-indigo-300 hover:text-indigo-700 dark:hover:text-indigo-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 rounded-lg px-3 py-1 transition">
+                        Show embed snippet
+                      </button>
+                    </div>
                     <pre id="storyCardEmbedCode"
-                      class="text-[11px] leading-4 bg-gray-900 text-gray-100 rounded-2xl p-3 overflow-x-auto">
+                      class="hidden text-[11px] leading-4 bg-gray-900 text-gray-100 rounded-2xl p-3 overflow-x-auto">
 Run the generator to view the HTML snippet.</pre>
                   </div>
                 </div>

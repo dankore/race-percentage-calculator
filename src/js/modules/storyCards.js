@@ -41,6 +41,7 @@ export function setupStoryCards() {
   wirePalettePicker();
   wireInputs();
   wireActions();
+  wireEmbedToggle();
   updateStoryCardStatus('Run a calculation to unlock story cards.', 'idle');
 
   document.addEventListener('race-results-ready', event => {
@@ -69,6 +70,7 @@ function cacheElements() {
   els.ctaInput = document.getElementById('storyCardCTA');
   els.preview = document.getElementById('storyCardPreview');
   els.embedCode = document.getElementById('storyCardEmbedCode');
+  els.embedToggle = document.getElementById('storyCardEmbedToggle');
   els.generateButton = document.getElementById('storyCardGenerate');
   els.downloadButton = document.getElementById('storyCardDownload');
   els.copyButton = document.getElementById('storyCardCopyEmbed');
@@ -108,6 +110,22 @@ function wireActions() {
   if (els.copyButton) {
     els.copyButton.addEventListener('click', copyEmbedMarkup);
   }
+}
+
+function wireEmbedToggle() {
+  if (!els.embedToggle || !els.embedCode) return;
+
+  const setToggleState = isHidden => {
+    els.embedToggle.textContent = isHidden ? 'Show embed snippet' : 'Hide embed snippet';
+    els.embedToggle.setAttribute('aria-expanded', String(!isHidden));
+  };
+
+  setToggleState(els.embedCode.classList.contains('hidden'));
+
+  els.embedToggle.addEventListener('click', () => {
+    const nowHidden = els.embedCode.classList.toggle('hidden');
+    setToggleState(nowHidden);
+  });
 }
 
 let renderTimeout;
