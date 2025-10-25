@@ -76,69 +76,79 @@
 
 <body
   class="bg-gradient-to-br from-indigo-100 to-purple-200 dark:from-gray-900 dark:to-gray-800 min-h-screen font-sans">
-  <div class="container mx-auto px-4 py-8 max-w-6xl">
-    <header class="mb-12">
-      <div
-        class="bg-gradient-to-r from-indigo-600 to-purple-700 text-white p-6 sm:p-8 rounded-lg shadow-xl relative overflow-hidden border border-indigo-400 backdrop-blur-sm">
-        <div
-          class="absolute top-0 right-0 w-64 h-64 bg-indigo-200 opacity-10 rounded-full -mt-16 -mr-16 pointer-events-none">
-        </div>
-        <div
-          class="absolute bottom-0 left-0 w-48 h-48 bg-white opacity-5 rounded-full -mb-12 -ml-12 pointer-events-none">
-        </div>
-        <div
-          class="absolute top-1/2 left-1/4 w-32 h-32 bg-indigo-300 opacity-10 rounded-full transform -translate-x-1/2 -translate-y-1/2 pointer-events-none blur-xl">
-        </div>
-        <div class="container mx-auto">
-          <div class="flex flex-col md:flex-row items-center justify-between">
-            <div class="flex items-center mb-4 md:mb-0">
-              <img src="/assets/images/logos/logo.png" alt="Race Percentage Calculator Logo"
-                class="w-16 h-16 bg-white p-1 rounded-full shadow-lg self-start mt-1 border-2 border-indigo-300 transition-all duration-300 hover:scale-105" />
-              <div class="ml-3">
-                <h1 class="text-3xl sm:text-4xl font-bold leading-tight">
-                  Race Percentage Calculator
-                </h1>
-                <h2 class="text-xl sm:text-2xl text-indigo-200">
-                  Blog
-                </h2>
-              </div>
+  <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+    <div class="max-w-6xl mx-auto px-4 py-4">
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div class="flex items-center gap-3">
+            <img src="/assets/images/logos/logo.png" alt="Race Percentage Calculator logo"
+              class="w-12 h-12 bg-indigo-50 dark:bg-gray-800 p-1.5 rounded-xl shadow-md border border-indigo-200 dark:border-gray-700">
+            <div class="leading-tight">
+              <p class="text-sm font-semibold tracking-wide text-indigo-600 dark:text-indigo-300 uppercase">
+                Race Percentage Calculator
+              </p>
+              <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Insights &amp; Guides</p>
             </div>
-            <nav class="flex items-center space-x-4">
-              <a href="/"
-                class="text-white font-medium transition-transform duration-700 hover:translate-y-[-2px]">Home</a>
-              <a href="/blog"
-                class="text-white font-medium transition-transform duration-700 hover:translate-y-[-2px]">Blog</a>
-              <div class="relative z-50" id="resources-dropdown">
+          </div>
+
+          <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
+            <nav class="flex items-center gap-4 text-sm font-semibold text-gray-700 dark:text-gray-200 flex-wrap">
+              <a href="/" class="hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors">Home</a>
+              <a href="/blog/" aria-current="page"
+                class="text-indigo-600 dark:text-indigo-300 transition-colors">Blog</a>
+              <a href="/dna-import/" class="hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors">DNA
+                Import</a>
+              <a href="/multi-generation/"
+                class="hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors">Multi-Generation</a>
+              <div class="relative" id="resources-dropdown">
                 <button
-                  class="text-white flex items-center font-medium transition-transform duration-700 hover:translate-y-[-2px]"
+                  class="flex items-center gap-1 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors"
                   id="resources-dropdown-button">
                   Resources
-                  <svg class="w-4 h-4 ml-1 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                   </svg>
                 </button>
-                <!-- Dropdown menu is rendered at body level to avoid overflow issues -->
               </div>
-              <button id="theme-toggle" aria-label="Toggle Dark Mode"
-                class="bg-white dark:bg-gray-700 text-indigo-600 dark:text-yellow-400 p-2 rounded-full flex items-center justify-center transform focus:outline-none shadow-md relative z-20 transition-transform duration-700 hover:scale-105">
-                <svg id="sun-icon" class="h-6 w-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
-                  </path>
-                </svg>
-                <svg id="moon-icon" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-                </svg>
-              </button>
             </nav>
+
+            <button id="theme-toggle" aria-label="Toggle Dark Mode"
+              class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 dark:bg-gray-700 text-indigo-600 dark:text-yellow-400 shadow-sm transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+              <svg id="sun-icon" class="h-5 w-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                </path>
+              </svg>
+              <svg id="moon-icon" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  d="M17.293 13.293A8 8 0 016.707 2.707 8.001 8.001 0 1017.293 13.293z">
+                </path>
+              </svg>
+            </button>
           </div>
         </div>
       </div>
-    </header>
+    </div>
+  </header>
+
+  <div class="container mx-auto px-4 py-8 max-w-6xl">
+    <section
+      class="relative overflow-hidden rounded-lg border border-indigo-400 bg-gradient-to-r from-indigo-600 to-purple-700 text-white shadow-xl mt-8">
+      <div
+        class="absolute top-0 right-0 w-64 h-64 bg-indigo-200 opacity-10 rounded-full -mt-16 -mr-16 pointer-events-none">
+      </div>
+      <div
+        class="absolute bottom-0 left-0 w-48 h-48 bg-white opacity-5 rounded-full -mb-12 -ml-12 pointer-events-none">
+      </div>
+      <div class="max-w-6xl mx-auto px-6 py-8 sm:px-8 text-center md:text-left">
+        <p class="text-sm font-semibold uppercase tracking-[0.3em] text-indigo-100">Blog Article</p>
+        <h2 class="text-3xl sm:text-4xl font-bold leading-tight">Understanding DNA Tests</h2>
+        <p class="mt-3 max-w-3xl text-indigo-100 text-base sm:text-lg">
+          See what autosomal, Y-DNA, and mtDNA tests reveal about your heritage and how they support family history
+          research.
+        </p>
+      </div>
+    </section>
 
     <main class="bg-white dark:bg-gray-900 rounded-b-lg shadow-lg p-2 sm:p-6">
       <article class="prose lg:prose-xl dark:prose-invert max-w-none">
@@ -292,7 +302,8 @@
       </article>
     </main>
 
-    <footer class="bg-indigo-900 dark:bg-gray-900 text-white p-6 mt-8 shadow-lg rounded-lg">
+    <footer
+      class="bg-indigo-900 dark:bg-gray-900 text-white p-6 mt-8 shadow-lg rounded-lg border-t-2 border-indigo-800 dark:border-gray-800 relative overflow-hidden">
       <div class="container mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
           <div>
@@ -323,18 +334,22 @@
                 <a href="/" class="text-white hover:text-yellow-300 transition-colors duration-300">Home</a>
               </li>
               <li>
-                <a href="/blog" class="text-white hover:text-yellow-300 transition-colors duration-300">Blog</a>
+                <a href="/blog/" class="text-white hover:text-yellow-300 transition-colors duration-300">Blog</a>
               </li>
               <li>
-                <a href="/blog/genealogy-research-tips"
+                <a href="/dna-import/" class="text-white hover:text-yellow-300 transition-colors duration-300">DNA Import
+                  Hub</a>
+              </li>
+              <li>
+                <a href="/blog/genealogy-research-tips/"
                   class="text-white hover:text-yellow-300 transition-colors duration-300">Genealogy Tips</a>
               </li>
               <li>
-                <a href="/blog/understanding-dna-tests"
+                <a href="/blog/understanding-dna-tests/"
                   class="text-white hover:text-yellow-300 transition-colors duration-300">DNA Testing</a>
               </li>
               <li>
-                <a href="/blog/cultural-heritage-resources"
+                <a href="/blog/cultural-heritage-resources/"
                   class="text-white hover:text-yellow-300 transition-colors duration-300">Cultural Heritage</a>
               </li>
             </ul>
@@ -354,7 +369,7 @@
                 </a>
               </li>
               <li>
-                <a href="https://ethnicity-calculator.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://race-calculator.dankoresoft.com" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>Ethnicity Calculator</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -379,8 +394,7 @@
 
         <div class="pt-4 border-t border-indigo-800 dark:border-gray-800">
           <p class="text-center text-white text-sm">
-            © <span class="copyright-year">2024</span>
-            Dankore Software LLC. All rights reserved.
+            © <span class="copyright-year">2024</span> Dankore Software LLC. All rights reserved.
           </p>
         </div>
       </div>
@@ -390,13 +404,16 @@
   <div
     class="fixed hidden mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-[1000] border border-gray-200 dark:border-gray-700"
     id="resources-dropdown-menu">
-    <a href="/blog/genealogy-research-tips"
+    <a href="/dna-import/"
+      class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">DNA
+      Import Hub</a>
+    <a href="/blog/genealogy-research-tips/"
       class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">Genealogy
       Tips</a>
-    <a href="/blog/understanding-dna-tests"
+    <a href="/blog/understanding-dna-tests/"
       class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">DNA
       Testing</a>
-    <a href="/blog/cultural-heritage-resources"
+    <a href="/blog/cultural-heritage-resources/"
       class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">Cultural
       Heritage</a>
   </div>

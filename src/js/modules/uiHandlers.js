@@ -1,4 +1,7 @@
-import { calculateRace } from './raceCalculator.js';
+import {
+  calculateRace,
+  applyGrandparentWeighting,
+} from './raceCalculator.js';
 
 const warningMessageDiv = document.getElementById('warningMessage');
 
@@ -15,7 +18,12 @@ export function hideWarning() {
 
 export function setupUIHandlers() {
   document.addEventListener('input', function (event) {
-    if (event.target.closest('.race-entry')) {
+    const entry = event.target.closest('.race-entry');
+    if (!entry) return;
+
+    if (event.target.closest('.grandparent-node')) {
+      applyGrandparentWeighting({ silent: true });
+    } else {
       calculateRace();
     }
   });
@@ -29,11 +37,15 @@ export function setupUIHandlers() {
         parentNode
           .querySelector('.race-entries')
           .removeChild(entryToDelete);
-        calculateRace();
+        if (parentNode.classList.contains('grandparent-node')) {
+          applyGrandparentWeighting({ silent: true });
+        } else {
+          calculateRace();
+        }
         checkScrolling(parentNode.querySelector('.race-entries'));
       } else {
         showWarning(
-          'Please keep at least one race entry for each parent.'
+          'Please keep at least one race entry for each lineage section.'
         );
       }
     }

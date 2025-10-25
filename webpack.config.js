@@ -4,6 +4,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const fse = require('fs-extra');
 const { GenerateSW } = require('workbox-webpack-plugin');
 const SitemapPlugin = require('sitemap-webpack-plugin').default;
+const TerserPlugin = require('terser-webpack-plugin');
 
 class RunAfterCompile {
   apply(compiler) {
@@ -22,6 +23,10 @@ const pages = [
     template: './src/html/index.html',
   },
   {
+    filename: 'multi-generation/index.html',
+    template: './src/html/multi-generation.html',
+  },
+  {
     filename: 'blog/index.html',
     template: './src/html/blog/index.html',
   },
@@ -37,6 +42,10 @@ const pages = [
     filename: 'blog/cultural-heritage-resources/index.html',
     template: './src/html/blog/cultural-heritage-resources.html',
   },
+  {
+    filename: 'dna-import/index.html',
+    template: './src/html/dna-import.html',
+  },
 ];
 
 const generateHtmlPlugins = () =>
@@ -48,6 +57,12 @@ const paths = [
     lastmod: new Date().toISOString(),
     priority: 1.0,
     changefreq: 'daily',
+  },
+  {
+    path: '/multi-generation',
+    lastmod: new Date().toISOString(),
+    priority: 0.9,
+    changefreq: 'weekly',
   },
   {
     path: '/blog',
@@ -72,6 +87,12 @@ const paths = [
     lastmod: new Date().toISOString(),
     priority: 0.8,
     changefreq: 'monthly',
+  },
+  {
+    path: '/dna-import',
+    lastmod: new Date().toISOString(),
+    priority: 0.85,
+    changefreq: 'weekly',
   },
 ];
 
@@ -106,31 +127,31 @@ module.exports = (env, argv) => {
         headers: sitemapHeaders,
       },
     }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: 'src/assets/images',
+          to: 'assets/images',
+          globOptions: {
+            ignore: ['**/.DS_Store', '**/Thumbs.db'],
+          },
+        },
+        { from: 'src/robots.txt', to: 'robots.txt' },
+        {
+          from: 'src/assets/images/icons/manifest.json',
+          to: 'assets/images/icons/manifest.json',
+        },
+        { 
+          from: 'src/.well-known',
+          to: '.well-known',
+        },
+      ],
+    }),
   ];
 
   if (isProduction) {
     plugins.push(
       new RunAfterCompile(),
-      new CopyPlugin({
-        patterns: [
-          {
-            from: 'src/assets/images',
-            to: 'assets/images',
-            globOptions: {
-              ignore: ['**/.DS_Store', '**/Thumbs.db'],
-            },
-          },
-          { from: 'src/robots.txt', to: 'robots.txt' },
-          {
-            from: 'src/assets/images/icons/manifest.json',
-            to: 'manifest.json',
-          },
-          { 
-            from: 'src/.well-known',
-            to: '.well-known',
-          },
-        ],
-      }),
       new GenerateSW({
         clientsClaim: true,
         skipWaiting: true,
@@ -179,7 +200,7 @@ module.exports = (env, argv) => {
     );
   }
 
-  return {
+  const config = {
     entry: './src/js/main.js',
     output: {
       publicPath: '/',
@@ -219,13 +240,38 @@ module.exports = (env, argv) => {
     },
     plugins,
     devServer: {
-      static: {
-        directory: path.join(__dirname, 'src'),
-      },
+      static: [
+        {
+          directory: path.join(__dirname, 'dist'),
+          publicPath: '/',
+        },
+        {
+          directory: path.join(__dirname, 'src/assets'),
+          publicPath: '/assets',
+        },
+      ],
       compress: true,
       port: 9000,
       hot: true,
-      historyApiFallback: true,
+      historyApiFallback: {
+        rewrites: [
+          { from: /^\/multi-generation$/, to: '/multi-generation/index.html' },
+          { from: /^\/dna-import$/, to: '/dna-import/index.html' },
+          { from: /^\/blog$/, to: '/blog/index.html' },
+          {
+            from: /^\/blog\/genealogy-research-tips$/,
+            to: '/blog/genealogy-research-tips/index.html',
+          },
+          {
+            from: /^\/blog\/understanding-dna-tests$/,
+            to: '/blog/understanding-dna-tests/index.html',
+          },
+          {
+            from: /^\/blog\/cultural-heritage-resources$/,
+            to: '/blog/cultural-heritage-resources/index.html',
+          },
+        ],
+      },
     },
     performance: {
       hints: isProduction ? 'warning' : false,
@@ -246,4 +292,27 @@ module.exports = (env, argv) => {
       },
     },
   };
+
+  if (isProduction) {
+    config.optimization.minimize = true;
+    config.optimization.minimizer = [
+      new TerserPlugin({
+        parallel: false,
+        extractComments: false,
+        terserOptions: {
+          compress: {
+            passes: 2,
+            drop_console: true,
+          },
+          format: {
+            comments: false,
+          },
+        },
+      }),
+    ];
+  } else {
+    config.optimization.minimize = false;
+  }
+
+  return config;
 };

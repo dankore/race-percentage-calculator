@@ -1,5 +1,17 @@
 import { showWarning, hideWarning } from './uiHandlers.js';
 
+const PARENT_IDS = ['mother', 'father'];
+const GRANDPARENT_GROUPS = {
+  mother: ['maternalGrandmother', 'maternalGrandfather'],
+  father: ['paternalGrandmother', 'paternalGrandfather'],
+};
+const ADVANCED_TREE_STORAGE_KEY = 'raceCalculatorAdvancedTree';
+
+const parentWeights = {
+  mother: 0.5,
+  father: 0.5,
+};
+
 // Instead of global constants, we'll get fresh elements when needed
 let motherNode,
   fatherNode,
@@ -11,7 +23,25 @@ let motherNode,
   nameError,
   downloadSpinner,
   downloadSuccess,
-  resetRaceButton;
+  resetRaceButton,
+  advancedToggleButton,
+  advancedPanel,
+  syncGrandparentsButton,
+  advancedStatusMessage,
+  advancedToggleStateLabel,
+  siblingScenarioTemplate,
+  siblingScenarioList,
+  siblingEmptyState,
+  addSiblingScenarioButton,
+  resultsModal,
+  resultsModalBackdrop,
+  resultsModalClose,
+  resultsModalHandle;
+let grandparentNodes = {};
+let debounceTimer;
+let suppressAutoCalculation = false;
+let advancedStatusTimeout;
+let siblingScenarioCounter = 0;
 
 // Initialize DOM references
 function initializeDOMReferences() {
@@ -26,6 +56,29 @@ function initializeDOMReferences() {
   downloadSpinner = document.getElementById('downloadSpinner');
   downloadSuccess = document.getElementById('downloadSuccess');
   resetRaceButton = document.getElementById('resetRaceButton');
+  advancedToggleButton = document.getElementById('advancedFamilyToggle');
+  advancedPanel = document.getElementById('advancedFamilyTree');
+  syncGrandparentsButton = document.getElementById('syncGrandparentsButton');
+  advancedStatusMessage = document.getElementById('advancedStatusMessage');
+  advancedToggleStateLabel = document.getElementById('advancedToggleState');
+  siblingScenarioTemplate = document.getElementById('sibling-scenario-template');
+  siblingScenarioList = document.getElementById('siblingScenarios');
+  siblingEmptyState = document.getElementById('siblingEmptyState');
+  addSiblingScenarioButton = document.getElementById('addSiblingScenario');
+  resultsModal = document.getElementById('resultsModal');
+  resultsModalBackdrop = document.getElementById('resultsModalBackdrop');
+  resultsModalClose = document.getElementById('resultsModalClose');
+  resultsModalHandle = document.getElementById('resultsModalHandle');
+
+  grandparentNodes = {};
+  Object.values(GRANDPARENT_GROUPS).forEach(group => {
+    group.forEach(id => {
+      const node = document.getElementById(id);
+      if (node) {
+        grandparentNodes[id] = node;
+      }
+    });
+  });
 
   if (!motherNode || !fatherNode || !entryTemplate) {
     console.error('Critical race calculator elements not found:', {
@@ -39,8 +92,6 @@ function initializeDOMReferences() {
   return true;
 }
 
-let debounceTimer;
-
 export function initializeNodes() {
   // Get fresh DOM references
   if (!initializeDOMReferences()) {
@@ -48,15 +99,10 @@ export function initializeNodes() {
   }
 
   // Add initial race entries and set up event listeners
-  [motherNode, fatherNode].forEach(node => {
-    addRaceEntry(node);
-
-    const addButton = node.querySelector('.add-entry');
-    if (addButton) {
-      addButton.addEventListener('click', () => {
-        addRaceEntry(node);
-      });
-    }
+  withSuppressedCalculation(() => {
+    getAllEditableNodes().forEach(node => {
+      primeNode(node);
+    });
   });
 
   if (downloadButton) {
@@ -77,8 +123,496 @@ export function initializeNodes() {
 
   // Initialize sample race buttons
   initializeSampleRaceButtons();
+  initializeAdvancedTreeFeatures();
+  initializeParentSummaryUI();
+  initializeResultsModal();
 
   return true;
+}
+
+function getAllEditableNodes() {
+  const nodes = [];
+  if (motherNode) nodes.push(motherNode);
+  if (fatherNode) nodes.push(fatherNode);
+  Object.values(grandparentNodes).forEach(node => nodes.push(node));
+  return nodes;
+}
+
+function primeNode(node) {
+  if (!node) return;
+  const entriesContainer = node.querySelector('.race-entries');
+  if (!entriesContainer) return;
+
+  if (entriesContainer.children.length === 0) {
+    addRaceEntry(node);
+  }
+
+  const addButton = node.querySelector('.add-entry');
+  if (addButton && !addButton.dataset.initialized) {
+    addButton.addEventListener('click', () => addRaceEntry(node));
+    addButton.dataset.initialized = 'true';
+  }
+}
+
+function withSuppressedCalculation(callback) {
+  const previousState = suppressAutoCalculation;
+  suppressAutoCalculation = true;
+  try {
+    callback();
+  } finally {
+    suppressAutoCalculation = previousState;
+  }
+}
+
+function initializeAdvancedTreeFeatures() {
+  if (!advancedPanel) {
+    return;
+  }
+
+  const forceOpen = advancedPanel.dataset.forceOpen === 'true';
+  const storedState =
+    !forceOpen &&
+    typeof localStorage !== 'undefined' &&
+    localStorage.getItem(ADVANCED_TREE_STORAGE_KEY) === '1';
+
+  setAdvancedTreeState(forceOpen || !!storedState);
+
+  if (advancedToggleButton) {
+    advancedToggleButton.addEventListener('click', () => {
+      const isOpen = advancedPanel.getAttribute('data-open') === 'true';
+      setAdvancedTreeState(!isOpen);
+    });
+  } else if (forceOpen) {
+    advancedPanel.classList.remove('hidden');
+    advancedPanel.setAttribute('aria-hidden', 'false');
+    advancedPanel.setAttribute('data-open', 'true');
+    if (advancedToggleStateLabel) {
+      advancedToggleStateLabel.textContent = 'Advanced tree enabled';
+    }
+  }
+
+  if (syncGrandparentsButton) {
+    syncGrandparentsButton.addEventListener('click', () =>
+      applyGrandparentWeighting()
+    );
+  }
+
+  if (addSiblingScenarioButton) {
+    addSiblingScenarioButton.addEventListener('click', addSiblingScenario);
+  }
+
+  updateSiblingEmptyState();
+  initializeAdvancedSamples();
+}
+
+function getParentConfigs() {
+  const configs = [];
+  if (motherNode) {
+    configs.push({
+      id: 'mother',
+      node: motherNode,
+      label: motherNode.dataset.label || "Mother's",
+    });
+  }
+  if (fatherNode) {
+    configs.push({
+      id: 'father',
+      node: fatherNode,
+      label: fatherNode.dataset.label || "Father's",
+    });
+  }
+  return configs;
+}
+
+function readNodeEntries(node) {
+  const entries = [];
+  let totalPercent = 0;
+  let allFieldsFilled = true;
+
+  node.querySelectorAll('.race-entry').forEach(entry => {
+    const raceInput = entry.querySelector('.race-input');
+    const percentInput = entry.querySelector('.percent-input');
+
+    if (!raceInput || !percentInput) {
+      return;
+    }
+
+    const race = raceInput.value.trim();
+    const percent = parseFloat(percentInput.value);
+
+    if (!race || isNaN(percent)) {
+      allFieldsFilled = false;
+      return;
+    }
+
+    entries.push({ race, percent });
+    totalPercent += percent;
+  });
+
+  return { entries, totalPercent, allFieldsFilled };
+}
+
+function resetNodeEntries(node) {
+  if (!node) return;
+  const entriesContainer = node.querySelector('.race-entries');
+  if (!entriesContainer) return;
+
+  entriesContainer.innerHTML = '';
+  addRaceEntry(node);
+  checkScrolling(entriesContainer);
+}
+
+function setAdvancedTreeState(enabled) {
+  if (!advancedPanel) return;
+
+  advancedPanel.classList.toggle('hidden', !enabled);
+  advancedPanel.setAttribute('aria-hidden', (!enabled).toString());
+  advancedPanel.setAttribute('data-open', enabled ? 'true' : 'false');
+
+  if (advancedToggleButton) {
+    advancedToggleButton.setAttribute('aria-pressed', enabled.toString());
+    advancedToggleButton.classList.toggle('ring-2', enabled);
+    advancedToggleButton.classList.toggle('ring-indigo-200', enabled);
+  }
+
+  if (advancedToggleStateLabel) {
+    advancedToggleStateLabel.textContent = enabled
+      ? 'Advanced tree enabled'
+      : 'Currently off';
+  }
+
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem(ADVANCED_TREE_STORAGE_KEY, enabled ? '1' : '0');
+  }
+
+  if (enabled) {
+    updateSiblingSummaries();
+  }
+}
+
+function applyGrandparentWeighting(options = {}) {
+  const { silent = false } = options;
+  let updatedParents = 0;
+
+  Object.entries(GRANDPARENT_GROUPS).forEach(([parentId, group]) => {
+    const parentNode = parentId === 'mother' ? motherNode : fatherNode;
+    if (!parentNode) return;
+
+    const aggregated = {};
+
+    group.forEach(grandparentId => {
+      const grandparentNode = grandparentNodes[grandparentId];
+      if (!grandparentNode) return;
+      const { entries } = readNodeEntries(grandparentNode);
+      entries.forEach(({ race, percent }) => {
+        aggregated[race] = (aggregated[race] || 0) + percent * 0.5;
+      });
+    });
+
+    if (Object.keys(aggregated).length) {
+      setEntriesFromData(parentNode, aggregated);
+      updatedParents += 1;
+    }
+  });
+
+  if (updatedParents > 0) {
+    if (!silent) {
+      showAdvancedStatus(
+        updatedParents === 2
+          ? 'Mother and father mixes now reflect their grandparents.'
+          : 'Parent mix updated from available grandparent data.'
+      );
+    }
+    renderParentSummary();
+    debouncedCalculateRace();
+  } else if (!silent) {
+    showAdvancedStatus('Add grandparent percentages before syncing.');
+  }
+
+  if (silent && updatedParents === 0) {
+    renderParentSummary();
+    toggleResultsHandle(false);
+    hideResultsModal(true);
+  }
+}
+
+function setEntriesFromData(node, raceMap) {
+  if (!node || !raceMap) return;
+  const rows = Object.entries(raceMap)
+    .filter(([, value]) => !isNaN(value) && value > 0)
+    .map(([race, percent]) => ({
+      race,
+      percent: typeof percent === 'number' ? percent : parseFloat(percent),
+    }));
+  setEntriesFromRows(node, rows);
+}
+
+function setEntriesFromRows(node, rows) {
+  if (!node || !Array.isArray(rows)) return;
+  const entriesContainer = node.querySelector('.race-entries');
+  if (!entriesContainer) return;
+
+  const sanitizedRows = rows
+    .map(row => {
+      if (!row) return null;
+      const race =
+        row.race && typeof row.race === 'string'
+          ? row.race.trim()
+          : row.race
+          ? String(row.race).trim()
+          : '';
+      const percentRaw =
+        typeof row.percent === 'number'
+          ? row.percent
+          : parseFloat(row.percent);
+      if (!race || Number.isNaN(percentRaw)) {
+        return null;
+      }
+      const roundedValue =
+        Math.abs(percentRaw - Math.round(percentRaw)) < 0.01
+          ? Math.round(percentRaw)
+          : parseFloat(percentRaw.toFixed(1));
+      return { race, percent: roundedValue };
+    })
+    .filter(Boolean);
+
+  if (!sanitizedRows.length) return;
+
+  withSuppressedCalculation(() => {
+    entriesContainer.innerHTML = '';
+    sanitizedRows.forEach(() => addRaceEntry(node));
+    const renderedEntries = entriesContainer.querySelectorAll('.race-entry');
+    sanitizedRows.forEach((row, index) => {
+      const entry = renderedEntries[index];
+      if (!entry) return;
+      const raceInput = entry.querySelector('.race-input');
+      const percentInput = entry.querySelector('.percent-input');
+      if (raceInput) {
+        raceInput.value = row.race;
+      }
+      if (percentInput) {
+        percentInput.value = row.percent;
+      }
+    });
+    checkScrolling(entriesContainer);
+  });
+}
+
+function clearSiblingScenarios() {
+  if (!siblingScenarioList) return;
+  siblingScenarioList.innerHTML = '';
+  siblingScenarioCounter = 0;
+  updateSiblingEmptyState();
+}
+
+function showAdvancedStatus(message) {
+  if (!advancedStatusMessage) return;
+  advancedStatusMessage.textContent = message;
+  advancedStatusMessage.classList.remove('hidden');
+
+  clearTimeout(advancedStatusTimeout);
+  advancedStatusTimeout = setTimeout(() => {
+    advancedStatusMessage.classList.add('hidden');
+  }, 4000);
+}
+
+function addSiblingScenario(options = {}) {
+  if (!siblingScenarioTemplate || !siblingScenarioList) return;
+  const fragment = document.importNode(siblingScenarioTemplate.content, true);
+  const card = fragment.querySelector('.sibling-card');
+  if (!card) return;
+
+  siblingScenarioCounter += 1;
+  card.dataset.scenarioId = `scenario-${Date.now()}-${siblingScenarioCounter}`;
+
+  const nameInput = card.querySelector('.scenario-name');
+  if (nameInput && (!nameInput.value || nameInput.value === 'Sibling')) {
+    nameInput.value = `Sibling ${siblingScenarioCounter}`;
+  }
+
+  const slider = card.querySelector('.scenario-weight-slider');
+  const motherWeightOutput = card.querySelector('.scenario-mother-weight');
+  const fatherWeightOutput = card.querySelector('.scenario-father-weight');
+  const deleteButton = card.querySelector('.delete-scenario');
+
+  const updateWeights = () => {
+    if (!slider) return;
+    const motherWeight = Number(slider.value) || 0;
+    const fatherWeight = Math.max(0, 100 - motherWeight);
+    if (motherWeightOutput) {
+      motherWeightOutput.textContent = `${motherWeight}%`;
+    }
+    if (fatherWeightOutput) {
+      fatherWeightOutput.textContent = `${fatherWeight}%`;
+    }
+    updateSiblingSummaries();
+  };
+
+  if (slider) {
+    slider.addEventListener('input', updateWeights);
+  }
+
+  if (deleteButton) {
+    deleteButton.addEventListener('click', () => {
+      card.remove();
+      updateSiblingSummaries();
+      updateSiblingEmptyState();
+    });
+  }
+
+  siblingScenarioList.appendChild(card);
+  updateSiblingEmptyState();
+  if (nameInput && typeof options.name === 'string' && options.name.trim()) {
+    nameInput.value = options.name.trim();
+  }
+
+  if (slider && typeof options.motherWeight === 'number') {
+    const clamped = Math.min(100, Math.max(0, Math.round(options.motherWeight)));
+    slider.value = clamped;
+  }
+
+  updateWeights();
+
+  return card;
+}
+
+function initializeAdvancedSamples() {
+  const sampleButtons = document.querySelectorAll('.advanced-sample-btn');
+  if (!sampleButtons.length) return;
+
+  sampleButtons.forEach(button => {
+    if (button.dataset.lineageInitialized === 'true') {
+      return;
+    }
+    button.addEventListener('click', () => {
+      const raw = button.getAttribute('data-lineage-sample');
+      if (!raw) return;
+      try {
+        const sampleData = JSON.parse(raw);
+        const label =
+          button.getAttribute('data-lineage-label') ||
+          (button.querySelector('.advanced-sample-title') &&
+            button
+              .querySelector('.advanced-sample-title')
+              .textContent.trim()) ||
+          button.textContent.trim();
+        applyAdvancedSample(sampleData, label);
+      } catch (error) {
+        console.error('Error applying lineage sample:', error);
+        showAdvancedStatus('Unable to apply that lineage sample right now.');
+      }
+    });
+    button.dataset.lineageInitialized = 'true';
+  });
+}
+
+function applyAdvancedSample(sample, label = '') {
+  if (!sample || typeof sample !== 'object') return;
+
+  setAdvancedTreeState(true);
+
+  withSuppressedCalculation(() => {
+    if (sample.grandparents) {
+      Object.entries(sample.grandparents).forEach(([id, rows]) => {
+        const node = grandparentNodes[id];
+        if (node && Array.isArray(rows)) {
+          setEntriesFromRows(node, rows);
+        }
+      });
+    }
+
+    if (sample.parents) {
+      if (motherNode && Array.isArray(sample.parents.mother)) {
+        setEntriesFromRows(motherNode, sample.parents.mother);
+      }
+      if (fatherNode && Array.isArray(sample.parents.father)) {
+        setEntriesFromRows(fatherNode, sample.parents.father);
+      }
+    }
+  });
+  renderParentSummary();
+
+  if (Array.isArray(sample.siblingScenarios)) {
+    clearSiblingScenarios();
+    sample.siblingScenarios.forEach(scenario => {
+      addSiblingScenario({
+        name:
+          typeof scenario.name === 'string' && scenario.name.trim()
+            ? scenario.name.trim()
+            : undefined,
+        motherWeight:
+          typeof scenario.motherWeight === 'number'
+            ? scenario.motherWeight
+            : undefined,
+      });
+    });
+  } else {
+    clearSiblingScenarios();
+  }
+
+  updateSiblingSummaries();
+  hideWarning();
+  debouncedCalculateRace();
+
+  const message = label
+    ? `Loaded "${label}" lineage sample.`
+    : 'Loaded lineage sample.';
+  showAdvancedStatus(message);
+
+  if (advancedPanel) {
+    setTimeout(() => {
+      advancedPanel.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }, 150);
+  }
+}
+
+function updateSiblingSummaries() {
+  if (!siblingScenarioList) return;
+  const cards = siblingScenarioList.querySelectorAll('.sibling-card');
+  updateSiblingEmptyState();
+  if (!cards.length) return;
+
+  cards.forEach(card => {
+    const slider = card.querySelector('.scenario-weight-slider');
+    const summaryEl = card.querySelector('.scenario-summary');
+    if (!slider || !summaryEl) return;
+
+    const motherWeight = Number(slider.value || 0) / 100;
+    const weights = {
+      mother: motherWeight,
+      father: Math.max(0, 1 - motherWeight),
+    };
+
+    const { races, isValid } = calculateRace(weights);
+
+    if (!isValid || Object.keys(races).length === 0) {
+      summaryEl.textContent =
+        'Complete parent entries to preview this scenario.';
+      return;
+    }
+
+    summaryEl.innerHTML = buildMiniPillMarkup(races);
+  });
+}
+
+function buildMiniPillMarkup(races) {
+  return Object.entries(races)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 4)
+    .map(
+      ([race, percent]) =>
+        `<span class="mini-pill">${race}: ${percent.toFixed(1)}%</span>`
+    )
+    .join('');
+}
+
+function updateSiblingEmptyState() {
+  if (!siblingEmptyState || !siblingScenarioList) return;
+  const hasCards = siblingScenarioList.querySelector('.sibling-card');
+  siblingEmptyState.classList.toggle('hidden', !!hasCards);
 }
 
 function initializeSampleRaceButtons() {
@@ -98,14 +632,56 @@ function initializeSampleRaceButtons() {
 
         const racesData = JSON.parse(button.getAttribute('data-races'));
 
-        // Process both parents if data is available
-        if (racesData && racesData.mother && racesData.father) {
-          populateParentRaces('mother', racesData.mother);
-          populateParentRaces('father', racesData.father);
+        const motherRows =
+          racesData.mother ||
+          (racesData.parents && racesData.parents.mother) ||
+          null;
+        const fatherRows =
+          racesData.father ||
+          (racesData.parents && racesData.parents.father) ||
+          null;
+        const hasGrandparentData =
+          racesData.grandparents &&
+          typeof racesData.grandparents === 'object' &&
+          Object.keys(racesData.grandparents).length > 0;
+        const isLineageSample = button.dataset.lineage === 'true';
 
-          // Calculate the race after both parents are populated
+        if (hasGrandparentData || isLineageSample) {
+          const lineageSample = {};
+
+          if (hasGrandparentData) {
+            lineageSample.grandparents = racesData.grandparents;
+          }
+
+          const lineageParents = {};
+          if (Array.isArray(motherRows)) {
+            lineageParents.mother = motherRows;
+          }
+          if (Array.isArray(fatherRows)) {
+            lineageParents.father = fatherRows;
+          }
+          if (Object.keys(lineageParents).length) {
+            lineageSample.parents = lineageParents;
+          }
+
+          if (Array.isArray(racesData.siblingScenarios)) {
+            lineageSample.siblingScenarios = racesData.siblingScenarios;
+          }
+
+          applyAdvancedSample(lineageSample, button.dataset.sampleLabel || '');
           debouncedCalculateRace();
+          return;
         }
+
+        if (Array.isArray(motherRows)) {
+          populateNodeRaces('mother', motherRows);
+        }
+        if (Array.isArray(fatherRows)) {
+          populateNodeRaces('father', fatherRows);
+        }
+
+        // Calculate the race after entries are populated
+        debouncedCalculateRace();
       } catch (error) {
         console.error('Error applying sample race:', error);
       }
@@ -113,56 +689,27 @@ function initializeSampleRaceButtons() {
   });
 }
 
-function populateParentRaces(parentId, racesData) {
+function populateNodeRaces(nodeId, racesData) {
   if (!Array.isArray(racesData) || racesData.length === 0) {
     return;
   }
 
-  const parentNode = document.getElementById(parentId);
-  if (!parentNode) {
+  let targetNode = null;
+  if (nodeId === 'mother') {
+    targetNode = motherNode;
+  } else if (nodeId === 'father') {
+    targetNode = fatherNode;
+  } else if (grandparentNodes[nodeId]) {
+    targetNode = grandparentNodes[nodeId];
+  } else {
+    targetNode = document.getElementById(nodeId);
+  }
+
+  if (!targetNode) {
     return;
   }
 
-  // Clear existing entries except for the first one
-  const entriesContainer = parentNode.querySelector('.race-entries');
-  if (!entriesContainer) {
-    return;
-  }
-
-  while (entriesContainer.children.length > 1) {
-    entriesContainer.removeChild(entriesContainer.lastChild);
-  }
-
-  // Fill the first entry
-  const firstEntry = entriesContainer.querySelector('.race-entry');
-  if (firstEntry) {
-    const raceInput = firstEntry.querySelector('.race-input');
-    const percentInput = firstEntry.querySelector('.percent-input');
-
-    if (raceInput && percentInput && racesData[0]) {
-      raceInput.value = racesData[0].race;
-      percentInput.value = racesData[0].percent;
-    }
-  }
-
-  // Add additional entries for remaining races
-  for (let i = 1; i < racesData.length; i++) {
-    addRaceEntry(parentNode);
-    const entryElement = entriesContainer.lastElementChild;
-
-    if (entryElement) {
-      const raceInput = entryElement.querySelector('.race-input');
-      const percentInput = entryElement.querySelector('.percent-input');
-
-      if (raceInput && percentInput) {
-        raceInput.value = racesData[i].race;
-        percentInput.value = racesData[i].percent;
-      }
-    }
-  }
-
-  // Update UI for this parent
-  checkScrolling(entriesContainer);
+  setEntriesFromRows(targetNode, racesData);
 }
 
 export function addRaceEntry(parentNode) {
@@ -191,7 +738,9 @@ export function addRaceEntry(parentNode) {
 
   // Update UI
   checkScrolling(entriesContainer);
-  debouncedCalculateRace();
+  if (!suppressAutoCalculation) {
+    debouncedCalculateRace();
+  }
 
   return newEntry;
 }
@@ -225,50 +774,66 @@ function checkScrolling(container) {
   }
 }
 
-function debouncedCalculateRace() {
+function debouncedCalculateRace(customWeights) {
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(() => {
-    const { races, isValid, warningMessage } = calculateRace();
+    const { races, isValid, warningMessage } = calculateRace(customWeights);
     updateDisplay(races, isValid, warningMessage);
+    updateSiblingSummaries();
   }, 300); // 300ms debounce time
 }
 
-function calculateRace() {
+function calculateRace(customWeights = parentWeights) {
   const races = {};
   let isValid = true;
   let warningMessage = '';
 
-  [motherNode, fatherNode].forEach(parentNode => {
-    let totalPercent = 0;
-    let allFieldsFilled = true;
+  const parents = getParentConfigs();
+  if (!parents.length) {
+    return { races, isValid: false, warningMessage: 'Parent nodes missing.' };
+  }
 
-    parentNode.querySelectorAll('.race-entry').forEach(entry => {
-      const raceInput = entry.querySelector('.race-input');
-      const percentInput = entry.querySelector('.percent-input');
+  const normalizedWeights = {};
+  let sumWeights = 0;
 
-      if (raceInput && percentInput) {
-        const race = raceInput.value.trim();
-        const percent = parseFloat(percentInput.value);
+  parents.forEach(({ id }) => {
+    const weight =
+      typeof customWeights[id] === 'number'
+        ? Math.max(0, customWeights[id])
+        : 1 / parents.length;
+    normalizedWeights[id] = weight;
+    sumWeights += weight;
+  });
 
-        if (!race || isNaN(percent)) {
-          allFieldsFilled = false;
-        } else {
-          totalPercent += percent;
-          // Each parent's percentages are halved to produce final child breakdown
-          races[race] = (races[race] || 0) + percent / 2;
-        }
-      }
+  if (sumWeights === 0) {
+    parents.forEach(({ id }) => {
+      normalizedWeights[id] = 1 / parents.length;
     });
+    sumWeights = 1;
+  }
+
+  Object.keys(normalizedWeights).forEach(key => {
+    normalizedWeights[key] = normalizedWeights[key] / sumWeights;
+  });
+
+  parents.forEach(({ id, node, label }) => {
+    const { entries, totalPercent, allFieldsFilled } = readNodeEntries(node);
 
     if (!allFieldsFilled) {
       isValid = false;
       warningMessage = 'Please fill in all race fields.';
-    } else if (Math.abs(totalPercent - 100) > 0.01) {
-      isValid = false;
-      const parentName =
-        parentNode.id.charAt(0).toUpperCase() + parentNode.id.slice(1);
-      warningMessage += `${parentName}'s race percentages should add up to 100%. `;
+      return;
     }
+
+    if (Math.abs(totalPercent - 100) > 0.01) {
+      isValid = false;
+      warningMessage += `${label} race percentages should add up to 100%. `;
+      return;
+    }
+
+    entries.forEach(({ race, percent }) => {
+      races[race] = (races[race] || 0) + percent * (normalizedWeights[id] || 0);
+    });
   });
 
   // If results are invalid, hide the floating results bar
@@ -298,13 +863,16 @@ function updateDisplay(races, isValid, warningMessage) {
     // Disable the download and save buttons
     if (downloadButton) downloadButton.disabled = true;
     if (saveButton) saveButton.disabled = true;
+    renderParentSummary();
   }
 }
 
 function displayResult(races) {
-  const sortedRaces = Object.entries(races)
-    .sort((a, b) => b[1] - a[1])
-    .map(([race, percent]) => [race.toUpperCase(), percent]);
+  const sortedEntries = Object.entries(races).sort((a, b) => b[1] - a[1]);
+  const sortedRaces = sortedEntries.map(([race, percent]) => [
+    race.toUpperCase(),
+    percent,
+  ]);
 
   let resultHTML = `
     <table class="w-full text-sm">
@@ -335,6 +903,8 @@ function displayResult(races) {
 
   raceBreakdown.innerHTML = resultHTML;
   updateChart(Object.fromEntries(sortedRaces));
+  renderParentSummary();
+  toggleResultsHandle(true);
 
   if (downloadButton) {
     downloadButton.disabled = false;
@@ -343,6 +913,97 @@ function displayResult(races) {
   if (saveButton) {
     saveButton.disabled = false;
   }
+
+  document.dispatchEvent(
+    new CustomEvent('race-results-ready', {
+      detail: {
+        races: sortedEntries.map(([race, percent]) => ({
+          label: race,
+          percent,
+        })),
+      },
+    })
+  );
+}
+
+function renderParentSummary() {}
+
+function initializeParentSummaryUI() {}
+
+function initializeResultsModal() {
+  if (!resultsModal) {
+    return;
+  }
+
+  hideResultsModal(true);
+  toggleResultsHandle(false);
+
+  if (resultsModalClose) {
+    resultsModalClose.addEventListener('click', () => hideResultsModal());
+  }
+
+  if (resultsModalBackdrop) {
+    resultsModalBackdrop.addEventListener('click', () => hideResultsModal());
+  }
+
+  if (resultsModalHandle) {
+    resultsModalHandle.addEventListener('click', () => showResultsModal());
+  }
+}
+
+function showResultsModal() {
+  if (!resultsModal || !resultsModalHandle || resultsModalHandle.disabled) {
+    return;
+  }
+
+  resultsModal.classList.remove('hidden');
+  requestAnimationFrame(() => resultsModal.classList.add('open'));
+  resultsModal.setAttribute('aria-hidden', 'false');
+
+  if (resultsModalBackdrop) {
+    resultsModalBackdrop.classList.remove('hidden');
+    requestAnimationFrame(() => resultsModalBackdrop.classList.add('visible'));
+  }
+}
+
+function hideResultsModal(immediate = false) {
+  if (!resultsModal) {
+    return;
+  }
+
+  const finish = () => {
+    if (!resultsModal.classList.contains('hidden')) {
+      resultsModal.classList.add('hidden');
+    }
+    resultsModal.setAttribute('aria-hidden', 'true');
+  };
+
+  if (immediate) {
+    resultsModal.classList.remove('open');
+    finish();
+  } else {
+    resultsModal.classList.remove('open');
+    setTimeout(finish, 250);
+  }
+
+  if (resultsModalBackdrop) {
+    const hideBackdrop = () => resultsModalBackdrop.classList.add('hidden');
+    resultsModalBackdrop.classList.remove('visible');
+    if (immediate) {
+      hideBackdrop();
+    } else {
+      setTimeout(hideBackdrop, 250);
+    }
+  }
+}
+
+function toggleResultsHandle(enabled) {
+  if (!resultsModalHandle) {
+    return;
+  }
+  resultsModalHandle.disabled = !enabled;
+  resultsModalHandle.style.opacity = enabled ? '' : '0.6';
+  resultsModalHandle.style.pointerEvents = enabled ? '' : 'none';
 }
 
 function updateChart(races) {
@@ -404,7 +1065,7 @@ function updateChart(races) {
   updateFloatingResultsBar(races);
 }
 
-// Function to update the floating results bar
+// Function to update the floating results bar / visual legend
 function updateFloatingResultsBar(races) {
   const floatingResults = document.getElementById('floatingResults');
   const floatingRacePills = document.getElementById('floatingRacePills');
@@ -412,38 +1073,30 @@ function updateFloatingResultsBar(races) {
 
   if (!floatingResults || !floatingRacePills || !miniChartCtx) return;
 
-  // Make the floating bar visible
   floatingResults.classList.add('visible');
-
-  // Clear existing race pills
   floatingRacePills.innerHTML = '';
 
-  // Create the mini chart
   if (window.miniRaceChart instanceof Chart) {
     window.miniRaceChart.destroy();
   }
 
-  // Get all races sorted by percentage
   const sortedRaces = Object.entries(races)
     .sort((a, b) => b[1] - a[1])
-    .filter(([_, percent]) => percent > 0); // Only include races with percentage > 0
+    .filter(([, percent]) => percent > 0);
 
-  // Create pills for all races
   sortedRaces.forEach(([race, percent]) => {
     const pill = document.createElement('span');
     pill.className = 'race-pill';
     pill.textContent = `${race}: ${percent.toFixed(1)}%`;
     floatingRacePills.appendChild(pill);
   });
-  
-  // Add a pill indicating the total number of races if there are many
+
   if (sortedRaces.length > 5) {
     floatingRacePills.classList.add('has-many-races');
   } else {
     floatingRacePills.classList.remove('has-many-races');
   }
 
-  // Create mini chart
   window.miniRaceChart = new Chart(miniChartCtx, {
     type: 'doughnut',
     data: {
@@ -461,12 +1114,8 @@ function updateFloatingResultsBar(races) {
       responsive: true,
       maintainAspectRatio: true,
       plugins: {
-        legend: {
-          display: false,
-        },
-        tooltip: {
-          enabled: false,
-        },
+        legend: { display: false },
+        tooltip: { enabled: false },
       },
     },
   });
@@ -726,21 +1375,11 @@ function downloadResults() {
 
 // Function to reset race entries to default
 function resetRaceEntries() {
-  if (!motherNode || !fatherNode) return;
+  const nodesToReset = getAllEditableNodes();
+  if (!nodesToReset.length) return;
 
-  [motherNode, fatherNode].forEach(node => {
-    // Get the race entries container
-    const entriesContainer = node.querySelector('.race-entries');
-    if (!entriesContainer) return;
-
-    // Clear existing entries
-    entriesContainer.innerHTML = '';
-
-    // Add a single empty entry
-    addRaceEntry(node);
-
-    // Update UI for this parent
-    checkScrolling(entriesContainer);
+  withSuppressedCalculation(() => {
+    nodesToReset.forEach(node => resetNodeEntries(node));
   });
 
   // Clear the results
@@ -761,16 +1400,28 @@ function resetRaceEntries() {
     floatingResults.classList.remove('visible');
   }
 
-  // Disable the download button
+  // Disable action buttons
   if (downloadButton) {
     downloadButton.disabled = true;
   }
+  if (saveButton) {
+    saveButton.disabled = true;
+  }
+
+  updateSiblingSummaries();
+  renderParentSummary();
+  toggleResultsHandle(false);
+  hideResultsModal(true);
 
   // Clear any warnings
   hideWarning();
 }
 
-export { debouncedCalculateRace as calculateRace, updateSavedResultsList };
+export {
+  debouncedCalculateRace as calculateRace,
+  updateSavedResultsList,
+  applyGrandparentWeighting,
+};
 
 function saveResults() {
   // Get the current calculation results
