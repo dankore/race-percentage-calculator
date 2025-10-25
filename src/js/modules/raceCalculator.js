@@ -42,6 +42,7 @@ let debounceTimer;
 let suppressAutoCalculation = false;
 let advancedStatusTimeout;
 let siblingScenarioCounter = 0;
+let saveButtonFeedbackTimeout;
 
 // Initialize DOM references
 function initializeDOMReferences() {
@@ -111,6 +112,7 @@ export function initializeNodes() {
 
   if (saveButton) {
     saveButton.addEventListener('click', saveResults);
+    setSaveButtonVisualState('idle');
   }
 
   if (userNameInput) {
@@ -863,6 +865,7 @@ function updateDisplay(races, isValid, warningMessage) {
     // Disable the download and save buttons
     if (downloadButton) downloadButton.disabled = true;
     if (saveButton) saveButton.disabled = true;
+    setSaveButtonVisualState('idle');
     renderParentSummary();
   }
 }
@@ -912,6 +915,7 @@ function displayResult(races) {
 
   if (saveButton) {
     saveButton.disabled = false;
+    setSaveButtonVisualState('idle');
   }
 
   document.dispatchEvent(
@@ -1407,6 +1411,7 @@ function resetRaceEntries() {
   if (saveButton) {
     saveButton.disabled = true;
   }
+  setSaveButtonVisualState('idle');
 
   updateSiblingSummaries();
   renderParentSummary();
@@ -1415,6 +1420,70 @@ function resetRaceEntries() {
 
   // Clear any warnings
   hideWarning();
+}
+
+function setSaveButtonVisualState(state) {
+  if (!saveButton) return;
+  const labelEl = saveButton.querySelector('[data-save-label]');
+  if (!labelEl) return;
+
+  const feedbackEl = saveButton.querySelector('[data-save-feedback]');
+  if (!labelEl.dataset.defaultLabel) {
+    labelEl.dataset.defaultLabel = labelEl.textContent.trim() || 'Save Results';
+  }
+  const defaultLabel = labelEl.dataset.defaultLabel;
+
+  const hideFeedback = () => {
+    if (feedbackEl) {
+      feedbackEl.classList.add('hidden');
+      feedbackEl.classList.remove('inline-flex');
+    }
+  };
+
+  if (state === 'saving') {
+    if (saveButtonFeedbackTimeout) {
+      clearTimeout(saveButtonFeedbackTimeout);
+      saveButtonFeedbackTimeout = null;
+    }
+    saveButton.dataset.saveState = 'saving';
+    saveButton.disabled = true;
+    labelEl.textContent = 'Saving...';
+    labelEl.classList.remove('hidden');
+    hideFeedback();
+    saveButton.classList.remove('ring-emerald-300');
+    saveButton.classList.add('ring-2', 'ring-white/40');
+    return;
+  }
+
+  if (state === 'success') {
+    if (saveButtonFeedbackTimeout) {
+      clearTimeout(saveButtonFeedbackTimeout);
+    }
+    saveButton.dataset.saveState = 'success';
+    labelEl.textContent = defaultLabel;
+    labelEl.classList.add('hidden');
+    if (feedbackEl) {
+      feedbackEl.classList.remove('hidden');
+      feedbackEl.classList.add('inline-flex');
+    }
+    saveButton.disabled = false;
+    saveButton.classList.remove('ring-white/40');
+    saveButton.classList.add('ring-2', 'ring-emerald-300');
+    saveButtonFeedbackTimeout = setTimeout(() => {
+      setSaveButtonVisualState('idle');
+    }, 2500);
+    return;
+  }
+
+  if (saveButtonFeedbackTimeout) {
+    clearTimeout(saveButtonFeedbackTimeout);
+    saveButtonFeedbackTimeout = null;
+  }
+  saveButton.dataset.saveState = 'idle';
+  labelEl.textContent = defaultLabel;
+  labelEl.classList.remove('hidden');
+  hideFeedback();
+  saveButton.classList.remove('ring-2', 'ring-white/40', 'ring-emerald-300');
 }
 
 export {
@@ -1429,48 +1498,57 @@ function saveResults() {
     return;
   }
 
-  // Create a timestamp for the saved result
-  const timestamp = new Date().toISOString();
-  const name =
-    userNameInput && userNameInput.value.trim()
-      ? userNameInput.value.trim()
-      : 'Unnamed';
+  setSaveButtonVisualState('saving');
 
-  // Create the data object to save
-  const saveData = {
-    timestamp,
-    name,
-    labels: window.raceChart.data.labels,
-    data: window.raceChart.data.datasets[0].data,
-  };
+  try {
+    // Create a timestamp for the saved result
+    const timestamp = new Date().toISOString();
+    const name =
+      userNameInput && userNameInput.value.trim()
+        ? userNameInput.value.trim()
+        : 'Unnamed';
 
-  // Get existing saved results from localStorage or initialize empty array
-  let savedResults = JSON.parse(
-    localStorage.getItem('raceCalculatorResults') || '[]'
-  );
+    // Create the data object to save
+    const saveData = {
+      timestamp,
+      name,
+      labels: window.raceChart.data.labels,
+      data: window.raceChart.data.datasets[0].data,
+    };
 
-  // Add the new result to the beginning of the array (most recent first)
-  savedResults.unshift(saveData);
+    // Get existing saved results from localStorage or initialize empty array
+    let savedResults = JSON.parse(
+      localStorage.getItem('raceCalculatorResults') || '[]'
+    );
 
-  // Limit to 10 saved results to prevent localStorage from filling up
-  if (savedResults.length > 10) {
-    savedResults = savedResults.slice(0, 10);
+    // Add the new result to the beginning of the array (most recent first)
+    savedResults.unshift(saveData);
+
+    // Limit to 10 saved results to prevent localStorage from filling up
+    if (savedResults.length > 10) {
+      savedResults = savedResults.slice(0, 10);
+    }
+
+    // Save back to localStorage
+    localStorage.setItem('raceCalculatorResults', JSON.stringify(savedResults));
+
+    setSaveButtonVisualState('success');
+
+    // Show feedback to the user
+    const saveSuccess = document.getElementById('saveSuccess');
+    if (saveSuccess) {
+      saveSuccess.classList.remove('hidden');
+      setTimeout(() => {
+        saveSuccess.classList.add('hidden');
+      }, 3000);
+    }
+
+    // Update any UI that shows saved results (if implemented)
+    updateSavedResultsList();
+  } catch (error) {
+    console.error('Failed to save results', error);
+    setSaveButtonVisualState('idle');
   }
-
-  // Save back to localStorage
-  localStorage.setItem('raceCalculatorResults', JSON.stringify(savedResults));
-
-  // Show feedback to the user
-  const saveSuccess = document.getElementById('saveSuccess');
-  if (saveSuccess) {
-    saveSuccess.classList.remove('hidden');
-    setTimeout(() => {
-      saveSuccess.classList.add('hidden');
-    }, 3000);
-  }
-
-  // Update any UI that shows saved results (if implemented)
-  updateSavedResultsList();
 }
 
 function updateSavedResultsList() {
