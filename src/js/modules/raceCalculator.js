@@ -945,10 +945,17 @@ function initializeResultsModal() {
   if (resultsModalHandle) {
     resultsModalHandle.addEventListener('click', () => showResultsModal());
   }
+
+  document.querySelectorAll('[data-open-results]').forEach(trigger => {
+    trigger.addEventListener('click', () => showResultsModal(true));
+  });
 }
 
-function showResultsModal() {
-  if (!resultsModal || !resultsModalHandle || resultsModalHandle.disabled) {
+function showResultsModal(forceOpen = false) {
+  if (
+    !resultsModal ||
+    (!forceOpen && (!resultsModalHandle || resultsModalHandle.disabled))
+  ) {
     return;
   }
 
