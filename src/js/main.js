@@ -51,29 +51,6 @@ function initializeApp() {
     }
   }, 100);
 
-  // Register service worker
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker
-      .register('/service-worker.js')
-      .then(registration => {
-        registration.addEventListener('updatefound', () => {
-          const newWorker = registration.installing;
-
-          newWorker.addEventListener('statechange', () => {
-            if (
-              newWorker.state === 'installed' &&
-              navigator.serviceWorker.controller
-            ) {
-              window.location.reload();
-            }
-          });
-        });
-      })
-      .catch(() => {});
-    navigator.serviceWorker.getRegistrations().then(registrations => {
-      registrations.forEach(registration => registration.update());
-    });
-  }
 }
 
 // Check if document is already loaded
