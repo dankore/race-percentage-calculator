@@ -10,7 +10,7 @@
   <meta name="keywords"
     content="race calculator, heritage calculator, race percentage calculator, multi generation calculator, ancestry percentage calculator, genetic ancestry calculator, heritage planner, family tree calculator">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-  <meta name="author" content="Dankore Software LLC">
+  <meta name="author" content="Dankore Software">
   <meta name="language" content="English">
   <meta name="msapplication-navbutton-color" content="#4F46E5">
   <meta name="apple-mobile-web-app-status-bar-style" content="#4F46E5">
@@ -311,22 +311,21 @@
     <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
       <div class="max-w-6xl mx-auto px-4 py-4">
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div class="flex items-center gap-3">
-            <img src="/assets/images/logos/logo.png" alt="Race Percentage Calculator logo"
-              class="w-12 h-12 bg-indigo-50 dark:bg-gray-800 p-1.5 rounded-xl shadow-md border border-indigo-200 dark:border-gray-700">
-            <div class="leading-tight">
-              <p class="text-sm font-semibold tracking-wide text-indigo-600 dark:text-indigo-300 uppercase">
-                Race Percentage Calculator
-              </p>
-              <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
-                Multi-Generation Heritage Builder
-              </p>
-            </div>
+        <a href="/" class="flex items-center gap-3 group no-underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900 rounded-xl">
+          <img src="/assets/images/logos/logo.png" alt="Race Percentage Calculator logo"
+            class="w-12 h-12 bg-indigo-50 dark:bg-gray-800 p-1.5 rounded-xl shadow-md border border-indigo-200 dark:border-gray-700">
+          <div class="leading-tight">
+            <p class="text-sm font-semibold tracking-wide text-indigo-600 dark:text-indigo-300 uppercase">
+              Race Percentage Calculator
+            </p>
+            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+              Multi-Generation Heritage Builder
+            </p>
           </div>
+        </a>
 
           <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
             <nav class="flex items-center gap-4 text-sm font-semibold text-gray-700 dark:text-gray-200 flex-wrap">
-              <a href="/" class="hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors">Home</a>
               <a href="/multi-generation/" aria-current="page"
                 class="text-indigo-600 dark:text-indigo-300 transition-colors">Multi-Generation</a>
               <div class="relative" id="resources-dropdown">
@@ -380,55 +379,55 @@
         <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
           Want to see a completed tree? Click a sample to prefill grandparents and instantly view the combined results with parents auto-updated.
         </p>
-        <div class="grid gap-3 sm:grid-cols-2">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
           <button type="button"
-            class="sample-race-btn pulse-attention flex items-center gap-3 rounded-2xl border border-indigo-200 dark:border-indigo-800 bg-white dark:bg-gray-900/70 px-4 py-3 text-left shadow-sm hover:shadow-lg transition-all duration-200"
+            class="sample-race-btn pulse-attention flex items-start gap-2 rounded-2xl border border-indigo-200 dark:border-indigo-800 bg-white dark:bg-gray-900/70 px-3 py-2 text-left shadow-sm hover:shadow transition-all duration-200"
             data-lineage="true" data-sample-label="Atlantic Heritage"
             data-races='{"grandparents":{"maternalGrandmother":[{"race":"Irish","percent":60},{"race":"Spanish","percent":40}],"maternalGrandfather":[{"race":"Nigerian","percent":70},{"race":"Beninese","percent":30}],"paternalGrandmother":[{"race":"Indigenous Caribbean","percent":50},{"race":"French","percent":50}],"paternalGrandfather":[{"race":"Ghanaian","percent":50},{"race":"English","percent":50}]},"parents":{"mother":[{"race":"Irish","percent":30},{"race":"Spanish","percent":20},{"race":"Nigerian","percent":35},{"race":"Beninese","percent":15}],"father":[{"race":"Indigenous Caribbean","percent":25},{"race":"French","percent":25},{"race":"Ghanaian","percent":25},{"race":"English","percent":25}]}}'>
-            <span class="text-2xl leading-none">🌍</span>
-            <span class="flex flex-col">
+            <span class="text-xl leading-none">🌍</span>
+            <span class="flex flex-col leading-tight">
               <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">Atlantic Heritage</span>
-              <span class="text-xs text-gray-500 dark:text-gray-400">Caribbean &amp; Celtic lineage blend</span>
+              <span class="text-[11px] text-gray-500 dark:text-gray-400">Caribbean &amp; Celtic lineage blend</span>
             </span>
           </button>
           <button type="button"
-            class="sample-race-btn flex items-center gap-3 rounded-2xl border border-indigo-200 dark:border-indigo-800 bg-white dark:bg-gray-900/70 px-4 py-3 text-left shadow-sm hover:shadow-lg transition-all duration-200"
+            class="sample-race-btn flex items-start gap-2 rounded-2xl border border-indigo-200 dark:border-indigo-800 bg-white dark:bg-gray-900/70 px-3 py-2 text-left shadow-sm hover:shadow transition-all duration-200"
             data-lineage="true" data-sample-label="Pacific-Nordic Tapestry"
             data-races='{"grandparents":{"maternalGrandmother":[{"race":"Japanese","percent":50},{"race":"Filipino","percent":50}],"maternalGrandfather":[{"race":"Norwegian","percent":60},{"race":"Swedish","percent":40}],"paternalGrandmother":[{"race":"Mexican","percent":70},{"race":"Spanish","percent":30}],"paternalGrandfather":[{"race":"Chinese","percent":50},{"race":"Vietnamese","percent":50}]},"parents":{"mother":[{"race":"Japanese","percent":25},{"race":"Filipino","percent":25},{"race":"Norwegian","percent":30},{"race":"Swedish","percent":20}],"father":[{"race":"Mexican","percent":35},{"race":"Spanish","percent":15},{"race":"Chinese","percent":25},{"race":"Vietnamese","percent":25}]}}'>
-            <span class="text-2xl leading-none">🌊</span>
-            <span class="flex flex-col">
+            <span class="text-xl leading-none">🌊</span>
+            <span class="flex flex-col leading-tight">
               <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">Pacific-Nordic Tapestry</span>
-              <span class="text-xs text-gray-500 dark:text-gray-400">Pacific Rim meets Scandinavian heritage</span>
+              <span class="text-[11px] text-gray-500 dark:text-gray-400">Pacific Rim meets Scandinavian heritage</span>
             </span>
           </button>
           <button type="button"
-            class="sample-race-btn flex items-center gap-3 rounded-2xl border border-indigo-200 dark:border-indigo-800 bg-white dark:bg-gray-900/70 px-4 py-3 text-left shadow-sm hover:shadow-lg transition-all duration-200"
+            class="sample-race-btn flex items-start gap-2 rounded-2xl border border-indigo-200 dark:border-indigo-800 bg-white dark:bg-gray-900/70 px-3 py-2 text-left shadow-sm hover:shadow transition-all duration-200"
             data-lineage="true" data-sample-label="Southern Roots Revival"
             data-races='{"grandparents":{"maternalGrandmother":[{"race":"African American","percent":70},{"race":"French Creole","percent":30}],"maternalGrandfather":[{"race":"Nigerian","percent":60},{"race":"Scottish","percent":40}],"paternalGrandmother":[{"race":"African American","percent":60},{"race":"Choctaw","percent":40}],"paternalGrandfather":[{"race":"Jamaican","percent":50},{"race":"British","percent":50}]},"parents":{"mother":[{"race":"African American","percent":35},{"race":"French Creole","percent":15},{"race":"Nigerian","percent":30},{"race":"Scottish","percent":20}],"father":[{"race":"African American","percent":30},{"race":"Choctaw","percent":20},{"race":"Jamaican","percent":25},{"race":"British","percent":25}]}}'>
-            <span class="text-2xl leading-none">🌾</span>
-            <span class="flex flex-col">
+            <span class="text-xl leading-none">🌾</span>
+            <span class="flex flex-col leading-tight">
               <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">Southern Roots Revival</span>
-              <span class="text-xs text-gray-500 dark:text-gray-400">Deep South, Caribbean &amp; Celtic threads</span>
+              <span class="text-[11px] text-gray-500 dark:text-gray-400">Deep South, Caribbean &amp; Celtic threads</span>
             </span>
           </button>
           <button type="button"
-            class="sample-race-btn flex items-center gap-3 rounded-2xl border border-indigo-200 dark:border-indigo-800 bg-white dark:bg-gray-900/70 px-4 py-3 text-left shadow-sm hover:shadow-lg transition-all duration-200"
+            class="sample-race-btn flex items-start gap-2 rounded-2xl border border-indigo-200 dark:border-indigo-800 bg-white dark:bg-gray-900/70 px-3 py-2 text-left shadow-sm hover:shadow transition-all duration-200"
             data-lineage="true" data-sample-label="Desert-Mediterranean Bridge"
             data-races='{"grandparents":{"maternalGrandmother":[{"race":"Egyptian","percent":50},{"race":"Lebanese","percent":50}],"maternalGrandfather":[{"race":"Spanish","percent":60},{"race":"Italian","percent":40}],"paternalGrandmother":[{"race":"Mexican","percent":70},{"race":"Indigenous Mexican","percent":30}],"paternalGrandfather":[{"race":"Moroccan","percent":60},{"race":"Portuguese","percent":40}]},"parents":{"mother":[{"race":"Egyptian","percent":25},{"race":"Lebanese","percent":25},{"race":"Spanish","percent":30},{"race":"Italian","percent":20}],"father":[{"race":"Mexican","percent":35},{"race":"Indigenous Mexican","percent":15},{"race":"Moroccan","percent":30},{"race":"Portuguese","percent":20}]}}'>
-            <span class="text-2xl leading-none">🏜️</span>
-            <span class="flex flex-col">
+            <span class="text-xl leading-none">🏜️</span>
+            <span class="flex flex-col leading-tight">
               <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">Desert-Mediterranean Bridge</span>
-              <span class="text-xs text-gray-500 dark:text-gray-400">North Africa meets Iberia &amp; Mesoamerica</span>
+              <span class="text-[11px] text-gray-500 dark:text-gray-400">North Africa meets Iberia &amp; Mesoamerica</span>
             </span>
           </button>
           <button type="button"
-            class="sample-race-btn flex items-center gap-3 rounded-2xl border border-indigo-200 dark:border-indigo-800 bg-white dark:bg-gray-900/70 px-4 py-3 text-left shadow-sm hover:shadow-lg transition-all duration-200"
+            class="sample-race-btn flex items-start gap-2 rounded-2xl border border-indigo-200 dark:border-indigo-800 bg-white dark:bg-gray-900/70 px-3 py-2 text-left shadow-sm hover:shadow transition-all duration-200"
             data-lineage="true" data-sample-label="Silk Road Spectrum"
             data-races='{"grandparents":{"maternalGrandmother":[{"race":"Indian","percent":60},{"race":"Persian","percent":40}],"maternalGrandfather":[{"race":"Chinese","percent":60},{"race":"Mongolian","percent":40}],"paternalGrandmother":[{"race":"Turkish","percent":60},{"race":"Greek","percent":40}],"paternalGrandfather":[{"race":"Russian","percent":50},{"race":"Ukrainian","percent":50}]},"parents":{"mother":[{"race":"Indian","percent":30},{"race":"Persian","percent":20},{"race":"Chinese","percent":30},{"race":"Mongolian","percent":20}],"father":[{"race":"Turkish","percent":30},{"race":"Greek","percent":20},{"race":"Russian","percent":25},{"race":"Ukrainian","percent":25}]}}'>
-            <span class="text-2xl leading-none">🧭</span>
-            <span class="flex flex-col">
+            <span class="text-xl leading-none">🧭</span>
+            <span class="flex flex-col leading-tight">
               <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">Silk Road Spectrum</span>
-              <span class="text-xs text-gray-500 dark:text-gray-400">Persian Gulf, East Asia &amp; Eurasian crossroads</span>
+              <span class="text-[11px] text-gray-500 dark:text-gray-400">Persian Gulf, East Asia &amp; Eurasian crossroads</span>
             </span>
           </button>
         </div>
@@ -444,13 +443,13 @@
             <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div>
                 <p class="text-xs font-semibold uppercase tracking-[0.35em] text-indigo-600 dark:text-indigo-300 mb-1">
-                  Step 1 • Grandparents
+                  Grandparents
                 </p>
                 <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
                   Capture each grandparent’s heritage mix
                 </h2>
                 <p class="text-sm text-gray-600 dark:text-gray-300">
-                  Enter percentages for every grandparent. We’ll use those values to auto-weight their child automatically.
+                  Enter percentages for every grandparent. We'll use those values to auto-weight your parents automatically.
                 </p>
               </div>
             </div>
@@ -584,13 +583,13 @@
             <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div>
                 <p class="text-xs font-semibold uppercase tracking-[0.35em] text-indigo-600 dark:text-indigo-300 mb-1">
-                  Step 2 • Optional Scenarios
+                  Optional Scenarios
                 </p>
                 <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
                   Sibling lab and what-if cards
                 </h2>
                 <p class="text-sm text-gray-600 dark:text-gray-300">
-                  Create half-sibling and custom weight scenarios to see how different parent mixes impact the results.
+                  Create half-sibling and custom weight scenarios to see how different parent combinations impact your heritage results.
                 </p>
               </div>
               <button type="button" id="addSiblingScenario"
@@ -649,7 +648,7 @@
             <p class="text-white mb-4">
               Created with ❤️ by
               <a class="text-white hover:text-yellow-300 underline transition-colors duration-300"
-                href="https://www.dankoresoft.com/" target="_blank" rel="noopener noreferrer">
+                href="https://www.dankoresoft.com/?utm_source=race-calculator&utm_medium=footer&utm_campaign=brand-link" target="_blank" rel="noopener noreferrer">
                 Dankore Software
               </a>
             </p>
@@ -668,9 +667,6 @@
           <div>
             <h3 class="text-white font-semibold mb-4 text-lg">Quick Links</h3>
             <ul class="space-y-3">
-              <li>
-                <a href="/" class="text-white hover:text-yellow-300 transition-colors duration-300">Home</a>
-              </li>
               <li>
                 <a href="/blog/" class="text-white hover:text-yellow-300 transition-colors duration-300">Blog</a>
               </li>
@@ -732,7 +728,7 @@
 
         <div class="pt-4 border-t border-indigo-800 dark:border-gray-800">
           <p class="text-center text-white text-sm">
-            © <span class="copyright-year">2024</span> Dankore Software LLC. All rights reserved.
+            © <span class="copyright-year">2024</span> Dankore Software. All rights reserved.
           </p>
         </div>
       </div>
