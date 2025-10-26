@@ -1,21 +1,13 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const fse = require('fs-extra');
 const { GenerateSW } = require('workbox-webpack-plugin');
 const SitemapPlugin = require('sitemap-webpack-plugin').default;
 const TerserPlugin = require('terser-webpack-plugin');
 
-class RunAfterCompile {
-  apply(compiler) {
-    compiler.hooks.done.tap('Copy files', function () {
-      fse.copySync(
-        './src/assets/styles/main.css',
-        './dist/assets/styles/main.css'
-      );
-    });
-  }
-}
+// Remove the manual CSS copying class since we'll use MiniCssExtractPlugin
 
 const pages = [
   {
@@ -108,6 +100,10 @@ module.exports = (env, argv) => {
 
   const plugins = [
     ...generateHtmlPlugins(),
+    new MiniCssExtractPlugin({
+      filename: 'assets/styles/main.[contenthash].css',
+      chunkFilename: 'assets/styles/[id].[contenthash].css',
+    }),
     new SitemapPlugin({
       base: 'https://race-calculator.dankoresoft.com',
       paths,
@@ -151,7 +147,6 @@ module.exports = (env, argv) => {
 
   if (isProduction) {
     plugins.push(
-      new RunAfterCompile(),
       new GenerateSW({
         clientsClaim: true,
         skipWaiting: true,
@@ -201,10 +196,13 @@ module.exports = (env, argv) => {
   }
 
   const config = {
-    entry: './src/js/main.js',
+    entry: {
+      main: './src/js/main.js',
+      styles: './src/css/main.css'
+    },
     output: {
       publicPath: '/',
-      filename: 'bundle.[contenthash].js',
+      filename: 'js/[name].[contenthash].js',
       path: path.resolve(__dirname, 'dist'),
       clean: true,
     },
@@ -222,7 +220,11 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.css$/,
-          use: ['style-loader', 'css-loader', 'postcss-loader'],
+          use: [
+            isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+            'css-loader',
+            'postcss-loader'
+          ],
         },
         {
           test: /\.(gif|png|jpe?g|svg|ico)$/i,
