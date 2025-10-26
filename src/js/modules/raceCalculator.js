@@ -911,6 +911,17 @@ function displayResult(races) {
     setSaveButtonVisualState('idle');
   }
 
+  // Trigger confetti animation when results are displayed
+  setTimeout(() => {
+    import('./confetti.js').then(module => {
+      if (typeof module.triggerConfetti === 'function') {
+        module.triggerConfetti(raceBreakdown);
+      }
+    }).catch(error => {
+      console.warn('Confetti module not available:', error);
+    });
+  }, 100);
+
   document.dispatchEvent(
     new CustomEvent('race-results-ready', {
       detail: {
@@ -1100,6 +1111,17 @@ function updateFloatingResultsBar(races) {
   } else {
     floatingRacePills.classList.remove('has-many-races');
   }
+
+  // Trigger confetti animation for floating results bar
+  setTimeout(() => {
+    import('./confetti.js').then(module => {
+      if (typeof module.triggerConfetti === 'function') {
+        module.triggerConfetti(floatingResults);
+      }
+    }).catch(error => {
+      console.warn('Confetti module not available:', error);
+    });
+  }, 200);
 
   window.miniRaceChart = new Chart(miniChartCtx, {
     type: 'doughnut',
