@@ -307,6 +307,15 @@
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  <div id="progress-bar"
+    class="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transform -translate-y-full transition-transform duration-300 z-50">
+  </div>
+
+  <!-- Custom Scroll Progress Indicator -->
+  <div id="scroll-progress-container" class="fixed top-0 left-0 w-full h-0 bg-gray-200 dark:bg-gray-800 z-40 transition-all duration-300">
+    <div id="scroll-progress-indicator"
+      class="h-full w-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-all duration-300"></div>
+  </div>
   <div class="min-h-screen flex flex-col">
     <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
       <div class="max-w-6xl mx-auto px-4 py-4">

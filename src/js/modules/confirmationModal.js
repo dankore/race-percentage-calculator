@@ -153,7 +153,9 @@ function openModal() {
 
   // Focus confirm button by default
   setTimeout(() => {
-    confirmButton?.focus({ preventScroll: true });
+    if (confirmButton) {
+      confirmButton.focus({ preventScroll: true });
+    }
   }, 0);
 }
 

@@ -1,4 +1,5 @@
 import { showWarning, hideWarning } from './uiHandlers.js';
+import { showConfirmationModal } from './confirmationModal.js';
 
 const PARENT_IDS = ['mother', 'father'];
 const GRANDPARENT_GROUPS = {
@@ -1648,7 +1649,7 @@ function updateSavedResultsList() {
 }
 
 // Function to delete a saved result
-function deleteSavedResult(index) {
+async function deleteSavedResult(index) {
   // Get current saved results
   const savedResults = JSON.parse(
     localStorage.getItem('raceCalculatorResults') || '[]'
@@ -1657,20 +1658,30 @@ function deleteSavedResult(index) {
   // Check if the index is valid
   if (index < 0 || index >= savedResults.length) return;
 
-  // Ask for confirmation
-  if (confirm('Are you sure you want to delete this saved result?')) {
-    // Remove the result at the specified index
-    savedResults.splice(index, 1);
+  const confirmed = await showConfirmationModal({
+    title: 'Delete saved result',
+    message: 'Are you sure you want to delete this saved result?',
+    confirmText: 'Delete',
+    cancelText: 'Keep result',
+    variant: 'danger',
+  });
 
-    // Save the updated array back to localStorage
-    localStorage.setItem('raceCalculatorResults', JSON.stringify(savedResults));
+  if (!confirmed) {
+    return;
+  }
 
-    // Show a brief deletion message
-    const savedResultsList = document.getElementById('savedResultsList');
-    const deleteFeedback = document.createElement('div');
-    deleteFeedback.className =
-      'bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 text-sm py-2 px-3 rounded-md transition-all duration-300 mb-2 text-center font-medium';
-    deleteFeedback.innerHTML = `
+  // Remove the result at the specified index
+  savedResults.splice(index, 1);
+
+  // Save the updated array back to localStorage
+  localStorage.setItem('raceCalculatorResults', JSON.stringify(savedResults));
+
+  // Show a brief deletion message
+  const savedResultsList = document.getElementById('savedResultsList');
+  const deleteFeedback = document.createElement('div');
+  deleteFeedback.className =
+    'bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 text-sm py-2 px-3 rounded-md transition-all duration-300 mb-2 text-center font-medium';
+  deleteFeedback.innerHTML = `
       <div class="flex items-center justify-center space-x-1">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -1679,23 +1690,19 @@ function deleteSavedResult(index) {
       </div>
     `;
 
-    // Insert the feedback at the top of the list
-    if (savedResultsList.firstChild) {
-      savedResultsList.insertBefore(
-        deleteFeedback,
-        savedResultsList.firstChild
-      );
-    } else {
-      savedResultsList.appendChild(deleteFeedback);
-    }
-
-    // Remove the feedback message after 3 seconds
-    setTimeout(() => {
-      deleteFeedback.remove();
-      // Update the saved results list
-      updateSavedResultsList();
-    }, 1500);
+  // Insert the feedback at the top of the list
+  if (savedResultsList.firstChild) {
+    savedResultsList.insertBefore(deleteFeedback, savedResultsList.firstChild);
+  } else {
+    savedResultsList.appendChild(deleteFeedback);
   }
+
+  // Remove the feedback message after 3 seconds
+  setTimeout(() => {
+    deleteFeedback.remove();
+    // Update the saved results list
+    updateSavedResultsList();
+  }, 1500);
 }
 
 function loadSavedResult(index) {
