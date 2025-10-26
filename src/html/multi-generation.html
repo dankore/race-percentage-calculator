@@ -337,6 +337,8 @@
             <nav class="flex items-center gap-4 text-sm font-semibold text-gray-700 dark:text-gray-200 flex-wrap">
               <a href="/multi-generation/" aria-current="page"
                 class="text-indigo-600 dark:text-indigo-300 transition-colors">Multi-Generation</a>
+              <a href="#saved-results"
+                class="hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors">Saved Results</a>
               <div class="relative" id="resources-dropdown">
                 <button
                   class="flex items-center gap-1 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors"
@@ -654,10 +656,40 @@
           </div>
         </div>
       </section>
+
+      <!-- Saved Results Section -->
+      <section id="saved-results"
+        class="max-w-6xl mx-auto px-4 py-6 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl relative overflow-hidden">
+        <div
+          class="absolute top-0 right-0 w-40 h-40 bg-indigo-50 dark:bg-indigo-900/30 rounded-full -mt-20 -mr-20 pointer-events-none opacity-50">
+        </div>
+        <h2 class="section-heading-container">
+          <span
+            class="section-heading-icon bg-indigo-100 dark:bg-indigo-900 w-8 h-8 rounded-full flex items-center justify-center mr-2 shadow-sm">
+            <svg class="w-4 h-4 text-indigo-700 dark:text-indigo-200" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+              </path>
+            </svg>
+          </span>
+          <span class="section-heading-text">Saved Results</span>
+        </h2>
+
+        <p class="text-gray-800 dark:text-gray-100 mb-4 leading-relaxed font-medium">
+          Your previously saved race calculations will appear here. You can save up to 10 results.
+          Results are stored locally on your device and will be available the next time you visit.
+        </p>
+
+        <div id="savedResultsList"
+          class="bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600 max-h-96 overflow-y-auto shadow-inner">
+          <p class="text-gray-700 dark:text-gray-200 text-sm italic p-4">No saved results yet.</p>
+        </div>
+      </section>
     </main>
 
     <footer
-      class="bg-indigo-900 dark:bg-gray-900 text-white p-4 shadow-lg rounded-lg border-t-2 border-indigo-800 dark:border-gray-800 relative overflow-hidden">
+      class="bg-indigo-900 dark:bg-gray-900 text-white p-4 mt-6 shadow-lg rounded-lg border-t-2 border-indigo-800 dark:border-gray-800 relative overflow-hidden">
       <div class="container mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div>
