@@ -1064,7 +1064,7 @@
     class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 items-center justify-center px-4 hidden">
     <div
       class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-indigo-200 dark:border-indigo-800 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-      <div class="p-6 space-y-4">
+      <div class="p-4 space-y-3">
         <div class="flex justify-between items-center">
           <h2 class="text-2xl font-bold text-indigo-700 dark:text-indigo-300">Welcome to the Race Calculator!</h2>
           <button id="close-guide" title="Close guide"
@@ -1287,7 +1287,7 @@
 
   <section
     class="bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-900 dark:to-indigo-950 border-b border-indigo-100 dark:border-indigo-900/40">
-    <div class="max-w-6xl mx-auto px-4 py-10 sm:py-12">
+    <div class="max-w-6xl mx-auto px-4 py-4 sm:py-6">
       <div class="max-w-3xl space-y-5">
         <h1 class="text-3xl sm:text-4xl font-semibold leading-tight text-gray-900 dark:text-white">
           Free Race &amp; Heritage Percentage Calculator
@@ -1307,53 +1307,25 @@
     </p>
   </section>
 
-    <div class="container mx-auto px-2 sm:px-4 py-2 sm:py-4 max-w-6xl relative">
-      <div
-        class="intro-container mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-lg">
-        <div class="container mx-auto p-4">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="text-sm font-semibold text-indigo-700 dark:text-indigo-300">Jump to Section:</h3>
-            <button id="show-guide"
-              class="text-xs bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-900/30 dark:hover:bg-indigo-800/50 text-indigo-700 dark:text-indigo-300 px-2 py-1 rounded-md transition-colors flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    <div class="container mx-auto px-2 sm:px-4 py-0.5 max-w-6xl relative">
+      <div class="intro-container mt-0.5 bg-white dark:bg-gray-800 rounded-md shadow-sm border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-md">
+        <div class="container mx-auto p-2">
+          <div class="flex items-center justify-between gap-2">
+            <h3 class="text-xs font-semibold text-indigo-700 dark:text-indigo-300">Jump to:</h3>
+            <div class="flex flex-wrap items-center gap-1 text-xs" id="quick-nav">
+              <a href="#race-input" class="inline-flex items-center px-1 py-0.5 rounded-sm bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-900 dark:hover:bg-indigo-800 text-indigo-800 dark:text-indigo-300 font-medium transition-all text-xs">➕ Input</a>
+              <a href="#results" class="inline-flex items-center px-1 py-0.5 rounded-sm bg-green-100 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-800 text-green-800 dark:text-green-300 font-medium transition-all text-xs">📊 Results</a>
+              <a href="#saved-results" class="inline-flex items-center px-1 py-0.5 rounded-sm bg-orange-100 hover:bg-orange-200 dark:bg-orange-900 dark:hover:bg-orange-800 text-orange-800 dark:text-orange-300 font-medium transition-all text-xs">💾 Saved</a>
+              <a href="#how-to-use" class="inline-flex items-center px-1 py-0.5 rounded-sm bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 text-blue-800 dark:text-blue-300 font-medium transition-all text-xs">📖 Guide</a>
+              <a href="#faq" class="inline-flex items-center px-1 py-0.5 rounded-sm bg-purple-100 hover:bg-purple-200 dark:bg-purple-900 dark:hover:bg-purple-800 text-purple-800 dark:text-purple-300 font-medium transition-all text-xs">❓ FAQ</a>
+              <a href="#testimonials" class="inline-flex items-center px-1 py-0.5 rounded-sm bg-pink-100 hover:bg-pink-200 dark:bg-pink-900 dark:hover:bg-pink-800 text-pink-800 dark:text-pink-300 font-medium transition-all text-xs">💬 Reviews</a>
+            </div>
+            <button id="show-guide" class="text-xs bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-900/30 dark:hover:bg-indigo-800/50 text-indigo-700 dark:text-indigo-300 px-1.5 py-0.5 rounded-sm transition-colors flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              How to Use
+              Help
             </button>
-          </div>
-          <div class="flex flex-wrap justify-center items-center text-center gap-2 text-xs" id="quick-nav">
-            <a href="#race-input"
-              class="inline-flex items-center px-2 py-1 rounded-md bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-900 dark:hover:bg-indigo-800 text-indigo-800 dark:text-indigo-300 font-medium transition-all hover:scale-105">
-              ➕ Race Input
-            </a>
-            <a href="#results"
-              class="inline-flex items-center px-2.5 py-1 rounded-md bg-green-100 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-800 text-green-800 dark:text-green-300 font-medium transition-all hover:scale-105">
-              📊 Results
-            </a>
-            <a href="#saved-results"
-              class="inline-flex items-center px-2 py-1 rounded-md bg-orange-100 hover:bg-orange-200 dark:bg-orange-900 dark:hover:bg-orange-800 text-orange-800 dark:text-orange-300 font-medium transition-all hover:scale-105">
-              💾 Saved Results
-            </a>
-            <a href="#how-to-use"
-              class="inline-flex items-center px-2 py-1 rounded-md bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 text-blue-800 dark:text-blue-300 font-medium transition-all hover:scale-105">
-              📖 How to Use
-            </a>
-            <a href="#faq"
-              class="inline-flex items-center px-2 py-1 rounded-md bg-purple-100 hover:bg-purple-200 dark:bg-purple-900 dark:hover:bg-purple-800 text-purple-800 dark:text-purple-300 font-medium transition-all hover:scale-105">
-              ❓ FAQ
-            </a>
-            <a href="#testimonials"
-              class="inline-flex items-center px-2 py-1 rounded-md bg-pink-100 hover:bg-pink-200 dark:bg-pink-900 dark:hover:bg-pink-800 text-pink-800 dark:text-pink-300 font-medium transition-all hover:scale-105">
-              💬 Testimonials
-            </a>
-          </div>
-          <div class="mt-4 mb-2">
-            <p class="text-center text-gray-800 dark:text-white text-sm max-w-2xl mx-auto leading-relaxed">
-              Discover your unique race mix, calculate percentages, and
-              understand your deeper heritage.
-            </p>
           </div>
         </div>
       </div>
@@ -1395,14 +1367,14 @@
           </button>
         </div>
       </div>
-      <section class="container mx-auto px-0 sm:px-4 xl:px-0 mb-16">
-      <div id="warningMessage" class="mb-4" aria-live="polite"></div>
+      <section class="container mx-auto px-0 sm:px-4 xl:px-0 mb-8">
+      <div id="warningMessage" class="mb-2" aria-live="polite"></div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         <div class="lg:col-span-2">
-          <div class="grid grid-cols-1 gap-6 sm:gap-10">
+          <div class="grid grid-cols-1 gap-4 sm:gap-6">
             <section id="race-input"
-              class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6 md:space-y-8 border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl relative overflow-hidden">
+              class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-6 border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl relative overflow-hidden">
               <div
                 class="absolute top-0 right-0 w-40 h-40 bg-indigo-50 dark:bg-indigo-900/20 rounded-full -mt-20 -mr-20 pointer-events-none opacity-50">
               </div>
@@ -1468,7 +1440,7 @@
                 </fieldset>
 
               </div>
-              <div class="flex justify-end mt-6">
+              <div class="flex justify-end mt-4">
                 <button id="resetRaceButton" type="button"
                   class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 py-2.5 px-4 rounded-lg transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
                   <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1499,7 +1471,7 @@
                 <span class="section-heading-text">Results</span>
               </h2>
               <div
-                class="rounded-xl border border-dashed border-indigo-200 dark:border-indigo-800 bg-white/70 dark:bg-gray-900/40 p-6 shadow-inner">
+                class="rounded-xl border border-dashed border-indigo-200 dark:border-indigo-800 bg-white/70 dark:bg-gray-900/40 p-4 shadow-inner">
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div>
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Results now live in a modal</h3>
@@ -1526,7 +1498,7 @@
 
             <!-- Saved Results Section -->
             <section id="saved-results"
-              class="mt-6 sm:mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-4 sm:p-6 md:p-8 flex flex-col border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl relative overflow-hidden">
+              class="mt-4 sm:mt-6 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-3 sm:p-4 md:p-6 flex flex-col border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl relative overflow-hidden">
               <div
                 class="absolute top-0 right-0 w-40 h-40 bg-indigo-50 dark:bg-indigo-900/30 rounded-full -mt-20 -mr-20 pointer-events-none opacity-50">
               </div>
@@ -1555,7 +1527,7 @@
           </section>
 
           <section
-            class="mt-8 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg p-4 sm:p-6 space-y-4 transition-all duration-300 hover:shadow-2xl">
+            class="mt-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg p-3 sm:p-4 space-y-3 transition-all duration-300 hover:shadow-2xl">
             <div class="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <h3 class="text-lg sm:text-xl font-bold text-indigo-700 dark:text-indigo-200">Need DNA Kit Import?</h3>
@@ -1570,7 +1542,7 @@
               </span>
             </div>
             <div
-              class="flex flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-6 bg-gray-50 dark:bg-gray-900/40 border border-gray-200 dark:border-gray-700 rounded-2xl p-4">
+              class="flex flex-col lg:flex-row items-start lg:items-center gap-2 lg:gap-4 bg-gray-50 dark:bg-gray-900/40 border border-gray-200 dark:border-gray-700 rounded-2xl p-4">
               <div class="flex-1">
                 <p class="text-sm text-gray-700 dark:text-gray-300">
                   Bring any 23andMe, AncestryDNA, MyHeritage, or generic CSV/JSON export and get instant structure, filters,
@@ -1593,7 +1565,7 @@
           </section>
 
             <div
-              class="flex flex-col sm:grid sm:grid-cols-2 sm:gap-4 mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl">
+              class="flex flex-col sm:grid sm:grid-cols-2 sm:gap-4 mt-6 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-4 border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl">
               <h2 class="section-heading-container col-span-2 mb-2">
                 <span
                   class="section-heading-icon bg-indigo-100 dark:bg-indigo-900 w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center shadow-sm">
@@ -1629,7 +1601,7 @@
             </div>
 
             <section id="storyCardsSection"
-              class="mt-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-4 sm:p-6 space-y-4 transition-all duration-300 hover:shadow-2xl">
+              class="mt-6 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-3 sm:p-4 space-y-3 transition-all duration-300 hover:shadow-2xl">
               <div class="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <h2 class="text-lg sm:text-xl font-bold text-indigo-700 dark:text-indigo-200">Story Cards & Embeds</h2>
@@ -1643,7 +1615,7 @@
                 </span>
               </div>
 
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <div class="space-y-4">
                   <div>
                     <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">
@@ -1736,7 +1708,7 @@ Run the generator to view the HTML snippet.</pre>
 
         <!-- Ads Column - Right Side -->
         <div class="lg:col-span-1">
-          <div class="sticky top-4 space-y-6">
+          <div class="sticky top-4 space-y-4">
             <!-- Premium Ad Box -->
             <div
               class="bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-900 sm:rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl border border-gray-200 dark:border-gray-700 p-1">
@@ -1765,7 +1737,7 @@ Run the generator to view the HTML snippet.</pre>
       </div>
 
       <section
-        class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md border border-gray-200 dark:border-gray-700 mt-8 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
+        class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md border border-gray-200 dark:border-gray-700 mt-6 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
         <div
           class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/30 rounded-full -mt-16 -mr-16 pointer-events-none opacity-30">
         </div>
@@ -1782,7 +1754,7 @@ Run the generator to view the HTML snippet.</pre>
           <span class="section-heading-text">Multiple Calculator Uses</span>
         </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <!-- Nationality Card -->
           <div
             class="feature-card bg-white dark:bg-gray-800 p-5 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
@@ -1833,7 +1805,7 @@ Run the generator to view the HTML snippet.</pre>
           </div>
         </div>
 
-        <div class="mt-6 bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
+        <div class="mt-4 bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
           <h3 class="text-lg font-semibold text-indigo-700 dark:text-indigo-300 mb-2">One Calculator, Many Uses</h3>
           <p class="text-gray-600 dark:text-gray-400">
             Our versatile calculator works for all your heritage, ancestry, nationality, and race percentage needs.
@@ -1856,7 +1828,7 @@ Run the generator to view the HTML snippet.</pre>
       </div>
 
       <section id="how-to-use"
-        class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md border border-gray-200 dark:border-gray-700 mt-8 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
+        class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md border border-gray-200 dark:border-gray-700 mt-6 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
         <div
           class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/30 rounded-full -mt-16 -mr-16 pointer-events-none opacity-30">
         </div>
@@ -1932,7 +1904,7 @@ Run the generator to view the HTML snippet.</pre>
           </li>
         </ol>
 
-        <div class="mt-6 bg-indigo-100 dark:bg-indigo-900 p-4 rounded-lg">
+        <div class="mt-4 bg-indigo-100 dark:bg-indigo-900 p-3 rounded-lg">
           <h3 class="text-lg font-semibold text-indigo-700 dark:text-indigo-300 mb-2">
             Tips for Accurate Results
           </h3>
@@ -1956,7 +1928,7 @@ Run the generator to view the HTML snippet.</pre>
           </ul>
         </div>
 
-        <p class="mt-6 text-gray-600 dark:text-gray-400">
+        <p class="mt-4 text-gray-600 dark:text-gray-400">
           Remember, this race percentage calculator provides estimates based
           on the information you input. For a more comprehensive analysis of
           your genetic heritage, consider professional genealogy services or
@@ -1965,7 +1937,7 @@ Run the generator to view the HTML snippet.</pre>
       </section>
 
       <section id="faq"
-        class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md border border-gray-200 dark:border-gray-700 mt-8 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
+        class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md border border-gray-200 dark:border-gray-700 mt-6 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
         <div
           class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/30 rounded-full -mt-16 -mr-16 pointer-events-none opacity-30">
         </div>
@@ -2050,7 +2022,7 @@ Run the generator to view the HTML snippet.</pre>
           <span class="section-heading-text">What Our Users Say</span>
         </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-4">
           <blockquote class="testimonial-card">
             <p class="testimonial-text text-sm sm:text-base">
               "This race percentage calculator gave me such insight into my
@@ -2119,7 +2091,7 @@ Run the generator to view the HTML snippet.</pre>
 
       <!-- SEO Keywords Section (No Links) -->
       <section
-        class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-6 shadow-md border border-gray-200 dark:border-gray-700 mt-8 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
+        class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md border border-gray-200 dark:border-gray-700 mt-6 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
         <div
           class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/20 rounded-full -mt-16 -mr-16 pointer-events-none opacity-30">
         </div>
@@ -2171,8 +2143,8 @@ Run the generator to view the HTML snippet.</pre>
       </section>
 
       <!-- Third Google Ad Placement -->
-      <div class="my-8">
-        <div class="w-full bg-gray-100 dark:bg-gray-800 sm:rounded-lg h-auto overflow-hidden p-2 sm:p-4 space-y-6">
+      <div class="my-4">
+        <div class="w-full bg-gray-100 dark:bg-gray-800 sm:rounded-lg h-auto overflow-hidden p-2 sm:p-4 space-y-4">
 
           <!-- First Ad (Responsive Display) -->
           <div class="ad-wrapper w-full overflow-hidden">
@@ -2223,9 +2195,9 @@ Run the generator to view the HTML snippet.</pre>
 
 
     <footer
-      class="bg-indigo-900 dark:bg-gray-900 text-white p-6 mt-8 shadow-lg rounded-lg border-t-2 border-indigo-800 dark:border-gray-800 relative overflow-hidden">
+      class="bg-indigo-900 dark:bg-gray-900 text-white p-4 mt-6 shadow-lg rounded-lg border-t-2 border-indigo-800 dark:border-gray-800 relative overflow-hidden">
       <div class="container mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div>
             <h3 class="text-white font-semibold mb-4 text-lg">About Us</h3>
             <p class="text-white mb-4">
