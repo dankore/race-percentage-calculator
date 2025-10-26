@@ -638,10 +638,40 @@
               <span>Reset entries</span>
             </button>
           </div>
+
+          <!-- Saved Results Section -->
+          <section id="saved-results"
+            class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-5 sm:p-6 space-y-4 transition-all duration-300 hover:shadow-2xl relative overflow-hidden">
+            <div
+              class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/30 rounded-full -mt-16 -mr-16 pointer-events-none opacity-40">
+            </div>
+            <h2 class="section-heading-container">
+              <span
+                class="section-heading-icon bg-indigo-100 dark:bg-indigo-900 w-8 h-8 rounded-full flex items-center justify-center mr-2 shadow-sm">
+                <svg class="w-4 h-4 text-indigo-700 dark:text-indigo-200" fill="none" stroke="currentColor"
+                  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                  </path>
+                </svg>
+              </span>
+              <span class="section-heading-text">Saved Results</span>
+            </h2>
+
+            <p class="text-gray-800 dark:text-gray-100 leading-relaxed font-medium">
+              Your previously saved race calculations will appear here. You can save up to 10 results.
+              Results are stored locally on your device and will be available the next time you visit.
+            </p>
+
+            <div id="savedResultsList"
+              class="bg-gray-50 dark:bg-gray-900/40 rounded-2xl border border-gray-200 dark:border-gray-700 max-h-96 overflow-y-auto shadow-inner">
+              <p class="text-gray-700 dark:text-gray-200 text-sm italic p-4">No saved results yet.</p>
+            </div>
+          </section>
         </div>
 
         <!-- Ads Column - Right Side -->
-        <div class="lg:col-span-1 w-full">
+        <div class="lg:col-span-1 w-full lg:self-stretch">
           <div class="sticky top-4 space-y-4">
             <div
               class="bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-900 sm:rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl border border-gray-200 dark:border-gray-700 p-1">
@@ -657,35 +687,6 @@
         </div>
       </section>
 
-      <!-- Saved Results Section -->
-      <section id="saved-results"
-        class="max-w-6xl mx-auto px-4 py-6 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl relative overflow-hidden">
-        <div
-          class="absolute top-0 right-0 w-40 h-40 bg-indigo-50 dark:bg-indigo-900/30 rounded-full -mt-20 -mr-20 pointer-events-none opacity-50">
-        </div>
-        <h2 class="section-heading-container">
-          <span
-            class="section-heading-icon bg-indigo-100 dark:bg-indigo-900 w-8 h-8 rounded-full flex items-center justify-center mr-2 shadow-sm">
-            <svg class="w-4 h-4 text-indigo-700 dark:text-indigo-200" fill="none" stroke="currentColor"
-              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
-              </path>
-            </svg>
-          </span>
-          <span class="section-heading-text">Saved Results</span>
-        </h2>
-
-        <p class="text-gray-800 dark:text-gray-100 mb-4 leading-relaxed font-medium">
-          Your previously saved race calculations will appear here. You can save up to 10 results.
-          Results are stored locally on your device and will be available the next time you visit.
-        </p>
-
-        <div id="savedResultsList"
-          class="bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600 max-h-96 overflow-y-auto shadow-inner">
-          <p class="text-gray-700 dark:text-gray-200 text-sm italic p-4">No saved results yet.</p>
-        </div>
-      </section>
     </main>
 
     <footer
