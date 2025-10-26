@@ -201,39 +201,8 @@ export function setupEnhancedUI() {
     subtree: true
   });
   
-  // Add system theme detection for dark/light mode
-  setupAutomaticThemeDetection();
-  
   // Setup scroll progress indicator
   setupScrollProgressIndicator();
-}
-
-// Setup automatic theme detection based on system preferences
-function setupAutomaticThemeDetection() {
-  // Check if browser supports matchMedia
-  if (window.matchMedia) {
-    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    // Set initial theme based on system preference
-    if (darkModeMediaQuery.matches) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-    
-    // Listen for changes in system preference
-    darkModeMediaQuery.addEventListener('change', (e) => {
-      if (e.matches) {
-        document.documentElement.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
-      }
-    });
-  }
 }
 
 // Setup scroll progress indicator

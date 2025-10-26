@@ -65,10 +65,6 @@
           <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
             <nav class="flex items-center gap-4 text-sm font-semibold text-gray-700 dark:text-gray-200 flex-wrap">
               <a href="/" class="hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors">Home</a>
-              <a href="/blog/" aria-current="page"
-                class="text-indigo-600 dark:text-indigo-300 transition-colors">Blog</a>
-              <a href="/dna-import/" class="hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors">DNA
-                Import</a>
               <a href="/multi-generation/"
                 class="hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors">Multi-Generation</a>
               <div class="relative" id="resources-dropdown">
@@ -103,6 +99,8 @@
     </div>
   </header>
 
+  <main role="main" class="flex-1">
+
   <section
     class="bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-900 dark:to-indigo-950 border-b border-indigo-100 dark:border-indigo-900/40">
     <div class="max-w-6xl mx-auto px-4 py-10 sm:py-12">
@@ -114,8 +112,18 @@
     </div>
   </section>
 
+  <section class="max-w-6xl mx-auto px-4 pt-4 pb-2 sm:pt-8 sm:pb-4 text-left">
+    <h2 class="text-xs font-semibold uppercase tracking-[0.4em] text-indigo-600 dark:text-indigo-300 mb-2">
+      Story spotlight
+    </h2>
+    <p class="text-sm text-gray-600 dark:text-gray-300">
+      Browse our latest genealogy, DNA testing, and cultural heritage breakdowns to complement your calculator results
+      with real-world research tips and inspiration.
+    </p>
+  </section>
+
   <div class="container mx-auto px-4 py-8 max-w-6xl">
-    <main class="bg-white dark:bg-gray-900 rounded-b-lg shadow-lg p-2 sm:p-6">
+    <section class="bg-white dark:bg-gray-900 rounded-b-lg shadow-lg p-2 sm:p-6">
       <h2 class="text-3xl md:text-4xl font-bold text-indigo-800 dark:text-indigo-300 mb-6">Latest articles &amp; guides</h2>
 
       <p class="text-xl text-gray-600 dark:text-gray-300 mb-8">
@@ -167,9 +175,12 @@
             More →</a>
         </article>
       </div>
-    </main>
+    </section>
+  </div>
 
-    <footer
+  </main>
+
+  <footer
       class="bg-indigo-900 dark:bg-gray-900 text-white p-6 mt-8 shadow-lg rounded-lg border-t-2 border-indigo-800 dark:border-gray-800 relative overflow-hidden">
       <div class="container mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
@@ -271,6 +282,9 @@
   <div
     class="fixed hidden mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-[1000] border border-gray-200 dark:border-gray-700"
     id="resources-dropdown-menu">
+    <a href="/blog/"
+      class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">Blog
+      Home</a>
     <a href="/dna-import/"
       class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">DNA
       Import Hub</a>
