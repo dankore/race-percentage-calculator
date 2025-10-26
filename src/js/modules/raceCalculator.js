@@ -26,7 +26,6 @@ let motherNode,
   resetRaceButton,
   advancedToggleButton,
   advancedPanel,
-  syncGrandparentsButton,
   advancedStatusMessage,
   advancedToggleStateLabel,
   siblingScenarioTemplate,
@@ -59,7 +58,6 @@ function initializeDOMReferences() {
   resetRaceButton = document.getElementById('resetRaceButton');
   advancedToggleButton = document.getElementById('advancedFamilyToggle');
   advancedPanel = document.getElementById('advancedFamilyTree');
-  syncGrandparentsButton = document.getElementById('syncGrandparentsButton');
   advancedStatusMessage = document.getElementById('advancedStatusMessage');
   advancedToggleStateLabel = document.getElementById('advancedToggleState');
   siblingScenarioTemplate = document.getElementById('sibling-scenario-template');
@@ -191,12 +189,6 @@ function initializeAdvancedTreeFeatures() {
     if (advancedToggleStateLabel) {
       advancedToggleStateLabel.textContent = 'Advanced tree enabled';
     }
-  }
-
-  if (syncGrandparentsButton) {
-    syncGrandparentsButton.addEventListener('click', () =>
-      applyGrandparentWeighting()
-    );
   }
 
   if (addSiblingScenarioButton) {
