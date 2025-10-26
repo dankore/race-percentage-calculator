@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-slate-50">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grandparent Graph Prototype | Race Percentage Calculator</title>
+  <meta name="description"
+    content="Prototype page that lets you start with the grandparents, add multiple races per ancestor, and watch the percentages cascade down to the subject.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/icons/favicon-16x16.png">
+  <link rel="manifest" href="/assets/images/icons/manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/assets/styles/main.css">
+  <style>
+    :root {
+      color-scheme: light;
+    }
+
+    body {
+      font-family: 'Inter', 'Nunito', 'SF Pro Display', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      overflow-x: auto;
+    }
+
+    .tree-shell {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(1rem, 2vw, 2.5rem);
+      width: 100%;
+      border-radius: 1.5rem;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(249, 250, 251, 0.95));
+      border: 1px solid rgba(15, 23, 42, 0.06);
+      box-shadow: inset 0 1px 1px rgba(15, 23, 42, 0.04);
+    }
+
+    .tree-columns {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(220px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .tree-column {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .tree-column-header {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+      color: #475569;
+      padding-bottom: 0.25rem;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.12);
+    }
+
+    .tree-column-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .ancestor-card {
+      position: relative;
+      border-radius: 1rem;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      background: white;
+      box-shadow: 0 12px 30px -18px rgba(13, 24, 44, 0.6);
+      padding: 1rem;
+      min-height: 160px;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    .ancestor-card[data-side="paternal"] {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(37, 99, 235, 0.03));
+      border-color: rgba(59, 130, 246, 0.25);
+    }
+
+    .ancestor-card[data-side="maternal"] {
+      background: linear-gradient(135deg, rgba(244, 114, 182, 0.12), rgba(236, 72, 153, 0.04));
+      border-color: rgba(236, 72, 153, 0.2);
+    }
+
+    .ancestor-card.subject-card {
+      background: linear-gradient(145deg, rgba(14, 165, 233, 0.08), rgba(236, 72, 153, 0.04));
+      border-color: rgba(14, 165, 233, 0.25);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0f172a;
+      line-height: 1.2;
+    }
+
+    .card-subtitle {
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #64748b;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(99, 102, 241, 0.12);
+      color: #4338ca;
+      flex-shrink: 0;
+    }
+
+    .entry-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .entry-row {
+      display: grid;
+      grid-template-columns: 1fr 72px auto;
+      gap: 0.35rem;
+    }
+
+    .entry-row input {
+      font-size: 0.9rem;
+      border-radius: 0.65rem;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      padding: 0.55rem 0.7rem;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .entry-row button {
+      border-radius: 0.65rem;
+      border: 1px solid rgba(248, 113, 113, 0.4);
+      color: #dc2626;
+      font-weight: 600;
+      background: rgba(254, 242, 242, 0.8);
+      transition: background 0.2s ease, color 0.2s ease;
+      min-width: 38px;
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .entry-row button:hover {
+      background: rgba(254, 226, 226, 0.9);
+      color: #b91c1c;
+    }
+
+    .add-entry-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-weight: 600;
+      color: #2563eb;
+      font-size: 0.85rem;
+      background: rgba(59, 130, 246, 0.08);
+      border-radius: 999px;
+      padding: 0.4rem 0.9rem;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .add-entry-btn:hover {
+      background: rgba(59, 130, 246, 0.16);
+      transform: translateY(-1px);
+    }
+
+    .breakdown {
+      margin-top: 0.65rem;
+      border-top: 1px dashed rgba(15, 23, 42, 0.12);
+      padding-top: 0.65rem;
+    }
+
+    .breakdown-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .breakdown-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(15, 23, 42, 0.03);
+      border-radius: 0.75rem;
+      padding: 0.4rem 0.65rem;
+      font-size: 0.9rem;
+      color: #0f172a;
+    }
+
+    .breakdown-pill span:last-child {
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    .empty-state {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    .totals-row {
+      margin-top: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: #475569;
+    }
+
+    .totals-row strong {
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .helper-text {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-top: 0.35rem;
+    }
+
+    .instruction-card ul {
+      list-style: disc;
+      padding-left: 1.5rem;
+      color: #475569;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1024px) {
+      .tree-shell {
+        padding: 1rem;
+        overflow: auto;
+      }
+      .tree-columns {
+        grid-template-columns: repeat(2, minmax(220px, 1fr));
+      }
+
+      .ancestor-card {
+        padding: 0.85rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .tree-shell {
+        padding: 0.75rem;
+      }
+      .tree-columns {
+        grid-template-columns: minmax(220px, 1fr);
+      }
+
+      .ancestor-card {
+        padding: 0.65rem;
+      }
+
+      .card-title {
+        font-size: 0.9rem;
+      }
+
+      .add-entry-btn {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.75rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card-title {
+        font-size: 0.85rem;
+      }
+
+      .card-subtitle {
+        font-size: 0.7rem;
+      }
+
+      .entry-row input {
+        font-size: 0.8rem;
+      }
+    }
+
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased">
+  <div class="min-h-screen flex flex-col">
+    <header class="bg-white border-b border-slate-200">
+      <div class="w-full px-4 sm:px-6 py-4 flex items-center justify-between">
+        <a href="/" class="text-base font-semibold tracking-tight text-slate-800">Race Percentage Calculator</a>
+        <nav class="flex items-center gap-3">
+          <a href="/multi-generation/" title="Open the production Multi-Generation builder"
+            class="inline-flex items-center gap-2 rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-indigo-200 transition hover:bg-indigo-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 5l7 7-7 7" />
+              <path d="M4 12h11" />
+            </svg>
+            Full Multi-Gen Builder
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="flex-1 overflow-x-auto">
+      <div class="w-full px-4 sm:px-6 py-6 space-y-6">
+        <section class="rounded-2xl bg-white shadow-xl border border-slate-100 p-4 lg:p-6 overflow-visible space-y-6">
+          <div class="rounded-2xl bg-slate-50/80 border border-slate-200 p-4">
+            <h2 class="text-lg font-semibold text-slate-900 mb-1">Try A Sample Family</h2>
+            <p class="text-sm text-slate-500 mb-3">Click a preset to auto-fill every great-grandparent.</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <button type="button"
+                class="sample-tree-btn bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-md px-3 py-1.5 text-sm font-medium hover:bg-indigo-100 transition-colors"
+                data-sample="classic-euro-afro">👨‍👩‍👧 Classic Euro/Afro</button>
+              <button type="button"
+                class="sample-tree-btn bg-rose-50 text-rose-700 border border-rose-200 rounded-md px-3 py-1.5 text-sm font-medium hover:bg-rose-100 transition-colors"
+                data-sample="pacific-global">🌺 Pacific + Global</button>
+              <button type="button"
+                class="sample-tree-btn bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-md px-3 py-1.5 text-sm font-medium hover:bg-emerald-100 transition-colors"
+                data-sample="americas">🪶 Pan-Americas</button>
+              <button type="button"
+                class="sample-tree-btn bg-amber-50 text-amber-700 border border-amber-200 rounded-md px-3 py-1.5 text-sm font-medium hover:bg-amber-100 transition-colors"
+                data-sample="mediterranean">🌞 Mediterranean Blend</button>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div class="space-y-2 max-w-2xl">
+              <span
+                class="inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-600">Prototype</span>
+              <h1 class="text-3xl font-bold text-slate-900">Grandparent Graph</h1>
+              <p class="text-base text-slate-600">Start with the four grandparents (or even great grandparents), add as many
+                races as you need per person, and the system will auto-cascade the mix for parents and the subject.</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <button type="button" id="resetTree"
+                class="rounded-2xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:border-slate-300 hover:bg-slate-50 transition-colors">Reset</button>
+              <span class="text-xs uppercase tracking-wide text-slate-400">Beta preview</span>
+            </div>
+          </div>
+
+          <div class="tree-shell mt-8" data-tree-shell>
+            <div class="tree-columns" data-tree-columns></div>
+          </div>
+        </section>
+
+        <section class="rounded-2xl bg-white border border-dashed border-slate-200 instruction-card p-6 shadow-md">
+          <h2 class="text-xl font-semibold text-slate-900 mb-3">How to test this concept</h2>
+          <ul class="space-y-2">
+            <li>Only enter data for the eight great-grandparent cards &mdash; give each one a full 100% mix (we'll normalize if needed).</li>
+            <li>Grandparents, parents, and the subject are read-only and update instantly as soon as you change a great-grandparent.</li>
+            <li>Hit reset whenever you want to wipe the great-grandparent entries without touching the layout.</li>
+          </ul>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <template id="race-row-template">
+    <div class="entry-row" data-entry-row>
+      <input type="text" placeholder="Race (e.g. Yoruba)" data-race-input aria-label="Race name">
+      <input type="number" placeholder="%" min="0" max="100" data-percent-input aria-label="Percentage">
+      <button type="button" data-remove-entry aria-label="Remove race">&times;</button>
+    </div>
+  </template>
+
+    <script>
+    (function () {
+      const nodeConfigs = {
+        subject: {
+          parents: ['father', 'mother'],
+          label: 'Subject',
+          title: 'You',
+          badge: 'Auto',
+          helper: 'Fills itself once the grandparents know their mix.',
+          emptyState: '100% Unknown',
+          type: 'subject',
+          order: 0,
+          width: 280,
+          minHeight: 220,
+        },
+        father: {
+          parents: ['paternalGrandfather', 'paternalGrandmother'],
+          label: '',
+          title: 'Father',
+          badge: 'Auto',
+          emptyState: 'Waiting for his parents...',
+          order: -4,
+          width: 240,
+          minHeight: 200,
+          side: 'paternal',
+        },
+        mother: {
+          parents: ['maternalGrandfather', 'maternalGrandmother'],
+          label: '',
+          title: 'Mother',
+          badge: 'Auto',
+          emptyState: 'Waiting for her parents...',
+          order: 4,
+          width: 240,
+          minHeight: 200,
+          side: 'maternal',
+        },
+        paternalGrandfather: {
+          parents: ['paternalGreatGrandfatherA', 'paternalGreatGrandmotherA'],
+          label: '',
+          title: 'Paternal Grandfather',
+          editable: false,
+          badge: 'Auto',
+          emptyState: 'Auto from great-grandparents.',
+          order: -6,
+          width: 240,
+          minHeight: 220,
+          side: 'paternal',
+        },
+        paternalGrandmother: {
+          parents: ['paternalGreatGrandfatherB', 'paternalGreatGrandmotherB'],
+          label: '',
+          title: 'Paternal Grandmother',
+          editable: false,
+          badge: 'Auto',
+          emptyState: 'Auto from great-grandparents.',
+          order: -2,
+          width: 240,
+          minHeight: 220,
+          side: 'paternal',
+        },
+        maternalGrandfather: {
+          parents: ['maternalGreatGrandfatherA', 'maternalGreatGrandmotherA'],
+          label: '',
+          title: 'Maternal Grandfather',
+          editable: false,
+          badge: 'Auto',
+          emptyState: 'Auto from great-grandparents.',
+          order: 2,
+          width: 240,
+          minHeight: 220,
+          side: 'maternal',
+        },
+        maternalGrandmother: {
+          parents: ['maternalGreatGrandfatherB', 'maternalGreatGrandmotherB'],
+          label: '',
+          title: 'Maternal Grandmother',
+          editable: false,
+          badge: 'Auto',
+          emptyState: 'Auto from great-grandparents.',
+          order: 6,
+          width: 240,
+          minHeight: 220,
+          side: 'maternal',
+        },
+        paternalGreatGrandfatherA: {
+          parents: [],
+          label: '',
+          title: 'Paternal Great Grandfather',
+          editable: true,
+          emptyState: 'Add races below.',
+          order: -8,
+          width: 230,
+          minHeight: 200,
+          side: 'paternal',
+        },
+        paternalGreatGrandmotherA: {
+          parents: [],
+          label: '',
+          title: 'Paternal Great Grandmother',
+          editable: true,
+          emptyState: 'Add races below.',
+          order: -7,
+          width: 230,
+          minHeight: 200,
+          side: 'paternal',
+        },
+        paternalGreatGrandfatherB: {
+          parents: [],
+          label: '',
+          title: 'Paternal Great Grandfather',
+          editable: true,
+          emptyState: 'Add races below.',
+          order: -3,
+          width: 230,
+          minHeight: 200,
+          side: 'paternal',
+        },
+        paternalGreatGrandmotherB: {
+          parents: [],
+          label: '',
+          title: 'Paternal Great Grandmother',
+          editable: true,
+          emptyState: 'Add races below.',
+          order: -1,
+          width: 230,
+          minHeight: 200,
+          side: 'paternal',
+        },
+        maternalGreatGrandfatherA: {
+          parents: [],
+          label: '',
+          title: 'Maternal Great Grandfather',
+          editable: true,
+          emptyState: 'Add races below.',
+          order: 1,
+          width: 230,
+          minHeight: 200,
+          side: 'maternal',
+        },
+        maternalGreatGrandmotherA: {
+          parents: [],
+          label: '',
+          title: 'Maternal Great Grandmother',
+          editable: true,
+          emptyState: 'Add races below.',
+          order: 3,
+          width: 230,
+          minHeight: 200,
+          side: 'maternal',
+        },
+        maternalGreatGrandfatherB: {
+          parents: [],
+          label: '',
+          title: 'Maternal Great Grandfather',
+          editable: true,
+          emptyState: 'Add races below.',
+          order: 5,
+          width: 230,
+          minHeight: 200,
+          side: 'maternal',
+        },
+        maternalGreatGrandmotherB: {
+          parents: [],
+          label: '',
+          title: 'Maternal Great Grandmother',
+          editable: true,
+          emptyState: 'Add races below.',
+          order: 7,
+          width: 230,
+          minHeight: 200,
+          side: 'maternal',
+        },
+      };
+
+      const sampleTrees = {
+        'classic-euro-afro': {
+          paternalGreatGrandfatherA: [{ race: 'West African', percent: 100 }],
+          paternalGreatGrandmotherA: [{ race: 'West African', percent: 100 }],
+          paternalGreatGrandfatherB: [{ race: 'Northern European', percent: 100 }],
+          paternalGreatGrandmotherB: [{ race: 'Southern European', percent: 100 }],
+          maternalGreatGrandfatherA: [{ race: 'Northern European', percent: 50 }, { race: 'Middle Eastern', percent: 50 }],
+          maternalGreatGrandmotherA: [{ race: 'West African', percent: 100 }],
+          maternalGreatGrandfatherB: [{ race: 'Caribbean', percent: 100 }],
+          maternalGreatGrandmotherB: [{ race: 'Northern European', percent: 100 }],
+        },
+        'pacific-global': {
+          paternalGreatGrandfatherA: [{ race: 'Polynesian', percent: 100 }],
+          paternalGreatGrandmotherA: [{ race: 'Micronesian', percent: 100 }],
+          paternalGreatGrandfatherB: [{ race: 'East Asian', percent: 50 }, { race: 'Aboriginal Australian', percent: 50 }],
+          paternalGreatGrandmotherB: [{ race: 'Polynesian', percent: 100 }],
+          maternalGreatGrandfatherA: [{ race: 'South Asian', percent: 50 }, { race: 'Middle Eastern', percent: 50 }],
+          maternalGreatGrandmotherA: [{ race: 'Northern European', percent: 100 }],
+          maternalGreatGrandfatherB: [{ race: 'African', percent: 60 }, { race: 'European', percent: 40 }],
+          maternalGreatGrandmotherB: [{ race: 'Latin American', percent: 100 }],
+        },
+        'americas': {
+          paternalGreatGrandfatherA: [{ race: 'Native American', percent: 100 }],
+          paternalGreatGrandmotherA: [{ race: 'Native American', percent: 100 }],
+          paternalGreatGrandfatherB: [{ race: 'African American', percent: 100 }],
+          paternalGreatGrandmotherB: [{ race: 'European', percent: 100 }],
+          maternalGreatGrandfatherA: [{ race: 'Central American', percent: 100 }],
+          maternalGreatGrandmotherA: [{ race: 'South American', percent: 100 }],
+          maternalGreatGrandfatherB: [{ race: 'Caribbean', percent: 100 }],
+          maternalGreatGrandmotherB: [{ race: 'Spanish', percent: 100 }],
+        },
+        'mediterranean': {
+          paternalGreatGrandfatherA: [{ race: 'Italian', percent: 100 }],
+          paternalGreatGrandmotherA: [{ race: 'Greek', percent: 100 }],
+          paternalGreatGrandfatherB: [{ race: 'North African', percent: 100 }],
+          paternalGreatGrandmotherB: [{ race: 'Middle Eastern', percent: 100 }],
+          maternalGreatGrandfatherA: [{ race: 'Portuguese', percent: 100 }],
+          maternalGreatGrandmotherA: [{ race: 'Spanish', percent: 100 }],
+          maternalGreatGrandfatherB: [{ race: 'Turkish', percent: 100 }],
+          maternalGreatGrandmotherB: [{ race: 'French', percent: 100 }],
+        },
+      };
+
+      const generationLayout = [
+        {
+          label: 'Great Grandparents',
+          nodes: [
+            'paternalGreatGrandfatherA',
+            'paternalGreatGrandmotherA',
+            'paternalGreatGrandfatherB',
+            'paternalGreatGrandmotherB',
+            'maternalGreatGrandfatherA',
+            'maternalGreatGrandmotherA',
+            'maternalGreatGrandfatherB',
+            'maternalGreatGrandmotherB',
+          ],
+        },
+        {
+          label: 'Grandparents',
+          nodes: [
+            'paternalGrandfather',
+            'paternalGrandmother',
+            'maternalGrandfather',
+            'maternalGrandmother',
+          ],
+        },
+        {
+          label: 'Parents',
+          nodes: ['father', 'mother'],
+        },
+        {
+          label: 'Subject',
+          nodes: ['subject'],
+        },
+      ];
+
+      const nodeIds = Object.keys(nodeConfigs);
+      const rowTemplate = document.getElementById('race-row-template');
+      const treeShell = document.querySelector('[data-tree-shell]');
+      const columnsContainer = treeShell.querySelector('[data-tree-columns]');
+      const resetButton = document.getElementById('resetTree');
+      const cardMap = new Map();
+
+      renderColumns();
+      treeShell.addEventListener('click', handleClick);
+      treeShell.addEventListener('input', handleInput);
+      resetButton.addEventListener('click', handleReset);
+      document.querySelectorAll('.sample-tree-btn').forEach(btn => {
+        btn.addEventListener('click', () => applySample(btn.dataset.sample));
+      });
+
+      updateAll();
+
+      function renderColumns() {
+        columnsContainer.innerHTML = '';
+        generationLayout.forEach(gen => {
+          const column = document.createElement('div');
+          column.className = 'tree-column';
+
+          const header = document.createElement('div');
+          header.className = 'tree-column-header';
+          header.textContent = gen.label;
+
+          const cardsWrapper = document.createElement('div');
+          cardsWrapper.className = 'tree-column-cards';
+
+          gen.nodes.forEach(nodeId => {
+            const cfg = nodeConfigs[nodeId];
+            if (!cfg) return;
+            const card = buildCard(nodeId, cfg);
+            cardsWrapper.appendChild(card);
+            cardMap.set(nodeId, card);
+            if (cfg.editable) ensureEntryRow(card);
+          });
+
+          column.appendChild(header);
+          column.appendChild(cardsWrapper);
+          columnsContainer.appendChild(column);
+        });
+      }
+
+      function buildCard(nodeId, cfg) {
+        const card = document.createElement('article');
+        card.className = 'ancestor-card';
+        card.dataset.nodeId = nodeId;
+        if (cfg.side) card.dataset.side = cfg.side;
+        if (cfg.type === 'subject') card.classList.add('subject-card');
+        if (cfg.editable) card.dataset.editable = 'true';
+
+        const header = document.createElement('div');
+        header.className = 'card-header';
+        const title = document.createElement('p');
+        title.className = cfg.type === 'subject' ? 'card-title text-2xl mt-1' : 'card-title';
+        title.textContent = cfg.title;
+        header.appendChild(title);
+
+        if (cfg.editable) {
+          const addBtn = document.createElement('button');
+          addBtn.type = 'button';
+          addBtn.className = 'add-entry-btn';
+          addBtn.dataset.addEntry = '';
+          addBtn.textContent = '+ Race';
+          header.appendChild(addBtn);
+        } else if (cfg.badge) {
+          const badge = document.createElement('span');
+          badge.className = 'badge';
+          badge.textContent = cfg.badge;
+          header.appendChild(badge);
+        }
+
+        card.appendChild(header);
+
+        if (cfg.editable) {
+          const entryList = document.createElement('div');
+          entryList.className = 'entry-list';
+          entryList.dataset.entryList = '';
+          card.appendChild(entryList);
+
+          const totalsRow = document.createElement('div');
+          totalsRow.className = 'totals-row';
+          totalsRow.innerHTML = '<span>Total mix</span><strong data-total>0%</strong>';
+          card.appendChild(totalsRow);
+        }
+
+        const breakdown = document.createElement('div');
+        breakdown.className = 'breakdown';
+        breakdown.dataset.breakdown = '';
+        breakdown.innerHTML = `<p class="empty-state">${cfg.emptyState || '100% Unknown'}</p>`;
+        card.appendChild(breakdown);
+
+        if (cfg.helper) {
+          const helper = document.createElement('p');
+          helper.className = 'helper-text';
+          helper.textContent = cfg.helper;
+          card.appendChild(helper);
+        }
+
+        return card;
+      }
+
+      function handleClick(event) {
+        const addBtn = event.target.closest('[data-add-entry]');
+        if (addBtn) {
+          const card = addBtn.closest('.ancestor-card');
+          addEntryRow(card);
+          return;
+        }
+
+        const removeBtn = event.target.closest('[data-remove-entry]');
+        if (removeBtn) {
+          const row = removeBtn.closest('[data-entry-row]');
+          const card = removeBtn.closest('.ancestor-card');
+          row.remove();
+          ensureEntryRow(card);
+          updateAll();
+        }
+      }
+
+      function handleInput(event) {
+        if (event.target.matches('[data-race-input], [data-percent-input]')) {
+          updateAll();
+        }
+      }
+
+      function handleReset() {
+        nodeIds.forEach(nodeId => {
+          if (!nodeConfigs[nodeId].editable) return;
+          const card = cardMap.get(nodeId);
+          if (!card) return;
+          const list = card.querySelector('[data-entry-list]');
+          if (!list) return;
+          list.innerHTML = '';
+          ensureEntryRow(card);
+        });
+        updateAll();
+      }
+
+      function addEntryRow(card) {
+        const list = card.querySelector('[data-entry-list]');
+        if (!list) return;
+        const clone = rowTemplate.content.firstElementChild.cloneNode(true);
+        list.appendChild(clone);
+        clone.querySelector('[data-race-input]').focus();
+      }
+
+      function ensureEntryRow(card) {
+        const list = card.querySelector('[data-entry-list]');
+        if (!list || list.children.length) return;
+        addEntryRow(card);
+      }
+
+      function updateAll() {
+        const manualCache = {};
+        const memo = {};
+
+        function readManualEntries(nodeId) {
+          if (manualCache[nodeId]) return manualCache[nodeId];
+          const card = cardMap.get(nodeId);
+          if (!card || !nodeConfigs[nodeId].editable) {
+            manualCache[nodeId] = [];
+            return manualCache[nodeId];
+          }
+          const rows = card.querySelectorAll('[data-entry-row]');
+          const entries = [];
+          rows.forEach(row => {
+            const race = row.querySelector('[data-race-input]').value.trim();
+            const percent = parseFloat(row.querySelector('[data-percent-input]').value);
+            if (!race || Number.isNaN(percent) || percent <= 0) return;
+            entries.push({ race, percent });
+          });
+          manualCache[nodeId] = entries;
+          return entries;
+        }
+
+        function computeNode(nodeId) {
+          if (memo[nodeId]) return memo[nodeId];
+          const manualEntries = readManualEntries(nodeId);
+          if (manualEntries.length) {
+            memo[nodeId] = finalizeEntries(normalizeEntries(manualEntries));
+            return memo[nodeId];
+          }
+          const parents = (nodeConfigs[nodeId] && nodeConfigs[nodeId].parents) || [];
+          if (!parents.length) {
+            memo[nodeId] = [];
+            return memo[nodeId];
+          }
+          const gathered = [];
+          const share = parents.length ? 1 / parents.length : 0;
+          parents.forEach(parentId => {
+            const parentEntries = computeNode(parentId);
+            if (!parentEntries.length) return;
+            parentEntries.forEach(entry => {
+              gathered.push({ race: entry.race, percent: entry.percent * share });
+            });
+          });
+          memo[nodeId] = finalizeEntries(combineEntries(gathered));
+          return memo[nodeId];
+        }
+
+        nodeIds.forEach(nodeId => computeNode(nodeId));
+
+        nodeIds.forEach(nodeId => {
+          const card = cardMap.get(nodeId);
+          if (!card) return;
+          const entries = memo[nodeId] || [];
+          renderBreakdown(card, entries, nodeConfigs[nodeId].emptyState);
+
+          if (nodeConfigs[nodeId].editable) {
+            const total = readManualEntries(nodeId).reduce((sum, entry) => sum + entry.percent, 0);
+            const totalEl = card.querySelector('[data-total]');
+            if (totalEl) {
+              totalEl.textContent = `${Math.round(total)}%`;
+              totalEl.style.color = total === 100 ? '#16a34a' : (total > 100 ? '#dc2626' : '#0f172a');
+            }
+          }
+        });
+      }
+
+      function normalizeEntries(entries) {
+        const total = entries.reduce((sum, entry) => sum + entry.percent, 0);
+        if (!total) return [];
+        return entries.map(entry => ({
+          race: entry.race,
+          percent: (entry.percent / total) * 100,
+        }));
+      }
+
+      function combineEntries(entries) {
+        if (!entries.length) return [];
+        const map = new Map();
+        entries.forEach(entry => {
+          const key = entry.race.trim().toLowerCase();
+          if (!key) return;
+          if (!map.has(key)) {
+            map.set(key, { race: entry.race.trim(), percent: 0 });
+          }
+          map.get(key).percent += entry.percent;
+        });
+        return Array.from(map.values())
+          .filter(item => item.percent > 0.01)
+          .sort((a, b) => b.percent - a.percent);
+      }
+
+      function finalizeEntries(entries) {
+        if (!entries.length) return [];
+        const total = entries.reduce((sum, entry) => sum + entry.percent, 0);
+        if (!total) return [];
+        let adjusted = entries.map(entry => ({ race: entry.race, percent: entry.percent }));
+        if (total > 100.0001) {
+          const scale = 100 / total;
+          adjusted = adjusted.map(entry => ({ race: entry.race, percent: entry.percent * scale }));
+        }
+        const afterScaleTotal = adjusted.reduce((sum, entry) => sum + entry.percent, 0);
+        if (afterScaleTotal < 99.9) {
+          const remaining = Math.max(0, 100 - afterScaleTotal);
+          adjusted.push({ race: 'Unknown', percent: remaining });
+        }
+        return adjusted;
+      }
+
+      function renderBreakdown(card, entries, emptyCopy = '100% Unknown') {
+        const container = card.querySelector('[data-breakdown]');
+        if (!container) return;
+        if (!entries.length) {
+          container.innerHTML = `<p class="empty-state">${emptyCopy}</p>`;
+          return;
+        }
+        if (card.dataset.editable === 'true') {
+          container.innerHTML = `<p class="empty-state whitespace-nowrap text-xs text-slate-400">Entry list = results</p>`;
+          return;
+        }
+        const list = document.createElement('div');
+        list.className = 'breakdown-list';
+        entries.forEach(entry => {
+          const row = document.createElement('div');
+          row.className = 'breakdown-pill';
+          row.innerHTML = `<span>${entry.race}</span><span>${entry.percent.toFixed(1)}%</span>`;
+          list.appendChild(row);
+        });
+        container.innerHTML = '';
+        container.appendChild(list);
+      }
+
+      function applySample(key) {
+        const sample = sampleTrees[key];
+        if (!sample) return;
+        nodeIds.forEach(nodeId => {
+          if (!nodeConfigs[nodeId].editable) return;
+          const card = cardMap.get(nodeId);
+          if (!card) return;
+          const list = card.querySelector('[data-entry-list]');
+          if (!list) return;
+          list.innerHTML = '';
+          const entries = sample[nodeId] || [];
+          if (!entries.length) {
+            ensureEntryRow(card);
+            return;
+          }
+          entries.forEach(entry => {
+            const row = rowTemplate.content.firstElementChild.cloneNode(true);
+            row.querySelector('[data-race-input]').value = entry.race;
+            row.querySelector('[data-percent-input]').value = entry.percent;
+            list.appendChild(row);
+          });
+        });
+        updateAll();
+      }
+    })();
+  </script>
+
+</body>
+
+</html>
