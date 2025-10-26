@@ -435,9 +435,9 @@
       </section>
 
       <section
-        class="max-w-6xl mx-auto px-4 py-10 sm:py-12 grid gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] items-start">
-        <div id="warningMessage" class="lg:col-span-2" aria-live="polite"></div>
-        <div class="space-y-6">
+        class="max-w-6xl mx-auto px-4 py-10 sm:py-12 grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
+        <div class="lg:col-span-2 space-y-6">
+          <div id="warningMessage" aria-live="polite"></div>
           <section id="advancedFamilyTree"
             class="advanced-panel bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-xl p-6 sm:p-8 space-y-6"
             data-force-open="true" aria-hidden="false">
@@ -609,11 +609,11 @@
             <div id="siblingScenarios" class="mt-2 grid gap-3 lg:grid-cols-2"></div>
           </section>
 
-          <div class="flex justify-end">
-            <button id="resetRaceButton" type="button"
-              class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 py-2.5 px-4 rounded-lg transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        <div class="flex justify-end">
+          <button id="resetRaceButton" type="button"
+            class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 py-2.5 px-4 rounded-lg transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
                 </path>
               </svg>
@@ -622,6 +622,21 @@
           </div>
         </div>
 
+        <!-- Ads Column - Right Side -->
+        <div class="lg:col-span-1 w-full">
+          <div class="sticky top-4 space-y-6">
+            <div
+              class="bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-900 sm:rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl border border-gray-200 dark:border-gray-700 p-1">
+              <div class="p-2 bg-white dark:bg-gray-800 rounded-lg">
+                <div
+                  class="text-xs text-center text-gray-500 dark:text-gray-400 mb-1 font-medium uppercase tracking-wider">
+                  Sponsored Content</div>
+                <ins class="adsbygoogle ad-container" data-ad-client="ca-pub-7174503033473057" data-ad-slot="2733986887"
+                  data-ad-format="vertical" data-full-width-responsive="true"></ins>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
 
@@ -894,8 +909,8 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
+        </div>
+      </section>
 
   <template id="race-entry-template">
     <div
