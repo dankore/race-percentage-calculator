@@ -10,7 +10,7 @@
   <meta name="keywords"
     content="race calculator, heritage calculator, race percentage calculator, heritage percentage calculator, nationality percentage calculator, ancestry percentage calculator, genetic ancestry calculator, race breakdown tool, mixed race calculator, baby race predictor">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-  <meta name="author" content="Dankore Software LLC">
+  <meta name="author" content="Dankore Software">
   <meta name="language" content="English">
   <!-- Using browser-specific meta tags instead of theme-color which isn't supported in all browsers -->
   <meta name="msapplication-navbutton-color" content="#4F46E5">
@@ -62,7 +62,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="assets/images/icons/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
-  <link rel="manifest" href="assets/images/icons/manifest.json">
+  <link rel="manifest" href="/assets/images/icons/manifest.json">
   <link rel="preconnect" href="https://www.googletagmanager.com">
   <link rel="preconnect" href="https://pagead2.googlesyndication.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -88,13 +88,14 @@
       }
     }
 
-    body {
-      padding-bottom: 100px;
+    .floating-results-spacer {
+      height: 100px;
+      width: 100%;
     }
 
     @media (max-width: 640px) {
-      body {
-        padding-bottom: 120px;
+      .floating-results-spacer {
+        height: 120px;
       }
 
       /* Improved section header styling for mobile */
@@ -224,6 +225,92 @@
       background: linear-gradient(to right, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
     }
 
+    .results-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+      z-index: 80;
+    }
+
+    .results-modal-backdrop.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .results-modal {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(20px) scale(0.98);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 90;
+      padding: 1.5rem;
+    }
+
+    .results-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+
+    .results-modal.hidden {
+      display: none;
+    }
+
+    .results-modal-panel {
+      width: min(1100px, 100%);
+      background: white;
+      border-radius: 32px;
+      border: 1px solid rgba(99, 102, 241, 0.15);
+      box-shadow: 0 30px 60px -40px rgba(15, 23, 42, 0.7);
+      padding: 2rem 2.5rem;
+      position: relative;
+      max-height: min(90vh, 920px);
+      overflow-y: auto;
+    }
+
+    .dark .results-modal-panel {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.97), rgba(3, 7, 18, 0.95));
+      border-color: rgba(129, 140, 248, 0.25);
+      box-shadow: 0 30px 60px -45px rgba(3, 7, 18, 0.9);
+    }
+
+    .results-modal-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 9999px;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.85);
+      color: #4F46E5;
+      transition: all 0.2s ease;
+    }
+
+    .results-modal-close:hover {
+      border-color: rgba(99, 102, 241, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .dark .results-modal-close {
+      background: rgba(15, 23, 42, 0.8);
+      color: #C7D2FE;
+      border-color: rgba(129, 140, 248, 0.35);
+    }
+
     .expand-button {
       display: flex;
       align-items: center;
@@ -252,6 +339,479 @@
 
     .dark .expand-button {
       background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    }
+
+    /* Advanced family tree styling */
+    .advanced-toggle {
+      position: relative;
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      background: linear-gradient(120deg, rgba(238, 242, 255, 0.85), rgba(255, 255, 255, 0.92));
+      border-radius: 1rem;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      box-shadow: 0 20px 30px -24px rgba(99, 102, 241, 0.7);
+      overflow: hidden;
+    }
+
+    .advanced-toggle::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.2), transparent 45%);
+      pointer-events: none;
+    }
+
+    .dark .advanced-toggle {
+      background: linear-gradient(120deg, rgba(49, 46, 129, 0.75), rgba(17, 24, 39, 0.85));
+      border-color: rgba(129, 140, 248, 0.4);
+      box-shadow: 0 25px 40px -30px rgba(15, 23, 42, 0.9);
+    }
+
+    .advanced-toggle-header {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .advanced-toggle-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #4F46E5, #9333EA);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 10px 20px rgba(79, 70, 229, 0.35);
+    }
+
+    .dark .advanced-toggle-icon {
+      background: linear-gradient(135deg, #6366F1, #A855F7);
+    }
+
+    .advanced-feature-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .advanced-feature-list li {
+      font-size: 0.85rem;
+      display: flex;
+      gap: 0.4rem;
+      align-items: center;
+      color: #4338CA;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
+    .advanced-feature-list li svg {
+      flex-shrink: 0;
+    }
+
+    .dark .advanced-feature-list li {
+      color: #C7D2FE;
+    }
+
+    .advanced-toggle-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      z-index: 1;
+      position: relative;
+    }
+
+    .advanced-toggle-actions .advanced-status {
+      margin-left: auto;
+    }
+
+    .advanced-toggle-chip {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #4F46E5;
+    }
+
+    .dark .advanced-toggle-chip {
+      color: #A5B4FC;
+    }
+
+    .advanced-sample-wrapper {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .advanced-sample-heading {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      font-weight: 700;
+      color: #4338CA;
+    }
+
+    .dark .advanced-sample-heading {
+      color: #C7D2FE;
+    }
+
+    .advanced-sample-subheading {
+      font-size: 0.8rem;
+      color: #4B5563;
+    }
+
+    .dark .advanced-sample-subheading {
+      color: #E5E7EB;
+    }
+
+    .advanced-sample-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .advanced-sample-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border-radius: 0.9rem;
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      background: rgba(255, 255, 255, 0.75);
+      box-shadow: 0 14px 30px -24px rgba(79, 70, 229, 0.65);
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+
+    .advanced-sample-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 22px 36px -22px rgba(79, 70, 229, 0.8);
+      border-color: rgba(79, 70, 229, 0.4);
+    }
+
+    .advanced-sample-btn:focus-visible {
+      outline: 2px solid #4F46E5;
+      outline-offset: 2px;
+    }
+
+    .dark .advanced-sample-btn {
+      border-color: rgba(129, 140, 248, 0.3);
+      background: rgba(31, 41, 55, 0.8);
+      box-shadow: 0 18px 44px -28px rgba(15, 23, 42, 0.85);
+    }
+
+    .advanced-sample-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      background: rgba(79, 70, 229, 0.12);
+    }
+
+    .dark .advanced-sample-icon {
+      background: rgba(129, 140, 248, 0.2);
+    }
+
+    .advanced-sample-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .advanced-sample-title {
+      font-weight: 700;
+      color: #1F2937;
+    }
+
+    .advanced-sample-desc {
+      font-size: 0.8rem;
+      color: #4B5563;
+      line-height: 1.3;
+    }
+
+    .dark .advanced-sample-title {
+      color: #F9FAFB;
+    }
+
+    .dark .advanced-sample-desc {
+      color: #D1D5DB;
+    }
+
+    .advanced-panel {
+      position: relative;
+      border-radius: 1.1rem;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 1.5rem;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(249, 250, 251, 0.95));
+      box-shadow: 0 25px 45px -30px rgba(79, 70, 229, 0.45);
+    }
+
+    .advanced-panel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      pointer-events: none;
+    }
+
+    .dark .advanced-panel {
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.9), rgba(15, 23, 42, 0.95));
+      border-color: rgba(129, 140, 248, 0.35);
+      box-shadow: 0 30px 60px -40px rgba(3, 7, 18, 0.85);
+    }
+
+    .dark .advanced-panel::before {
+      border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .grandparent-panel summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.75rem 0;
+      font-weight: 700;
+      color: #4F46E5;
+      border-bottom: 1px dashed rgba(79, 70, 229, 0.2);
+    }
+
+    .grandparent-panel summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .dark .grandparent-panel summary {
+      color: #C7D2FE;
+      border-color: rgba(129, 140, 248, 0.3);
+    }
+
+    .grandparent-panel[open] summary svg {
+      transform: rotate(180deg);
+    }
+
+    .lineage-cluster {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    @media (min-width: 1024px) {
+      .lineage-cluster {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2rem;
+      }
+    }
+
+    .lineage-column {
+      position: relative;
+      padding: 1rem;
+      border-radius: 1rem;
+      background: rgba(99, 102, 241, 0.035);
+      border: 1px dashed rgba(99, 102, 241, 0.2);
+    }
+
+    .dark .lineage-column {
+      background: rgba(79, 70, 229, 0.08);
+      border-color: rgba(129, 140, 248, 0.35);
+    }
+
+    .lineage-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      font-weight: 700;
+      margin-bottom: 0.9rem;
+      color: #4F46E5;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .dark .lineage-label {
+      color: #A5B4FC;
+    }
+
+    .family-tree-grid {
+      position: relative;
+      isolation: isolate;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .branch-content {
+      position: relative;
+      padding-top: 0.75rem;
+    }
+
+    .branch-content .lineage-line {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      width: 2px;
+      height: calc(100% + 24px);
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, rgba(99, 102, 241, 0), rgba(99, 102, 241, 0.65));
+      border-radius: 999px;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .branch-content .lineage-dot {
+      position: absolute;
+      top: -18px;
+      left: 50%;
+      width: 12px;
+      height: 12px;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background: #4F46E5;
+      box-shadow: 0 0 12px rgba(79, 70, 229, 0.45);
+      border: 2px solid #EEF2FF;
+      pointer-events: none;
+    }
+
+    .dark .branch-content .lineage-line {
+      background: linear-gradient(180deg, rgba(129, 140, 248, 0), rgba(129, 140, 248, 0.8));
+    }
+
+    .dark .branch-content .lineage-dot {
+      background: #A5B4FC;
+      border-color: #1F2937;
+      box-shadow: 0 0 14px rgba(129, 140, 248, 0.55);
+    }
+
+    .grandparent-node {
+      position: relative;
+      backdrop-filter: blur(6px);
+      border-radius: 1rem;
+      box-shadow: 0 15px 35px -25px rgba(15, 23, 42, 0.7);
+    }
+
+    .grandparent-node legend {
+      text-transform: none;
+      font-size: 1rem;
+    }
+
+    .grandparent-node .add-entry {
+      border-radius: 0.65rem;
+      border-style: dashed;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    .dark .grandparent-node .add-entry {
+      background: rgba(17, 24, 39, 0.7);
+    }
+
+    .node-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-weight: 700;
+    }
+
+    .node-meta {
+      display: flex;
+      align-items: center;
+      font-size: 0.75rem;
+      color: #4B5563;
+    }
+
+    .dark .node-meta {
+      color: #E5E7EB;
+    }
+
+    .lineage-bridge {
+      position: absolute;
+      top: -20px;
+      left: 20px;
+      right: 20px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(99, 102, 241, 0), rgba(99, 102, 241, 0.6), rgba(99, 102, 241, 0));
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .sibling-card {
+      border-radius: 1rem;
+      padding: 1.1rem;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(238, 242, 255, 0.85));
+      border: 1px solid rgba(99, 102, 241, 0.15);
+      box-shadow: 0 20px 45px -30px rgba(79, 70, 229, 0.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sibling-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .dark .sibling-card {
+      background: linear-gradient(145deg, rgba(31, 41, 55, 0.95), rgba(17, 24, 39, 0.95));
+      border-color: rgba(129, 140, 248, 0.25);
+      box-shadow: 0 25px 60px -35px rgba(0, 0, 0, 0.85);
+    }
+
+    .scenario-weight-slider {
+      accent-color: #4F46E5;
+    }
+
+    .mini-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.2rem 0.55rem;
+      font-size: 0.7rem;
+      border-radius: 9999px;
+      background: rgba(79, 70, 229, 0.08);
+      color: #4338CA;
+      margin-right: 0.25rem;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .dark .mini-pill {
+      background: rgba(129, 140, 248, 0.2);
+      color: #C7D2FE;
+    }
+
+    .advanced-status {
+      font-size: 0.85rem;
+      color: #4338CA;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-weight: 600;
+    }
+
+    .dark .advanced-status {
+      color: #C7D2FE;
     }
 
     @media (max-width: 640px) {
@@ -369,7 +929,7 @@
       },
       "author": {
         "@type": "Organization",
-        "name": "Dankore Software LLC",
+        "name": "Dankore Software",
         "url": "https://www.dankoresoft.com/",
         "logo": "https://race-calculator.dankoresoft.com/assets/images/logos/logo.png"
       },
@@ -420,7 +980,7 @@
     {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "Dankore Software LLC",
+      "name": "Dankore Software",
       "url": "https://www.dankoresoft.com",
       "logo": "https://race-calculator.dankoresoft.com/assets/images/logos/logo.png",
       "sameAs": [
@@ -451,51 +1011,13 @@
 <body
   class="bg-gradient-to-br from-indigo-50 to-purple-100 dark:from-gray-800 dark:to-indigo-950 min-h-screen font-sans transition-colors duration-300 relative overflow-x-hidden">
 
-  <!-- Floating Action Button (FAB) -->
-  <div id="floating-action-button"
-    class="fixed right-6 bottom-16 sm:bottom-6 z-[1001] flex flex-col items-end gap-2 opacity-0 transition-all duration-300 ease-in-out transform translate-y-4">
-    <!-- Main FAB -->
-    <button id="main-fab" aria-label="Quick Actions"
-      class="w-14 h-14 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg flex items-center justify-center hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-300 dark:focus:ring-indigo-800 transition-all">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
-        <path
-          d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z" />
-      </svg>
-    </button>
-
-    <!-- FAB Sub Actions (initially hidden) -->
-    <div id="fab-actions" class="hidden flex-col gap-2 mb-2">
-      <button id="fab-new-calc" aria-label="New Calculation"
-        class="w-12 h-12 rounded-full bg-indigo-500 text-white shadow-md flex items-center justify-center hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-300 dark:focus:ring-indigo-800 transition-all"
-        data-tooltip="New Calculation">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-      </button>
-      <button id="fab-share" aria-label="Share Results"
-        class="w-12 h-12 rounded-full bg-indigo-500 text-white shadow-md flex items-center justify-center hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-300 dark:focus:ring-indigo-800 transition-all"
-        data-tooltip="Share Results">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-        </svg>
-      </button>
-    </div>
-
-    <!-- Tooltip Container -->
-    <div id="fab-tooltip"
-      class="absolute right-16 hidden opacity-0 bg-gray-900 text-white text-sm px-2 py-1 rounded shadow-md transition-opacity duration-200 pointer-events-none whitespace-nowrap">
-      Tooltip Text
-    </div>
-  </div>
-
   <!-- Progress Indicator -->
   <div id="progress-bar"
     class="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transform -translate-y-full transition-transform duration-300 z-50">
   </div>
 
   <!-- Custom Scroll Progress Indicator -->
-  <div id="scroll-progress-container" class="fixed top-0 left-0 w-full h-1 bg-gray-200 dark:bg-gray-800 z-40">
+  <div id="scroll-progress-container" class="fixed top-0 left-0 w-full h-0 bg-gray-200 dark:bg-gray-800 z-40 transition-all duration-300">
     <div id="scroll-progress-indicator"
       class="h-full w-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-all duration-300"></div>
   </div>
@@ -536,12 +1058,6 @@
     </div>
   </template>
 
-  <div class="mx-auto max-w-6xl px-4 py-0">
-    <div class="w-full bg-gray-100 dark:bg-gray-800 sm:rounded-b-lg !h-[250px] overflow-hidden">
-      <ins class="adsbygoogle w-full" style="display: block; height: 250px" data-ad-client="ca-pub-7174503033473057"
-        data-ad-slot="1072106496" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    </div>
-  </div>
 
   <!-- First-time User Guide Overlay -->
   <div id="first-time-guide"
@@ -716,67 +1232,81 @@
     </div>
   </div>
 
-  <div class="container mx-auto px-2 sm:px-4 py-6 sm:py-8 max-w-6xl relative">
-    <header class="mb-12">
-      <div
-        class="bg-gradient-to-r from-indigo-600 to-purple-700 text-white p-6 sm:p-8 rounded-lg shadow-xl relative overflow-hidden border border-indigo-400 backdrop-blur-sm">
-        <div
-          class="absolute top-0 right-0 w-64 h-64 bg-indigo-200 opacity-10 rounded-full -mt-16 -mr-16 pointer-events-none">
-        </div>
-        <div
-          class="absolute bottom-0 left-0 w-48 h-48 bg-white opacity-5 rounded-full -mb-12 -ml-12 pointer-events-none">
-        </div>
-        <div
-          class="absolute top-1/2 left-1/4 w-32 h-32 bg-indigo-300 opacity-10 rounded-full transform -translate-x-1/2 -translate-y-1/2 pointer-events-none blur-xl">
-        </div>
-        <div class="container mx-auto">
-          <div class="flex flex-col md:flex-row items-center justify-between">
-            <div class="flex items-center mb-4 md:mb-0">
-              <img src="assets/images/logos/logo.png" alt="Race Percentage Calculator Logo"
-                class="w-16 h-16 bg-white p-1 rounded-full shadow-lg self-start mt-1 border-2 border-indigo-300 transition-all duration-300 hover:scale-105">
-              <div class="ml-3">
-                <h1 class="text-3xl sm:text-4xl font-bold leading-tight">
-                  Race Percentage Calculator
-                </h1>
-                <h2 class="text-xl sm:text-2xl text-indigo-200">
-                  Race, Heritage, Ethnicity & Nationality Percentage Calculator
-                </h2>
-              </div>
-            </div>
-            <nav class="flex items-center space-x-4">
-              <a href="/"
-                class="text-white font-medium transition-transform duration-700 hover:translate-y-[-2px]">Home</a>
-              <a href="/blog"
-                class="text-white font-medium transition-transform duration-700 hover:translate-y-[-2px]">Blog</a>
-              <div class="relative z-50" id="resources-dropdown">
-                <button
-                  class="text-white flex items-center font-medium transition-transform duration-700 hover:translate-y-[-2px]"
-                  id="resources-dropdown-button">
-                  Resources
-                  <svg class="w-4 h-4 ml-1 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                  </svg>
-                </button>
-              </div>
-              <button id="theme-toggle" aria-label="Toggle Dark Mode"
-                class="bg-white dark:bg-gray-700 text-indigo-600 dark:text-yellow-400 p-2 rounded-full flex items-center justify-center transform focus:outline-none shadow-md relative z-20 transition-transform duration-700 hover:scale-105">
-                <svg id="sun-icon" class="h-6 w-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+  <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+    <div class="max-w-6xl mx-auto px-4 py-4">
+      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <a href="/" class="flex items-center gap-3 group no-underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900 rounded-xl">
+          <img src="/assets/images/logos/logo.png" alt="Race Percentage Calculator logo"
+            class="w-12 h-12 bg-indigo-50 dark:bg-gray-800 p-1.5 rounded-xl shadow-md border border-indigo-200 dark:border-gray-700">
+          <div class="leading-tight">
+            <p class="text-sm font-semibold tracking-wide text-indigo-600 dark:text-indigo-300 uppercase">
+              Race Percentage Calculator
+            </p>
+            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+              Race, Heritage, Ethnicity &amp; Nationality Percentage Calculator
+            </p>
+          </div>
+        </a>
+
+        <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
+          <nav class="flex items-center gap-4 text-sm font-semibold text-gray-700 dark:text-gray-200 flex-wrap">
+            <a href="/multi-generation/"
+              class="hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors">Multi-Generation</a>
+            <div class="relative" id="resources-dropdown">
+              <button
+                class="flex items-center gap-1 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors"
+                id="resources-dropdown-button">
+                Resources
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
-                  </path>
-                </svg>
-                <svg id="moon-icon" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
               </button>
-            </nav>
-          </div>
+            </div>
+          </nav>
+
+          <button id="theme-toggle" aria-label="Toggle Dark Mode"
+            class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 dark:bg-gray-700 text-indigo-600 dark:text-yellow-400 shadow-sm transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            <svg id="sun-icon" class="h-5 w-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+              </path>
+            </svg>
+            <svg id="moon-icon" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                d="M17.293 13.293A8 8 0 016.707 2.707 8.001 8.001 0 1017.293 13.293z">
+              </path>
+            </svg>
+          </button>
         </div>
       </div>
+    </div>
+  </header>
+
+  <main role="main" class="flex-1">
+
+  <section
+    class="bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-900 dark:to-indigo-950 border-b border-indigo-100 dark:border-indigo-900/40">
+    <div class="max-w-6xl mx-auto px-4 py-10 sm:py-12">
+      <div class="max-w-3xl space-y-5">
+        <h1 class="text-3xl sm:text-4xl font-semibold leading-tight text-gray-900 dark:text-white">
+          Free Race &amp; Heritage Percentage Calculator
+        </h1>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-4 pt-4 pb-2 sm:pt-8 sm:pb-4 text-left">
+    <h2 class="text-xs font-semibold uppercase tracking-[0.4em] text-indigo-600 dark:text-indigo-300 mb-2">
+      Guided overview
+    </h2>
+    <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">
+      Discover your unique race mix, calculate accurate parental contributions, and explore heritage scenarios with
+      confidence before you dive into the tools below.
+    </p>
+  </section>
+
+    <div class="container mx-auto px-2 sm:px-4 py-6 sm:py-8 max-w-6xl relative">
       <div
         class="intro-container mt-8 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-lg">
         <div class="container mx-auto p-4">
@@ -864,9 +1394,7 @@
           </button>
         </div>
       </div>
-    </header>
-
-    <main role="main" class="container mx-auto px-0 sm:px-4 xl:px-0 mb-16">
+      <section class="container mx-auto px-0 sm:px-4 xl:px-0 mb-16">
       <div id="warningMessage" class="mb-4" aria-live="polite"></div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12">
@@ -890,7 +1418,7 @@
                 <span class="section-heading-text">Enter Races</span>
               </h2>
               <div id="race-form" class="space-y-5">
-                <fieldset id="mother"
+                <fieldset id="mother" data-label="Mother's"
                   class="parent-node bg-gradient-to-r from-pink-50 to-pink-100 dark:from-pink-900 dark:to-pink-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-pink-200 dark:border-pink-700">
                   <legend class="text-lg sm:text-xl font-bold text-pink-700 dark:text-pink-300 px-2 flex items-center">
                     <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -914,7 +1442,7 @@
                   </button>
                 </fieldset>
 
-                <fieldset id="father"
+                <fieldset id="father" data-label="Father's"
                   class="parent-node bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-blue-200 dark:border-blue-700">
                   <legend class="text-lg sm:text-xl font-bold text-blue-700 dark:text-blue-300 px-2 flex items-center">
                     <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -937,8 +1465,9 @@
                     <span>Add Race</span>
                   </button>
                 </fieldset>
+
               </div>
-              <div class="flex justify-end mt-4">
+              <div class="flex justify-end mt-6">
                 <button id="resetRaceButton" type="button"
                   class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 py-2.5 px-4 rounded-lg transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
                   <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -969,162 +1498,27 @@
                 <span class="section-heading-text">Results</span>
               </h2>
               <div
-                class="chart-container rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-md transition-all duration-300 hover:shadow-lg">
-                <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 p-5 rounded-t-xl relative overflow-hidden">
-                  <div
-                    class="absolute bottom-0 right-0 w-24 h-24 bg-white opacity-5 rounded-full -mb-12 -mr-12 pointer-events-none">
+                class="rounded-xl border border-dashed border-indigo-200 dark:border-indigo-800 bg-white/70 dark:bg-gray-900/40 p-6 shadow-inner">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  <div>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Results now live in a modal</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                      Charts, totals, download, and save controls now live inside a distraction-free panel. Use the
+                      floating bar at the bottom of the page or the button here whenever you’re ready to review them.
+                    </p>
                   </div>
-                  <h3 class="text-lg font-bold text-white flex items-center relative z-10">
-                    <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 4.75V6.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                        stroke-linejoin="round"></path>
-                      <path d="M17.1266 6.87347L16.0659 7.93413" stroke="currentColor" stroke-width="1.5"
-                        stroke-linecap="round" stroke-linejoin="round"></path>
-                      <path d="M19.25 12L17.75 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                        stroke-linejoin="round"></path>
-                      <path d="M17.1266 17.1265L16.0659 16.0659" stroke="currentColor" stroke-width="1.5"
-                        stroke-linecap="round" stroke-linejoin="round"></path>
-                      <path d="M12 17.75V19.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                        stroke-linejoin="round"></path>
-                      <path d="M7.9342 16.0659L6.87354 17.1265" stroke="currentColor" stroke-width="1.5"
-                        stroke-linecap="round" stroke-linejoin="round"></path>
-                      <path d="M6.25 12L4.75 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                        stroke-linejoin="round"></path>
-                      <path d="M7.9342 7.93413L6.87354 6.87347" stroke="currentColor" stroke-width="1.5"
-                        stroke-linecap="round" stroke-linejoin="round"></path>
-                      <path
-                        d="M12 14.25C13.2426 14.25 14.25 13.2426 14.25 12C14.25 10.7574 13.2426 9.75 12 9.75C10.7574 9.75 9.75 10.7574 9.75 12C9.75 13.2426 10.7574 14.25 12 14.25Z"
-                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <button type="button" data-open-results
+                    class="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigo-500 to-indigo-600 px-5 py-2.5 text-white font-semibold shadow-md hover:from-indigo-600 hover:to-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 transition">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"
+                        d="M9 5l7 7-7 7"></path>
                     </svg>
-                    Race Breakdown
-                  </h3>
+                    Open results modal
+                  </button>
                 </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 p-5 flex-grow">
-                  <div class="space-y-3">
-                    <h4 class="font-semibold text-indigo-700 dark:text-indigo-300 text-lg">Details</h4>
-                    <div id="raceBreakdown" class="bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner overflow-hidden">
-                      <!-- Table will be inserted here with border styling -->
-                    </div>
-                  </div>
-
-                  <div class="space-y-3">
-                    <h4 class="font-semibold text-indigo-700 dark:text-indigo-300 text-lg">Chart</h4>
-                    <div
-                      class="bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner flex items-center justify-center p-3 min-h-[250px]">
-                      <canvas id="raceChart"></canvas>
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="border-t border-gray-200 dark:border-gray-700 p-5 bg-gray-50 dark:bg-gray-900 rounded-b-lg backdrop-blur-sm">
-                  <div class="flex flex-col space-y-4">
-                    <div>
-                      <label for="userName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Your Name (Optional)
-                      </label>
-                      <div class="relative">
-                        <input type="text" id="userName" name="userName" maxlength="50"
-                          class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400">
-                        <span
-                          class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 dark:text-gray-500">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
-                            </path>
-                          </svg>
-                        </span>
-                      </div>
-                      <p class="mt-1 text-xs text-gray-500 dark:text-gray-400" id="nameHelp">
-                        Letters, spaces, hyphens, and apostrophes only. Max 50 characters.
-                      </p>
-                      <p class="mt-1 text-xs text-red-500 hidden" id="nameError">
-                        Please enter a valid name.
-                      </p>
-                    </div>
-
-                    <div class="flex flex-col sm:grid sm:grid-cols-2 sm:gap-3">
-                      <button id="downloadButton"
-                        class="w-full mb-3 sm:mb-0 bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 whitespace-nowrap shadow-md disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-indigo-500 disabled:hover:to-indigo-600"
-                        disabled>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                          stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4">
-                        </svg>
-                        <span class="relative inline-flex items-center">
-                          Download Results
-                          <!-- Loading spinner that appears during download process -->
-                          <span id="downloadSpinner" class="ml-2 opacity-0 transition-opacity duration-200 ease-in-out">
-                            <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-                              viewBox="0 0 24 24">
-                              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                              </circle>
-                              <path class="opacity-75" fill="currentColor"
-                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                              </path>
-                            </svg>
-                          </span>
-                        </span>
-                      </button>
-
-                      <!-- Save Results Button -->
-                      <button id="saveButton"
-                        class="w-full bg-gradient-to-r from-indigo-700 to-indigo-800 hover:from-indigo-800 hover:to-indigo-900 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 whitespace-nowrap shadow-md disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-indigo-700 disabled:hover:to-indigo-800"
-                        disabled>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                          stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4">
-                          </path>
-                        </svg>
-                        <span>Save Results</span>
-                      </button>
-                    </div>
-
-                    <!-- Success message that appears after download -->
-                    <div id="downloadSuccess"
-                      class="hidden bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 text-sm py-2 px-3 rounded-md absolute right-5 -top-12 shadow-md transition-all duration-300 transform font-medium">
-                      <div class="flex items-center space-x-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                          stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span>Downloaded successfully!</span>
-                      </div>
-                    </div>
-
-                    <!-- Success message that appears after save -->
-                    <div id="saveSuccess"
-                      class="hidden bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 text-sm py-2 px-3 rounded-md absolute right-5 -top-12 shadow-md transition-all duration-300 transform font-medium">
-                      <div class="flex items-center space-x-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                          stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span>Saved successfully!</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Premium Loading Spinner -->
-              <div id="loadingSpinner"
-                class="absolute inset-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm flex-col items-center justify-center rounded-lg z-50 hidden">
-                <div class="premium-spinner-container">
-                  <div class="spinner-inner"></div>
-                  <div class="spinner-center">
-                    <div class="spinner-core"></div>
-                  </div>
-                </div>
-
-                <div class="mt-4 text-center">
-                  <p class="text-gray-700 dark:text-gray-200 font-medium">Generating Results</p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Please wait a moment...</p>
-                </div>
+                <p class="mt-4 text-xs text-gray-500 dark:text-gray-400">
+                  We still auto-update your calculations as you type—simply pop the modal open when you want to inspect, save, or download the finished card.
+                </p>
               </div>
 
             </section>
@@ -1153,11 +1547,49 @@
                 Results are stored locally on your device and will be available the next time you visit.
               </p>
 
-              <div id="savedResultsList"
-                class="bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600 max-h-96 overflow-y-auto shadow-inner">
-                <p class="text-gray-700 dark:text-gray-200 text-sm italic p-4">No saved results yet.</p>
+            <div id="savedResultsList"
+              class="bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600 max-h-96 overflow-y-auto shadow-inner">
+              <p class="text-gray-700 dark:text-gray-200 text-sm italic p-4">No saved results yet.</p>
+            </div>
+          </section>
+
+          <section
+            class="mt-8 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg p-4 sm:p-6 space-y-4 transition-all duration-300 hover:shadow-2xl">
+            <div class="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h3 class="text-lg sm:text-xl font-bold text-indigo-700 dark:text-indigo-200">Need DNA Kit Import?</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-300 max-w-3xl">
+                  We moved the full importer, comparison table, and file parsing workflow to its own focused workspace.
+                  Upload vendor exports, normalize the data, then launch the calculator with everything pre-filled in one click.
+                </p>
               </div>
-            </section>
+              <span
+                class="inline-flex items-center justify-center px-3 py-1 text-xs font-semibold rounded-full bg-indigo-50 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200">
+                New dedicated page
+              </span>
+            </div>
+            <div
+              class="flex flex-col lg:flex-row items-start lg:items-center gap-4 lg:gap-6 bg-gray-50 dark:bg-gray-900/40 border border-gray-200 dark:border-gray-700 rounded-2xl p-4">
+              <div class="flex-1">
+                <p class="text-sm text-gray-700 dark:text-gray-300">
+                  Bring any 23andMe, AncestryDNA, MyHeritage, or generic CSV/JSON export and get instant structure, filters,
+                  and comparison tools without the distraction of the main calculator page.
+                </p>
+              </div>
+              <a href="/dna-import"
+                class="inline-flex items-center justify-center px-5 py-3 rounded-2xl text-white font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-lg transition-all duration-200">
+                Open DNA Import Hub
+                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+              </a>
+            </div>
+            <div id="dnaTransferNotice"
+              class="hidden border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/30 rounded-2xl p-4 text-sm text-green-800 dark:text-green-200 font-medium">
+              DNA kit data applied to the calculator.
+            </div>
+          </section>
 
             <div
               class="flex flex-col sm:grid sm:grid-cols-2 sm:gap-4 mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl">
@@ -1194,6 +1626,110 @@
                 <span class="text-sm font-medium">Share on X</span>
               </button>
             </div>
+
+            <section id="storyCardsSection"
+              class="mt-8 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-4 sm:p-6 space-y-4 transition-all duration-300 hover:shadow-2xl">
+              <div class="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <h2 class="text-lg sm:text-xl font-bold text-indigo-700 dark:text-indigo-200">Story Cards & Embeds</h2>
+                  <p class="text-sm text-gray-600 dark:text-gray-300 max-w-2xl">
+                    Package your latest breakdown into a branded share card, then copy the ready-made HTML embed for blogs, newsletters, or genealogy forums.
+                  </p>
+                </div>
+                <span id="storyCardStatus"
+                  class="inline-flex items-center justify-center px-3 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+                  Run a calculation to enable
+                </span>
+              </div>
+
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                  <div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">
+                      Pick a vibe
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                      <button type="button" data-story-palette="sunrise"
+                        class="story-palette-btn px-3 py-1.5 rounded-full border border-orange-200 text-orange-700 bg-orange-50 dark:bg-orange-900/30 dark:text-orange-200 text-sm font-semibold ring-2 ring-orange-300">
+                        Sunrise Glow
+                      </button>
+                      <button type="button" data-story-palette="twilight"
+                        class="story-palette-btn px-3 py-1.5 rounded-full border border-purple-200 text-purple-700 bg-purple-50 dark:bg-purple-900/40 dark:text-purple-200 text-sm font-semibold">
+                        Twilight Neon
+                      </button>
+                      <button type="button" data-story-palette="forest"
+                        class="story-palette-btn px-3 py-1.5 rounded-full border border-emerald-200 text-emerald-700 bg-emerald-50 dark:bg-emerald-900/30 dark:text-emerald-200 text-sm font-semibold">
+                        Forest Calm
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label for="storyCardTagline"
+                      class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1 block">
+                      Tagline
+                    </label>
+                    <input id="storyCardTagline" type="text" maxlength="80"
+                      class="w-full rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 text-sm text-gray-800 dark:text-gray-100 p-3 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition"
+                      placeholder="Celebrating every thread of my heritage">
+                  </div>
+
+                  <div>
+                    <label for="storyCardCTA"
+                      class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1 block">
+                      Embed button label
+                    </label>
+                    <input id="storyCardCTA" type="text" maxlength="40"
+                      class="w-full rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 text-sm text-gray-800 dark:text-gray-100 p-3 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition"
+                      value="Create yours at Race Calculator">
+                  </div>
+
+                  <div class="flex flex-wrap gap-2">
+                    <button id="storyCardGenerate" type="button"
+                      class="flex-1 min-w-[150px] bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow disabled:opacity-50 disabled:cursor-not-allowed"
+                      disabled>
+                      Refresh preview
+                    </button>
+                    <button id="storyCardDownload" type="button"
+                      class="flex-1 min-w-[150px] bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-200 text-sm font-semibold px-4 py-2.5 rounded-xl border border-indigo-200 dark:border-indigo-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                      disabled>
+                      Download card
+                    </button>
+                    <button id="storyCardCopyEmbed" type="button"
+                      class="flex-1 min-w-[150px] bg-white dark:bg-gray-900/40 text-gray-700 dark:text-gray-200 text-sm font-semibold px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                      disabled>
+                      Copy embed HTML
+                    </button>
+                  </div>
+
+                  <p class="text-xs text-gray-500 dark:text-gray-400">
+                    Cards auto-pull your latest chart data (top four regions, total mix, and chosen tagline).
+                  </p>
+                </div>
+
+                <div class="space-y-3">
+                  <div id="storyCardPreview"
+                    class="rounded-[28px] border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 min-h-[280px] flex items-center justify-center text-sm text-gray-500 dark:text-gray-300 text-center px-6 py-8">
+                    Generate results to see your card preview.
+                  </div>
+                  <div>
+                    <div class="flex items-center justify-between gap-3 mb-1">
+                      <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                        Embed snippet
+                      </p>
+                      <button id="storyCardEmbedToggle" type="button" aria-controls="storyCardEmbedCode"
+                        aria-expanded="false"
+                        class="text-xs font-semibold text-indigo-600 dark:text-indigo-300 hover:text-indigo-700 dark:hover:text-indigo-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 rounded-lg px-3 py-1 transition">
+                        Show embed snippet
+                      </button>
+                    </div>
+                    <pre id="storyCardEmbedCode"
+                      class="hidden text-[11px] leading-4 bg-gray-900 text-gray-100 rounded-2xl p-3 overflow-x-auto">
+Run the generator to view the HTML snippet.</pre>
+                  </div>
+                </div>
+              </div>
+            </section>
           </div>
         </div>
 
@@ -1679,7 +2215,9 @@
           professional genealogists or DNA testing services.
         </p>
       </section>
-    </main>
+    </section>
+    <div aria-hidden="true" class="floating-results-spacer"></div>
+  </main>
 
 
 
@@ -1692,7 +2230,8 @@
             <p class="text-white mb-4">
               Created with ❤️ by
               <a class="text-white hover:text-yellow-300 underline transition-colors duration-300"
-                href="https://www.dankoresoft.com/" target="_blank" rel="noopener noreferrer">
+                href="https://www.dankoresoft.com/?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=brand"
+                target="_blank" rel="noopener noreferrer">
                 Dankore Software
               </a>
             </p>
@@ -1712,10 +2251,14 @@
             <h3 class="text-white font-semibold mb-4 text-lg">Quick Links</h3>
             <ul class="space-y-3">
               <li>
-                <a href="/" class="text-white hover:text-yellow-300 transition-colors duration-300">Home</a>
+                <a href="/blog" class="text-white hover:text-yellow-300 transition-colors duration-300">Blog</a>
               </li>
               <li>
-                <a href="/blog" class="text-white hover:text-yellow-300 transition-colors duration-300">Blog</a>
+                <a href="/dna-import" class="text-white hover:text-yellow-300 transition-colors duration-300">DNA Import
+                  Hub</a>
+              </li>
+              <li>
+                <a href="/multi-generation" class="text-white hover:text-yellow-300 transition-colors duration-300">Multi-Generation Calculator</a>
               </li>
               <li>
                 <a href="/blog/genealogy-research-tips"
@@ -1765,13 +2308,86 @@
                   </svg>
                 </a>
               </li>
+              <li>
+                <a href="https://logo-creator.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
+                  <span>Logo Creator</span>
+                  <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="https://mentorship.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
+                  <span>Mentorship</span>
+                  <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="https://halal-ads.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
+                  <span>Halal Ads</span>
+                  <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="https://direct-lease.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
+                  <span>Direct Lease</span>
+                  <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.bitcoinusdprice.org" target="_blank" rel="noopener noreferrer"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
+                  <span>Bitcoin USD Price</span>
+                  <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="https://bmi-calc.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
+                  <span>BMI Calculator</span>
+                  <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="https://mortgage-calc.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
+                  <span>Mortgage Calculator</span>
+                  <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
             </ul>
           </div>
         </div>
 
         <div class="pt-4 border-t border-indigo-800 dark:border-gray-800">
           <p class="text-center text-white text-sm">
-            © <span class="copyright-year">2024</span> Dankore Software LLC. All rights reserved.
+            © <span class="copyright-year">2024</span>
+            <a class="text-white hover:text-yellow-300 underline transition-colors duration-300"
+              href="https://www.dankoresoft.com/?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=brand"
+              target="_blank" rel="noopener noreferrer">Dankore Software</a>. All rights reserved.
           </p>
         </div>
       </div>
@@ -1782,13 +2398,19 @@
   <div
     class="fixed hidden mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-[1000] border border-gray-200 dark:border-gray-700"
     id="resources-dropdown-menu">
-    <a href="/blog/genealogy-research-tips"
+    <a href="/blog/"
+      class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">Blog
+      Home</a>
+    <a href="/dna-import/"
+      class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">DNA
+      Import Hub</a>
+    <a href="/blog/genealogy-research-tips/"
       class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">Genealogy
       Tips</a>
-    <a href="/blog/understanding-dna-tests"
+    <a href="/blog/understanding-dna-tests/"
       class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">DNA
       Testing</a>
-    <a href="/blog/cultural-heritage-resources"
+    <a href="/blog/cultural-heritage-resources/"
       class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">Cultural
       Heritage</a>
   </div>
@@ -1800,19 +2422,155 @@
         <canvas id="miniRaceChart"></canvas>
       </div>
       <div class="results-summary flex-1 overflow-hidden">
-        <h4 class="text-sm font-semibold">Race Composition</h4>
+        <h4 class="text-sm font-semibold">Your race composition</h4>
         <div class="race-pills flex flex-wrap" id="floatingRacePills">
           <!-- Race pills will be inserted here -->
         </div>
       </div>
     </div>
-    <a href="#results" class="expand-button">
+    <button id="resultsModalHandle" type="button" class="expand-button" disabled>
       <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
       </svg>
-      View and Download Result
-    </a>
+      Open full results
+    </button>
   </div>
+
+  <div id="resultsModalBackdrop" class="results-modal-backdrop hidden" aria-hidden="true"></div>
+  <section id="resultsModal" class="results-modal hidden" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="results-modal-panel">
+      <button id="resultsModalClose" type="button" class="results-modal-close" aria-label="Close results panel">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+
+      <div class="space-y-4 mb-4">
+        <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">Results</h2>
+        <p class="text-gray-600 dark:text-gray-300">
+          Totals update instantly as you edit each parent. Open this panel whenever you’re ready to review the mix,
+          download the card, or save it to your history.
+        </p>
+      </div>
+
+      <div
+        class="chart-container rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-lg transition-all duration-300 hover:shadow-2xl">
+        <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 p-5 rounded-t-3xl relative overflow-hidden">
+          <div class="absolute bottom-0 right-0 w-24 h-24 bg-white opacity-5 rounded-full -mb-12 -mr-12 pointer-events-none"></div>
+          <h3 class="text-lg font-bold text-white flex items-center relative z-10">
+            <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 4.75V6.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path d="M17.1266 6.87347L16.0659 7.93413" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M19.25 12L17.75 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path d="M17.1266 17.1265L16.0659 16.0659" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M12 17.75V19.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path d="M7.9342 16.0659L6.87354 17.1265" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M6.25 12L4.75 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round"></path>
+              <path d="M7.9342 7.93413L6.87354 6.87347" stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M12 14.25C13.2426 14.25 14.25 13.2426 14.25 12C14.25 10.7574 13.2426 9.75 12 9.75C10.7574 9.75 9.75 10.7574 9.75 12C9.75 13.2426 10.7574 14.25 12 14.25Z"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            Heritage Breakdown
+          </h3>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 p-5 flex-grow">
+          <div class="space-y-3">
+            <h4 class="font-semibold text-indigo-700 dark:text-indigo-300 text-lg">Details</h4>
+            <div id="raceBreakdown" class="bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner overflow-hidden"></div>
+          </div>
+
+          <div class="space-y-3">
+            <h4 class="font-semibold text-indigo-700 dark:text-indigo-300 text-lg">Chart</h4>
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner flex items-center justify-center p-3 min-h-[250px]">
+              <canvas id="raceChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-200 dark:border-gray-700 p-5 bg-gray-50 dark:bg-gray-900 rounded-b-3xl backdrop-blur-sm">
+          <div class="flex flex-col space-y-4">
+            <div>
+              <label for="userName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Your Name (Optional)
+              </label>
+              <div class="relative">
+                <input type="text" id="userName" name="userName" maxlength="50"
+                  class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400">
+                <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 dark:text-gray-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
+                    </path>
+                  </svg>
+                </span>
+              </div>
+              <p class="mt-1 text-xs text-gray-500 dark:text-gray-400" id="nameHelp">
+                Letters, spaces, hyphens, and apostrophes only. Max 50 characters.
+              </p>
+              <p class="mt-1 text-xs text-red-500 hidden" id="nameError">
+                Please enter a valid name.
+              </p>
+            </div>
+
+            <div class="flex flex-col sm:grid sm:grid-cols-2 sm:gap-3">
+              <button id="downloadButton"
+                class="w-full mb-3 sm:mb-0 bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 whitespace-nowrap shadow-md disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-indigo-500 disabled:hover:to-indigo-600"
+                disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4">
+                </svg>
+                <span class="relative inline-flex items-center">
+                  Download Results
+                  <span id="downloadSpinner" class="ml-2 opacity-0 transition-opacity duration-200 ease-in-out">
+                    <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                      viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                      </circle>
+                      <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                      </path>
+                    </svg>
+                  </span>
+                  <span id="downloadSuccess" class="ml-2 text-sm text-white hidden">Ready!</span>
+                </span>
+              </button>
+              <button id="saveButton"
+                class="w-full bg-gradient-to-r from-indigo-700 to-indigo-800 hover:from-indigo-800 hover:to-indigo-900 text-white px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 whitespace-nowrap shadow-md disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:from-indigo-700 disabled:hover:to-indigo-800"
+                disabled>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4">
+                </svg>
+                <span class="flex items-center gap-2">
+                  <span data-save-label>Save Results</span>
+                  <span data-save-feedback class="hidden items-center gap-1 text-sm font-semibold text-white/90">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>Saved!</span>
+                  </span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </body>
 
 </html>

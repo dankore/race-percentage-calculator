@@ -7,6 +7,8 @@ import { setupAnalytics } from './modules/analytics.js';
 import { setupBackToTop } from './modules/backToTop.js';
 import { initializeUIEnhancements } from './modules/uiEnhancements.js';
 import { setupEnhancedUI } from './modules/uiEffects.js';
+import { setupDnaKitImport } from './modules/dnaKitImport.js';
+import { setupStoryCards } from './modules/storyCards.js';
 
 function setDynamicYear() {
   const yearElement = document.querySelector('.copyright-year');
@@ -24,6 +26,8 @@ function initializeApp() {
   setupSocialSharing();
   setupBackToTop();
   initializeUIEnhancements();
+  setupDnaKitImport();
+  setupStoryCards();
   setDynamicYear();
 
   // Initialize race calculator with a slight delay to ensure DOM is ready
@@ -32,6 +36,7 @@ function initializeApp() {
       const success = initializeNodes();
       if (success) {
         calculateRace();
+        document.dispatchEvent(new Event('race-calculator-ready'));
 
         // Initialize saved results list if it exists
         if (document.getElementById('savedResultsList')) {
@@ -46,29 +51,6 @@ function initializeApp() {
     }
   }, 100);
 
-  // Register service worker
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker
-      .register('/service-worker.js')
-      .then(registration => {
-        registration.addEventListener('updatefound', () => {
-          const newWorker = registration.installing;
-
-          newWorker.addEventListener('statechange', () => {
-            if (
-              newWorker.state === 'installed' &&
-              navigator.serviceWorker.controller
-            ) {
-              window.location.reload();
-            }
-          });
-        });
-      })
-      .catch(() => {});
-    navigator.serviceWorker.getRegistrations().then(registrations => {
-      registrations.forEach(registration => registration.update());
-    });
-  }
 }
 
 // Check if document is already loaded

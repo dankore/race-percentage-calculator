@@ -201,233 +201,28 @@ export function setupEnhancedUI() {
     subtree: true
   });
   
-  // Add system theme detection for dark/light mode
-  setupAutomaticThemeDetection();
-  
-  // Setup Floating Action Button
-  setupFloatingActionButton();
-  
   // Setup scroll progress indicator
   setupScrollProgressIndicator();
-}
-
-// Setup automatic theme detection based on system preferences
-function setupAutomaticThemeDetection() {
-  // Check if browser supports matchMedia
-  if (window.matchMedia) {
-    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    // Set initial theme based on system preference
-    if (darkModeMediaQuery.matches) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-    
-    // Listen for changes in system preference
-    darkModeMediaQuery.addEventListener('change', (e) => {
-      if (e.matches) {
-        document.documentElement.classList.add('dark');
-        localStorage.setItem('theme', 'dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-        localStorage.setItem('theme', 'light');
-      }
-    });
-  }
-}
-
-// Setup Floating Action Button functionality
-function setupFloatingActionButton() {
-  const mainFAB = document.getElementById('main-fab');
-  const fabActions = document.getElementById('fab-actions');
-  const fabTooltip = document.getElementById('fab-tooltip');
-  const fab = document.getElementById('floating-action-button');
-  const fabButtons = document.querySelectorAll('#fab-actions button');
-  
-  // Make FAB visible after a short delay
-  setTimeout(() => {
-    if (fab) {
-      fab.style.opacity = '1';
-      fab.style.transform = 'translateY(0)';
-    }
-  }, 800);
-  
-  // Toggle menu on click
-  if (mainFAB && fabActions) {
-    mainFAB.addEventListener('click', () => {
-      // Toggle visibility
-      const isHidden = fabActions.classList.contains('hidden');
-      
-      if (isHidden) {
-        // Show the menu with flex display
-        fabActions.classList.remove('hidden');
-        fabActions.classList.add('flex');
-        
-        // Rotate icon to indicate open state
-        mainFAB.style.transform = 'rotate(45deg)';
-      } else {
-        // Hide the menu
-        fabActions.classList.add('hidden');
-        fabActions.classList.remove('flex');
-        
-        // Reset icon rotation
-        mainFAB.style.transform = 'rotate(0deg)';
-      }
-    });
-  }
-  
-  // Setup tooltips for FAB buttons
-  if (fabButtons && fabTooltip) {
-    fabButtons.forEach(button => {
-      // Show tooltip on hover
-      button.addEventListener('mouseenter', (e) => {
-        const tooltipText = button.getAttribute('data-tooltip');
-        if (tooltipText) {
-          fabTooltip.textContent = tooltipText;
-          fabTooltip.classList.remove('hidden');
-          
-          // Position the tooltip vertically centered to the button
-          const buttonRect = button.getBoundingClientRect();
-          fabTooltip.style.top = buttonRect.top + (buttonRect.height / 2) - (fabTooltip.offsetHeight / 2) + 'px';
-          
-          // Fade in
-          setTimeout(() => {
-            fabTooltip.style.opacity = '1';
-          }, 10);
-        }
-      });
-      
-      // Hide tooltip on mouse leave
-      button.addEventListener('mouseleave', () => {
-        fabTooltip.style.opacity = '0';
-        setTimeout(() => {
-          fabTooltip.classList.add('hidden');
-        }, 200);
-      });
-      
-      // Setup FAB button actions
-      button.addEventListener('click', () => {
-        if (button.id === 'fab-new-calc') {
-          // Clear all race inputs and refresh the form
-          resetCalculator();
-          
-          // Show success toast
-          showToast('Started a new calculation', 'info');
-          
-          // Scroll to race input section
-          const raceInputSection = document.getElementById('race-input');
-          if (raceInputSection) {
-            raceInputSection.scrollIntoView({ behavior: 'smooth' });
-          }
-        }
-        else if (button.id === 'fab-save') {
-          // Find and click the save results button
-          const saveButton = document.querySelector('#saveResultsBtn');
-          if (saveButton) {
-            saveButton.click();
-          } else {
-            showToast('Please calculate race percentages first', 'info');
-          }
-        }
-        else if (button.id === 'fab-share') {
-          // Find and click the Twitter share button
-          const shareButton = document.querySelector('button[data-share="twitter"]');
-          if (shareButton) {
-            shareButton.click();
-          } else {
-            showToast('Please calculate race percentages first', 'info');
-          }
-        }
-        
-        // Hide the FAB menu after action
-        fabActions.classList.add('hidden');
-        fabActions.classList.remove('flex');
-        mainFAB.style.transform = 'rotate(0deg)';
-      });
-    });
-  }
-}
-
-// Reset the calculator for a new calculation
-function resetCalculator() {
-  // Find all race entry inputs in both parent containers
-  const raceInputs = document.querySelectorAll('.race-input');
-  const percentageInputs = document.querySelectorAll('.percentage-input');
-  
-  // Clear all inputs except the first entry for each parent
-  const motherEntries = document.querySelectorAll('#mother .race-entry');
-  const fatherEntries = document.querySelectorAll('#father .race-entry');
-  
-  // Keep only the first entry for each parent, remove the rest
-  if (motherEntries.length > 1) {
-    for (let i = 1; i < motherEntries.length; i++) {
-      motherEntries[i].remove();
-    }
-  }
-  
-  if (fatherEntries.length > 1) {
-    for (let i = 1; i < fatherEntries.length; i++) {
-      fatherEntries[i].remove();
-    }
-  }
-  
-  // Clear the first entries
-  if (motherEntries[0]) {
-    const motherRaceInput = motherEntries[0].querySelector('.race-input');
-    const motherPercentageInput = motherEntries[0].querySelector('.percentage-input');
-    if (motherRaceInput) motherRaceInput.value = '';
-    if (motherPercentageInput) motherPercentageInput.value = '100';
-  }
-  
-  if (fatherEntries[0]) {
-    const fatherRaceInput = fatherEntries[0].querySelector('.race-input');
-    const fatherPercentageInput = fatherEntries[0].querySelector('.percentage-input');
-    if (fatherRaceInput) fatherRaceInput.value = '';
-    if (fatherPercentageInput) fatherPercentageInput.value = '100';
-  }
-  
-  // Clear any displayed results
-  const resultsContainer = document.getElementById('race-results');
-  if (resultsContainer) {
-    resultsContainer.innerHTML = '';
-  }
-  
-  // Reset chart if it exists
-  const chartContainer = document.querySelector('.chart-container');
-  if (chartContainer) {
-    chartContainer.classList.add('hidden');
-  }
-  
-  // Show progress indicator for visual feedback
-  showProgressIndicator();
-}
-
-// Show progress indicator for visual feedback
-function showProgressIndicator() {
-  const progressBar = document.getElementById('progress-bar');
-  if (!progressBar) return;
-  
-  // Show the progress bar
-  progressBar.style.transform = 'translateY(0)';
-  
-  // Hide it after a delay
-  setTimeout(() => {
-    progressBar.style.transform = 'translateY(-100%)';
-  }, 800);
 }
 
 // Setup scroll progress indicator
 function setupScrollProgressIndicator() {
   const scrollProgress = document.getElementById('scroll-progress-indicator');
-  if (!scrollProgress) return;
+  const scrollContainer = document.getElementById('scroll-progress-container');
+  if (!scrollProgress || !scrollContainer) return;
   
   // Update scroll progress on scroll
   window.addEventListener('scroll', () => {
     const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     const scrolled = (window.scrollY / windowHeight) * 100;
+    
+    // Show progress bar when scrolling down, hide when at top
+    if (window.scrollY > 0) {
+      scrollContainer.style.height = '4px'; // Show the progress bar
+    } else {
+      scrollContainer.style.height = '0px'; // Hide the progress bar
+    }
+    
     scrollProgress.style.width = scrolled + '%';
   });
 }
