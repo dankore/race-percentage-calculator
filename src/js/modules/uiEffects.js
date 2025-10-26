@@ -208,12 +208,21 @@ export function setupEnhancedUI() {
 // Setup scroll progress indicator
 function setupScrollProgressIndicator() {
   const scrollProgress = document.getElementById('scroll-progress-indicator');
-  if (!scrollProgress) return;
+  const scrollContainer = document.getElementById('scroll-progress-container');
+  if (!scrollProgress || !scrollContainer) return;
   
   // Update scroll progress on scroll
   window.addEventListener('scroll', () => {
     const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     const scrolled = (window.scrollY / windowHeight) * 100;
+    
+    // Show progress bar when scrolling down, hide when at top
+    if (window.scrollY > 0) {
+      scrollContainer.style.height = '4px'; // Show the progress bar
+    } else {
+      scrollContainer.style.height = '0px'; // Hide the progress bar
+    }
+    
     scrollProgress.style.width = scrolled + '%';
   });
 }
