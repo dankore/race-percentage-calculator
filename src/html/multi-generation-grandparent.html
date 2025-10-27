@@ -27,7 +27,7 @@
 
     .tree-shell {
       position: relative;
-      overflow: hidden;
+      overflow: visible;
       padding: clamp(1rem, 2vw, 2.5rem);
       width: 100%;
       border-radius: 1.5rem;
@@ -36,32 +36,73 @@
       box-shadow: inset 0 1px 1px rgba(15, 23, 42, 0.04);
     }
 
-    .tree-columns {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(220px, 1fr));
-      gap: 1.25rem;
-    }
-
-    .tree-column {
+    .subject-anchor {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      align-items: stretch;
+      gap: 1rem;
     }
 
-    .tree-column-header {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      font-weight: 600;
-      color: #475569;
-      padding-bottom: 0.25rem;
-      border-bottom: 1px solid rgba(15, 23, 42, 0.12);
+    .subject-anchor .ancestor-card {
+      max-width: 360px;
+      width: 100%;
     }
 
-    .tree-column-cards {
+    .intermediate-stack {
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
+    }
+
+    .generation-panel {
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: 1rem;
+      background: #fff;
+      padding: 0.5rem 0.9rem 0.9rem;
+    }
+
+    .generation-panel summary {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-weight: 600;
+      color: #0f172a;
+      padding: 0.35rem 0;
+    }
+
+    .generation-panel summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .generation-panel .toggle-icon {
+      transition: transform 0.2s ease;
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+
+    .generation-panel[open] .toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .generation-panel-cards {
+      margin-top: 0.65rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .generation-panel-cards.lineage-columns,
+    .input-grid.lineage-columns {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem 2rem;
+    }
+
+    .input-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
 
     .ancestor-card {
@@ -185,6 +226,78 @@
       transform: translateY(-1px);
     }
 
+    .sample-tree-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      border-radius: 0.65rem;
+      padding: 0.4rem 0.9rem;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: #fff;
+      color: #475569;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .sample-tree-btn:focus-visible {
+      outline: 2px solid rgba(99, 102, 241, 0.4);
+      outline-offset: 2px;
+    }
+
+    .sample-tree-btn[data-active="true"] {
+      border-color: rgba(59, 130, 246, 0.45);
+    }
+
+    .sample-tree-btn[data-theme="indigo"] {
+      color: #2563eb;
+      border-color: rgba(59, 130, 246, 0.25);
+    }
+
+    .sample-tree-btn[data-theme="indigo"]:hover,
+    .sample-tree-btn[data-theme="indigo"][data-active="true"] {
+      background: rgba(59, 130, 246, 0.12);
+      border-color: rgba(59, 130, 246, 0.45);
+      color: #1d4ed8;
+    }
+
+    .sample-tree-btn[data-theme="rose"] {
+      color: #e11d48;
+      border-color: rgba(244, 63, 94, 0.25);
+    }
+
+    .sample-tree-btn[data-theme="rose"]:hover,
+    .sample-tree-btn[data-theme="rose"][data-active="true"] {
+      background: rgba(244, 63, 94, 0.12);
+      border-color: rgba(244, 63, 94, 0.45);
+      color: #be123c;
+    }
+
+    .sample-tree-btn[data-theme="emerald"] {
+      color: #059669;
+      border-color: rgba(16, 185, 129, 0.25);
+    }
+
+    .sample-tree-btn[data-theme="emerald"]:hover,
+    .sample-tree-btn[data-theme="emerald"][data-active="true"] {
+      background: rgba(16, 185, 129, 0.12);
+      border-color: rgba(16, 185, 129, 0.45);
+      color: #047857;
+    }
+
+    .sample-tree-btn[data-theme="amber"] {
+      color: #d97706;
+      border-color: rgba(217, 119, 6, 0.25);
+    }
+
+    .sample-tree-btn[data-theme="amber"]:hover,
+    .sample-tree-btn[data-theme="amber"][data-active="true"] {
+      background: rgba(217, 119, 6, 0.12);
+      border-color: rgba(217, 119, 6, 0.45);
+      color: #b45309;
+    }
+
     .breakdown {
       margin-top: 0.65rem;
       border-top: 1px dashed rgba(15, 23, 42, 0.12);
@@ -246,15 +359,129 @@
       line-height: 1.6;
     }
 
+    .tree-columns {
+      display: flex;
+      gap: 1.75rem;
+      align-items: flex-start;
+    }
+
+    .tree-column-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    .tree-column-subject {
+      flex: 0 0 320px;
+      max-width: 360px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-self: flex-start;
+      position: sticky;
+      top: clamp(1rem, 2vw, 2.5rem);
+      z-index: 5;
+      padding-right: 0.25rem;
+    }
+
+    .lineage-column {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .lineage-column[data-side="paternal"] {
+      padding-right: 1rem;
+      border-right: 1px dashed rgba(148, 163, 184, 0.35);
+    }
+
+    .lineage-column[data-side="maternal"] {
+      padding-left: 1rem;
+    }
+
+    .lineage-column-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #94a3b8;
+      padding-left: 0.25rem;
+    }
+
+    .lineage-branch {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    .lineage-branch:first-of-type {
+      margin-top: 0.5rem;
+    }
+
+    .lineage-branch-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #64748b;
+      padding-left: 0.25rem;
+      text-transform: none;
+      letter-spacing: 0.02em;
+    }
+
+    .lineage-branch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.9rem;
+    }
+
+    .lineage-branch-grid .lineage-branch {
+      margin-top: 0;
+      gap: 0.85rem;
+      padding: 0.4rem 0.35rem 0.35rem;
+    }
+
+    .lineage-branch-grid .lineage-branch-label {
+      padding-left: 0;
+    }
+
     @media (max-width: 1024px) {
       .tree-shell {
         padding: 1rem;
         overflow: auto;
       }
       .tree-columns {
-        grid-template-columns: repeat(2, minmax(220px, 1fr));
+        flex-direction: column-reverse;
       }
-
+      .tree-column-subject {
+        position: static;
+        top: auto;
+        z-index: auto;
+      }
+      .subject-anchor {
+        position: static;
+        top: auto;
+      }
+      .subject-anchor .ancestor-card {
+        margin-left: 0;
+        margin-right: 0;
+      }
+      .generation-panel-cards.lineage-columns,
+      .lineage-branch-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1rem;
+      }
+      .lineage-column[data-side="paternal"] {
+        border-right: 0;
+        padding-right: 0;
+      }
+      .lineage-column[data-side="maternal"] {
+        padding-left: 0;
+      }
+      .lineage-columns .lineage-column + .lineage-column {
+        margin-top: 0.75rem;
+      }
       .ancestor-card {
         padding: 0.85rem;
       }
@@ -264,10 +491,6 @@
       .tree-shell {
         padding: 0.75rem;
       }
-      .tree-columns {
-        grid-template-columns: minmax(220px, 1fr);
-      }
-
       .ancestor-card {
         padding: 0.65rem;
       }
@@ -325,18 +548,14 @@
             <h2 class="text-lg font-semibold text-slate-900 mb-1">Try A Sample Family</h2>
             <p class="text-sm text-slate-500 mb-3">Click a preset to auto-fill every great-grandparent.</p>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              <button type="button"
-                class="sample-tree-btn bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-md px-3 py-1.5 text-sm font-medium hover:bg-indigo-100 transition-colors"
-                data-sample="classic-euro-afro">👨‍👩‍👧 Classic Euro/Afro</button>
-              <button type="button"
-                class="sample-tree-btn bg-rose-50 text-rose-700 border border-rose-200 rounded-md px-3 py-1.5 text-sm font-medium hover:bg-rose-100 transition-colors"
-                data-sample="pacific-global">🌺 Pacific + Global</button>
-              <button type="button"
-                class="sample-tree-btn bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-md px-3 py-1.5 text-sm font-medium hover:bg-emerald-100 transition-colors"
-                data-sample="americas">🪶 Pan-Americas</button>
-              <button type="button"
-                class="sample-tree-btn bg-amber-50 text-amber-700 border border-amber-200 rounded-md px-3 py-1.5 text-sm font-medium hover:bg-amber-100 transition-colors"
-                data-sample="mediterranean">🌞 Mediterranean Blend</button>
+              <button type="button" class="sample-tree-btn" data-theme="indigo" data-sample="classic-euro-afro"
+                aria-pressed="false">👨‍👩‍👧 Classic Euro/Afro</button>
+              <button type="button" class="sample-tree-btn" data-theme="rose" data-sample="pacific-global"
+                aria-pressed="false">🌺 Pacific + Global</button>
+              <button type="button" class="sample-tree-btn" data-theme="emerald" data-sample="americas"
+                aria-pressed="false">🪶 Pan-Americas</button>
+              <button type="button" class="sample-tree-btn" data-theme="amber" data-sample="mediterranean"
+                aria-pressed="false">🌞 Mediterranean Blend</button>
             </div>
           </div>
 
@@ -356,7 +575,15 @@
           </div>
 
           <div class="tree-shell mt-8" data-tree-shell>
-            <div class="tree-columns" data-tree-columns></div>
+            <div class="tree-columns">
+              <div class="tree-column tree-column-main">
+                <div class="intermediate-stack" data-intermediate-stack></div>
+                <div class="input-grid" data-input-grid></div>
+              </div>
+              <div class="tree-column tree-column-subject">
+                <div class="subject-anchor" data-subject-anchor></div>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -469,90 +696,98 @@
         paternalGreatGrandfatherA: {
           parents: [],
           label: '',
-          title: 'Paternal Great Grandfather',
+          title: "Paternal Grandfather's Father",
           editable: true,
           emptyState: 'Add races below.',
           order: -8,
           width: 230,
           minHeight: 200,
           side: 'paternal',
+          branch: 'paternalGrandfather',
         },
         paternalGreatGrandmotherA: {
           parents: [],
           label: '',
-          title: 'Paternal Great Grandmother',
+          title: "Paternal Grandfather's Mother",
           editable: true,
           emptyState: 'Add races below.',
           order: -7,
           width: 230,
           minHeight: 200,
           side: 'paternal',
+          branch: 'paternalGrandfather',
         },
         paternalGreatGrandfatherB: {
           parents: [],
           label: '',
-          title: 'Paternal Great Grandfather',
+          title: "Paternal Grandmother's Father",
+          editable: true,
+          emptyState: 'Add races below.',
+          order: -5,
+          width: 230,
+          minHeight: 200,
+          side: 'paternal',
+          branch: 'paternalGrandmother',
+        },
+        paternalGreatGrandmotherB: {
+          parents: [],
+          label: '',
+          title: "Paternal Grandmother's Mother",
           editable: true,
           emptyState: 'Add races below.',
           order: -3,
           width: 230,
           minHeight: 200,
           side: 'paternal',
-        },
-        paternalGreatGrandmotherB: {
-          parents: [],
-          label: '',
-          title: 'Paternal Great Grandmother',
-          editable: true,
-          emptyState: 'Add races below.',
-          order: -1,
-          width: 230,
-          minHeight: 200,
-          side: 'paternal',
+          branch: 'paternalGrandmother',
         },
         maternalGreatGrandfatherA: {
           parents: [],
           label: '',
-          title: 'Maternal Great Grandfather',
+          title: "Maternal Grandfather's Father",
           editable: true,
           emptyState: 'Add races below.',
           order: 1,
           width: 230,
           minHeight: 200,
           side: 'maternal',
+          branch: 'maternalGrandfather',
         },
         maternalGreatGrandmotherA: {
           parents: [],
           label: '',
-          title: 'Maternal Great Grandmother',
+          title: "Maternal Grandfather's Mother",
           editable: true,
           emptyState: 'Add races below.',
           order: 3,
           width: 230,
           minHeight: 200,
           side: 'maternal',
+          branch: 'maternalGrandfather',
         },
         maternalGreatGrandfatherB: {
           parents: [],
           label: '',
-          title: 'Maternal Great Grandfather',
+          title: "Maternal Grandmother's Father",
           editable: true,
           emptyState: 'Add races below.',
           order: 5,
           width: 230,
           minHeight: 200,
           side: 'maternal',
+          branch: 'maternalGrandmother',
         },
         maternalGreatGrandmotherB: {
           parents: [],
           label: '',
-          title: 'Maternal Great Grandmother',
+          title: "Maternal Grandmother's Mother",
           editable: true,
           emptyState: 'Add races below.',
           order: 7,
           width: 230,
           minHeight: 200,
           side: 'maternal',
+          branch: 'maternalGrandmother',
         },
       };
 
@@ -599,82 +834,166 @@
         },
       };
 
-      const generationLayout = [
+      const subjectNodes = ['subject'];
+      const intermediateSections = [
         {
-          label: 'Great Grandparents',
-          nodes: [
-            'paternalGreatGrandfatherA',
-            'paternalGreatGrandmotherA',
-            'paternalGreatGrandfatherB',
-            'paternalGreatGrandmotherB',
-            'maternalGreatGrandfatherA',
-            'maternalGreatGrandmotherA',
-            'maternalGreatGrandfatherB',
-            'maternalGreatGrandmotherB',
-          ],
+          label: 'Parents (auto-calculated)',
+          nodes: ['father', 'mother'],
+          defaultOpen: false,
+          columnLabels: {
+            paternal: 'Paternal line',
+            maternal: 'Maternal line',
+          },
         },
         {
-          label: 'Grandparents',
+          label: 'Grandparents (auto-calculated)',
           nodes: [
             'paternalGrandfather',
             'paternalGrandmother',
             'maternalGrandfather',
             'maternalGrandmother',
           ],
-        },
-        {
-          label: 'Parents',
-          nodes: ['father', 'mother'],
-        },
-        {
-          label: 'Subject',
-          nodes: ['subject'],
+          defaultOpen: false,
+          columnLabels: {
+            paternal: 'Paternal grandparents',
+            maternal: 'Maternal grandparents',
+          },
         },
       ];
+      const inputNodes = [
+        'paternalGreatGrandfatherA',
+        'paternalGreatGrandmotherA',
+        'paternalGreatGrandfatherB',
+        'paternalGreatGrandmotherB',
+        'maternalGreatGrandfatherA',
+        'maternalGreatGrandmotherA',
+        'maternalGreatGrandfatherB',
+        'maternalGreatGrandmotherB',
+      ];
+
+      const defaultColumnLabels = {
+        paternal: 'Paternal line',
+        maternal: 'Maternal line',
+      };
+
+      const branchLabels = {
+        paternalGrandfather: "Paternal Grandfather's Parents",
+        paternalGrandmother: "Paternal Grandmother's Parents",
+        maternalGrandfather: "Maternal Grandfather's Parents",
+        maternalGrandmother: "Maternal Grandmother's Parents",
+      };
 
       const nodeIds = Object.keys(nodeConfigs);
       const rowTemplate = document.getElementById('race-row-template');
       const treeShell = document.querySelector('[data-tree-shell]');
-      const columnsContainer = treeShell.querySelector('[data-tree-columns]');
+      const subjectAnchor = treeShell.querySelector('[data-subject-anchor]');
+      const intermediateStack = treeShell.querySelector('[data-intermediate-stack]');
+      const inputGrid = treeShell.querySelector('[data-input-grid]');
       const resetButton = document.getElementById('resetTree');
+      const sampleButtons = Array.from(document.querySelectorAll('.sample-tree-btn'));
       const cardMap = new Map();
 
-      renderColumns();
+      renderLayout();
       treeShell.addEventListener('click', handleClick);
       treeShell.addEventListener('input', handleInput);
       resetButton.addEventListener('click', handleReset);
-      document.querySelectorAll('.sample-tree-btn').forEach(btn => {
-        btn.addEventListener('click', () => applySample(btn.dataset.sample));
+      sampleButtons.forEach(btn => {
+        btn.dataset.active = 'false';
+        btn.setAttribute('aria-pressed', 'false');
+        btn.addEventListener('click', () => {
+          applySample(btn.dataset.sample);
+          setActiveSampleButton(btn);
+        });
       });
+      clearActiveSampleButton();
 
       updateAll();
 
-      function renderColumns() {
-        columnsContainer.innerHTML = '';
-        generationLayout.forEach(gen => {
-          const column = document.createElement('div');
-          column.className = 'tree-column';
+      function renderLayout() {
+        cardMap.clear();
+        renderSubjectNodes();
+        renderIntermediateSections();
+        renderInputGrid();
+      }
 
-          const header = document.createElement('div');
-          header.className = 'tree-column-header';
-          header.textContent = gen.label;
+      function renderSubjectNodes() {
+        subjectAnchor.innerHTML = '';
+        subjectNodes.forEach(nodeId => appendCard(subjectAnchor, nodeId));
+      }
 
-          const cardsWrapper = document.createElement('div');
-          cardsWrapper.className = 'tree-column-cards';
+      function renderIntermediateSections() {
+        intermediateStack.innerHTML = '';
+        intermediateSections.forEach(section => {
+          const details = document.createElement('details');
+          details.className = 'generation-panel';
+          if (section.defaultOpen) details.open = true;
 
-          gen.nodes.forEach(nodeId => {
+          const summary = document.createElement('summary');
+          summary.innerHTML = `<span>${section.label}</span><span class="toggle-icon">⌄</span>`;
+          details.appendChild(summary);
+
+          const cardsWrap = document.createElement('div');
+          cardsWrap.className = 'generation-panel-cards lineage-columns';
+          const { paternalColumn, maternalColumn } = createLineageColumns(cardsWrap, section.columnLabels);
+          section.nodes.forEach(nodeId => {
+            const targetColumn = (nodeConfigs[nodeId]?.side === 'maternal') ? maternalColumn : paternalColumn;
+            appendCard(targetColumn, nodeId);
+          });
+          details.appendChild(cardsWrap);
+
+          intermediateStack.appendChild(details);
+        });
+      }
+
+      function renderInputGrid() {
+        inputGrid.innerHTML = '';
+        const panelConfigs = [
+          { side: 'paternal', label: 'Paternal great-grandparents' },
+          { side: 'maternal', label: 'Maternal great-grandparents' },
+        ];
+
+        panelConfigs.forEach(({ side, label }) => {
+          const details = document.createElement('details');
+          details.className = 'generation-panel';
+          details.open = true;
+
+          const summary = document.createElement('summary');
+          summary.innerHTML = `<span>${label}</span><span class="toggle-icon">⌄</span>`;
+          details.appendChild(summary);
+
+          const cardsWrap = document.createElement('div');
+          cardsWrap.className = 'generation-panel-cards lineage-branch-grid';
+          details.appendChild(cardsWrap);
+
+          const sideNodes = inputNodes
+            .filter(nodeId => (nodeConfigs[nodeId]?.side || 'paternal') === side)
+            .sort((a, b) => {
+              const aOrder = nodeConfigs[a]?.order ?? 0;
+              const bOrder = nodeConfigs[b]?.order ?? 0;
+              return aOrder - bOrder;
+            });
+
+          sideNodes.forEach(nodeId => {
             const cfg = nodeConfigs[nodeId];
             if (!cfg) return;
-            const card = buildCard(nodeId, cfg);
-            cardsWrapper.appendChild(card);
-            cardMap.set(nodeId, card);
-            if (cfg.editable) ensureEntryRow(card);
+            let container = cardsWrap;
+            if (cfg.branch) {
+              container = ensureBranchGroup(cardsWrap, cfg.branch, branchLabels[cfg.branch]);
+            }
+            appendCard(container, nodeId);
           });
 
-          column.appendChild(header);
-          column.appendChild(cardsWrapper);
-          columnsContainer.appendChild(column);
+          inputGrid.appendChild(details);
         });
+      }
+
+      function appendCard(container, nodeId) {
+        const cfg = nodeConfigs[nodeId];
+        if (!cfg) return;
+        const card = buildCard(nodeId, cfg);
+        container.appendChild(card);
+        cardMap.set(nodeId, card);
+        if (cfg.editable) ensureEntryRow(card);
       }
 
       function buildCard(nodeId, cfg) {
@@ -736,6 +1055,63 @@
         return card;
       }
 
+      function createLineageColumn(side, label) {
+        const column = document.createElement('div');
+        column.className = 'lineage-column';
+        column.dataset.side = side;
+
+        const columnLabel = label || defaultColumnLabels[side];
+        if (columnLabel) {
+          const labelEl = document.createElement('p');
+          labelEl.className = 'lineage-column-label';
+          labelEl.textContent = columnLabel;
+          column.appendChild(labelEl);
+        }
+
+        return column;
+      }
+
+      function createLineageColumns(container, labels = {}) {
+        const mergedLabels = {
+          ...defaultColumnLabels,
+          ...labels,
+        };
+        const paternalColumn = createLineageColumn('paternal', mergedLabels.paternal);
+        const maternalColumn = createLineageColumn('maternal', mergedLabels.maternal);
+        container.appendChild(paternalColumn);
+        container.appendChild(maternalColumn);
+        return { paternalColumn, maternalColumn };
+      }
+
+      function setActiveSampleButton(button) {
+        sampleButtons.forEach(btn => {
+          const isActive = btn === button;
+          btn.dataset.active = isActive ? 'true' : 'false';
+          btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+      }
+
+      function clearActiveSampleButton() {
+        setActiveSampleButton(null);
+      }
+
+      function ensureBranchGroup(column, branchKey, label) {
+        let group = column.querySelector(`[data-branch="${branchKey}"]`);
+        if (!group) {
+          group = document.createElement('div');
+          group.className = 'lineage-branch';
+          group.dataset.branch = branchKey;
+          if (label) {
+            const heading = document.createElement('p');
+            heading.className = 'lineage-branch-label';
+            heading.textContent = label;
+            group.appendChild(heading);
+          }
+          column.appendChild(group);
+        }
+        return group;
+      }
+
       function handleClick(event) {
         const addBtn = event.target.closest('[data-add-entry]');
         if (addBtn) {
@@ -771,6 +1147,7 @@
           ensureEntryRow(card);
         });
         updateAll();
+        clearActiveSampleButton();
       }
 
       function addEntryRow(card) {
