@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-slate-50">
+<html lang="en" class="dark:bg-gray-900">
 
 <head>
   <meta charset="UTF-8">
@@ -17,12 +17,12 @@
   <link rel="stylesheet" href="/assets/styles/main.css">
   <style>
     :root {
-      color-scheme: light;
+      color-scheme: light dark;
     }
 
     body {
       font-family: 'Inter', 'Nunito', 'SF Pro Display', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      overflow-x: auto;
+      overflow-x: hidden;
     }
 
     .tree-shell {
@@ -233,12 +233,12 @@
       gap: 0.35rem;
       font-weight: 600;
       font-size: 0.85rem;
-      border-radius: 0.65rem;
-      padding: 0.4rem 0.9rem;
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      background: #fff;
+      border-radius: 0.85rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(255, 255, 255, 0.95);
       color: #475569;
-      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .sample-tree-btn:focus-visible {
@@ -252,50 +252,120 @@
 
     .sample-tree-btn[data-theme="indigo"] {
       color: #2563eb;
-      border-color: rgba(59, 130, 246, 0.25);
+      border-color: rgba(59, 130, 246, 0.4);
+      background: rgba(59, 130, 246, 0.12);
     }
 
     .sample-tree-btn[data-theme="indigo"]:hover,
     .sample-tree-btn[data-theme="indigo"][data-active="true"] {
-      background: rgba(59, 130, 246, 0.12);
-      border-color: rgba(59, 130, 246, 0.45);
+      background: rgba(59, 130, 246, 0.18);
+      border-color: rgba(59, 130, 246, 0.55);
       color: #1d4ed8;
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px -24px rgba(59, 130, 246, 0.7);
     }
 
     .sample-tree-btn[data-theme="rose"] {
       color: #e11d48;
-      border-color: rgba(244, 63, 94, 0.25);
+      border-color: rgba(244, 63, 94, 0.35);
+      background: rgba(244, 63, 94, 0.12);
     }
 
     .sample-tree-btn[data-theme="rose"]:hover,
     .sample-tree-btn[data-theme="rose"][data-active="true"] {
-      background: rgba(244, 63, 94, 0.12);
-      border-color: rgba(244, 63, 94, 0.45);
+      background: rgba(244, 63, 94, 0.18);
+      border-color: rgba(244, 63, 94, 0.55);
       color: #be123c;
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px -24px rgba(244, 63, 94, 0.6);
     }
 
     .sample-tree-btn[data-theme="emerald"] {
       color: #059669;
-      border-color: rgba(16, 185, 129, 0.25);
+      border-color: rgba(16, 185, 129, 0.35);
+      background: rgba(16, 185, 129, 0.12);
     }
 
     .sample-tree-btn[data-theme="emerald"]:hover,
     .sample-tree-btn[data-theme="emerald"][data-active="true"] {
-      background: rgba(16, 185, 129, 0.12);
-      border-color: rgba(16, 185, 129, 0.45);
+      background: rgba(16, 185, 129, 0.18);
+      border-color: rgba(16, 185, 129, 0.55);
       color: #047857;
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px -24px rgba(16, 185, 129, 0.6);
     }
 
     .sample-tree-btn[data-theme="amber"] {
       color: #d97706;
-      border-color: rgba(217, 119, 6, 0.25);
+      border-color: rgba(217, 119, 6, 0.35);
+      background: rgba(217, 119, 6, 0.12);
     }
 
     .sample-tree-btn[data-theme="amber"]:hover,
     .sample-tree-btn[data-theme="amber"][data-active="true"] {
-      background: rgba(217, 119, 6, 0.12);
-      border-color: rgba(217, 119, 6, 0.45);
+      background: rgba(217, 119, 6, 0.18);
+      border-color: rgba(217, 119, 6, 0.55);
       color: #b45309;
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px -24px rgba(217, 119, 6, 0.6);
+    }
+
+    .dark .sample-tree-btn {
+      border-color: rgba(148, 163, 184, 0.35);
+      background: rgba(17, 24, 39, 0.8);
+      color: #e2e8f0;
+    }
+
+    .dark .sample-tree-btn[data-theme="indigo"] {
+      color: #c7d2fe;
+      border-color: rgba(129, 140, 248, 0.45);
+      background: rgba(79, 70, 229, 0.2);
+    }
+
+    .dark .sample-tree-btn[data-theme="indigo"]:hover,
+    .dark .sample-tree-btn[data-theme="indigo"][data-active="true"] {
+      background: rgba(79, 70, 229, 0.32);
+      border-color: rgba(129, 140, 248, 0.6);
+      color: #e0e7ff;
+    }
+
+    .dark .sample-tree-btn[data-theme="rose"] {
+      color: #f9a8d4;
+      border-color: rgba(244, 114, 182, 0.4);
+      background: rgba(219, 39, 119, 0.2);
+    }
+
+    .dark .sample-tree-btn[data-theme="rose"]:hover,
+    .dark .sample-tree-btn[data-theme="rose"][data-active="true"] {
+      background: rgba(219, 39, 119, 0.32);
+      border-color: rgba(244, 114, 182, 0.55);
+      color: #fbcfe8;
+    }
+
+    .dark .sample-tree-btn[data-theme="emerald"] {
+      color: #6ee7b7;
+      border-color: rgba(16, 185, 129, 0.45);
+      background: rgba(5, 150, 105, 0.2);
+    }
+
+    .dark .sample-tree-btn[data-theme="emerald"]:hover,
+    .dark .sample-tree-btn[data-theme="emerald"][data-active="true"] {
+      background: rgba(5, 150, 105, 0.32);
+      border-color: rgba(16, 185, 129, 0.6);
+      color: #a7f3d0;
+    }
+
+    .dark .sample-tree-btn[data-theme="amber"] {
+      color: #fcd34d;
+      border-color: rgba(217, 119, 6, 0.45);
+      background: rgba(217, 119, 6, 0.2);
+    }
+
+    .dark .sample-tree-btn[data-theme="amber"]:hover,
+    .dark .sample-tree-btn[data-theme="amber"][data-active="true"] {
+      background: rgba(217, 119, 6, 0.32);
+      border-color: rgba(217, 119, 6, 0.6);
+      color: #fde68a;
     }
 
     .breakdown {
@@ -357,6 +427,135 @@
       padding-left: 1.5rem;
       color: #475569;
       line-height: 1.6;
+    }
+
+    .dark .tree-shell {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(17, 24, 39, 0.95));
+      border-color: rgba(148, 163, 184, 0.25);
+      box-shadow: inset 0 1px 1px rgba(148, 163, 184, 0.08);
+    }
+
+    .dark .generation-panel {
+      border-color: rgba(148, 163, 184, 0.25);
+      background: rgba(30, 41, 59, 0.85);
+    }
+
+    .dark .generation-panel summary {
+      color: #e2e8f0;
+    }
+
+    .dark .generation-panel .toggle-icon {
+      color: #c7d2fe;
+    }
+
+    .dark .ancestor-card {
+      border-color: rgba(148, 163, 184, 0.25);
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.85), rgba(15, 23, 42, 0.85));
+      box-shadow: 0 12px 30px -18px rgba(15, 23, 42, 0.9);
+    }
+
+    .dark .ancestor-card[data-side="paternal"] {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(15, 23, 42, 0.85));
+      border-color: rgba(99, 102, 241, 0.4);
+    }
+
+    .dark .ancestor-card[data-side="maternal"] {
+      background: linear-gradient(135deg, rgba(244, 114, 182, 0.25), rgba(15, 23, 42, 0.85));
+      border-color: rgba(244, 114, 182, 0.35);
+    }
+
+    .dark .ancestor-card.subject-card {
+      background: linear-gradient(145deg, rgba(14, 165, 233, 0.25), rgba(236, 72, 153, 0.18));
+      border-color: rgba(14, 165, 233, 0.35);
+    }
+
+    .dark .card-title {
+      color: #e2e8f0;
+    }
+
+    .dark .card-subtitle {
+      color: #94a3b8;
+    }
+
+    .dark .badge {
+      background: rgba(99, 102, 241, 0.2);
+      color: #c7d2fe;
+    }
+
+    .dark .entry-row input {
+      border-color: rgba(148, 163, 184, 0.35);
+      background: rgba(17, 24, 39, 0.75);
+      color: #e2e8f0;
+    }
+
+    .dark .entry-row input::placeholder {
+      color: #94a3b8;
+    }
+
+    .dark .entry-row button {
+      border-color: rgba(248, 113, 113, 0.45);
+      color: #fca5a5;
+      background: rgba(127, 29, 29, 0.35);
+    }
+
+    .dark .entry-row button:hover {
+      background: rgba(127, 29, 29, 0.45);
+      color: #fecaca;
+    }
+
+    .dark .add-entry-btn {
+      color: #c7d2fe;
+      background: rgba(79, 70, 229, 0.2);
+      border-color: rgba(79, 70, 229, 0.4);
+    }
+
+    .dark .add-entry-btn:hover {
+      background: rgba(79, 70, 229, 0.32);
+    }
+
+    .dark .breakdown {
+      border-top-color: rgba(148, 163, 184, 0.25);
+    }
+
+    .dark .breakdown-pill {
+      background: rgba(148, 163, 184, 0.15);
+      color: #e2e8f0;
+    }
+
+    .dark .breakdown-pill span:last-child {
+      color: #c7d2fe;
+    }
+
+    .dark .empty-state {
+      color: #94a3b8;
+    }
+
+    .dark .totals-row {
+      color: #cbd5f5;
+    }
+
+    .dark .totals-row strong {
+      color: #e2e8f0;
+    }
+
+    .dark .helper-text {
+      color: #94a3b8;
+    }
+
+    .dark .instruction-card ul {
+      color: #cbd5f5;
+    }
+
+    .dark .lineage-column[data-side="paternal"] {
+      border-right-color: rgba(99, 102, 241, 0.25);
+    }
+
+    .dark .lineage-column-label {
+      color: #a5b4fc;
+    }
+
+    .dark .lineage-branch-label {
+      color: #cbd5f5;
     }
 
     .tree-columns {
@@ -522,82 +721,351 @@
   </style>
 </head>
 
-<body class="bg-slate-50 text-slate-800 antialiased">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 antialiased">
+  <div id="progress-bar"
+    class="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transform -translate-y-full transition-transform duration-300 z-50">
+  </div>
+
+  <div id="scroll-progress-container"
+    class="fixed top-0 left-0 w-full h-0 bg-gray-200 dark:bg-gray-800 z-40 transition-all duration-300">
+    <div id="scroll-progress-indicator"
+      class="h-full w-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-all duration-300"></div>
+  </div>
+
   <div class="min-h-screen flex flex-col">
-    <header class="bg-white border-b border-slate-200">
-      <div class="w-full px-4 sm:px-6 py-4 flex items-center justify-between">
-        <a href="/" class="text-base font-semibold tracking-tight text-slate-800">Race Percentage Calculator</a>
-        <nav class="flex items-center gap-3">
-          <a href="/multi-generation/" title="Open the production Multi-Generation builder"
-            class="inline-flex items-center gap-2 rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-indigo-200 transition hover:bg-indigo-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500">
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M9 5l7 7-7 7" />
-              <path d="M4 12h11" />
-            </svg>
-            Full Multi-Gen Builder
+    <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+      <div class="max-w-6xl mx-auto px-4 py-4">
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <a href="/"
+            class="flex items-center gap-3 group no-underline focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900 rounded-xl">
+            <img src="/assets/images/logos/logo.png" alt="Race Percentage Calculator logo"
+              class="w-12 h-12 bg-indigo-50 dark:bg-gray-800 p-1.5 rounded-xl shadow-md border border-indigo-200 dark:border-gray-700">
+            <div class="leading-tight">
+              <p class="text-sm font-semibold tracking-wide text-indigo-600 dark:text-indigo-300 uppercase">
+                Race Percentage Calculator
+              </p>
+              <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+                Grandparent Graph Prototype
+              </p>
+            </div>
           </a>
-        </nav>
+
+          <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
+            <nav class="flex items-center gap-4 text-sm font-semibold text-gray-700 dark:text-gray-200 flex-wrap">
+              <a href="/multi-generation/"
+                class="hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors">Multi-Generation</a>
+              <a href="/multi-generation-grandparent/" aria-current="page"
+                class="inline-flex items-center gap-1 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs uppercase tracking-wide text-indigo-700 hover:bg-indigo-100 hover:text-indigo-800 transition-colors dark:border-indigo-500/40 dark:bg-indigo-500/10 dark:text-indigo-200 dark:hover:bg-indigo-500/20">
+                <span>Grandparent Graph</span>
+                <span class="text-[10px] font-bold text-rose-500 dark:text-rose-300">Beta</span>
+              </a>
+              <div class="relative" id="resources-dropdown">
+                <button
+                  class="flex items-center gap-1 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors"
+                  id="resources-dropdown-button">
+                  Resources
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                </button>
+              </div>
+            </nav>
+
+            <button id="theme-toggle" aria-label="Toggle Dark Mode"
+              class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 dark:bg-gray-700 text-indigo-600 dark:text-yellow-400 shadow-sm transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+              <svg id="sun-icon" class="h-5 w-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                </path>
+              </svg>
+              <svg id="moon-icon" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  d="M17.293 13.293A8 8 0 016.707 2.707 8.001 8.001 0 1017.293 13.293z">
+                </path>
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </header>
 
-    <main class="flex-1 overflow-x-auto">
-      <div class="w-full px-4 sm:px-6 py-6 space-y-6">
-        <section class="rounded-2xl bg-white shadow-xl border border-slate-100 p-4 lg:p-6 overflow-visible space-y-6">
-          <div class="rounded-2xl bg-slate-50/80 border border-slate-200 p-4">
-            <h2 class="text-lg font-semibold text-slate-900 mb-1">Try A Sample Family</h2>
-            <p class="text-sm text-slate-500 mb-3">Click a preset to auto-fill every great-grandparent.</p>
+    <main role="main" class="flex-1">
+      <section class="border-b border-indigo-100 dark:border-indigo-900/40 bg-white dark:bg-gray-900">
+        <div class="max-w-6xl mx-auto px-4 py-10 sm:py-14">
+          <div class="space-y-4 max-w-3xl">
+            <span
+              class="inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-600 dark:border-indigo-500/40 dark:bg-indigo-500/10 dark:text-indigo-200">Prototype
+              Feature</span>
+            <h1 class="text-3xl sm:text-4xl font-semibold leading-tight text-gray-900 dark:text-white">Grandparent
+              Graph</h1>
+            <p class="text-base text-gray-600 dark:text-gray-300">Start with the four grandparents (or even great
+              grandparents), add as many races as you need per person, and the system will auto-cascade the mix for
+              parents and the subject.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="bg-gray-50 dark:bg-gray-950/40 py-10">
+        <div class="max-w-6xl mx-auto px-4 space-y-8">
+          <div class="rounded-3xl bg-white/95 dark:bg-gray-900/80 border border-indigo-100 dark:border-indigo-800/40 shadow-xl p-4 sm:p-6">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Try a sample family</h2>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Click a preset to auto-fill every great-grandparent.</p>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              <button type="button" class="sample-tree-btn" data-theme="indigo" data-sample="classic-euro-afro"
-                aria-pressed="false">👨‍👩‍👧 Classic Euro/Afro</button>
-              <button type="button" class="sample-tree-btn" data-theme="rose" data-sample="pacific-global"
-                aria-pressed="false">🌺 Pacific + Global</button>
-              <button type="button" class="sample-tree-btn" data-theme="emerald" data-sample="americas"
-                aria-pressed="false">🪶 Pan-Americas</button>
-              <button type="button" class="sample-tree-btn" data-theme="amber" data-sample="mediterranean"
-                aria-pressed="false">🌞 Mediterranean Blend</button>
+              <button type="button"
+                class="sample-tree-btn inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold shadow-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900"
+                data-theme="indigo" data-sample="classic-euro-afro" aria-pressed="false">👨‍👩‍👧 Classic Euro/Afro</button>
+              <button type="button"
+                class="sample-tree-btn inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold shadow-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900"
+                data-theme="rose" data-sample="pacific-global" aria-pressed="false">🌺 Pacific + Global</button>
+              <button type="button"
+                class="sample-tree-btn inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold shadow-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900"
+                data-theme="emerald" data-sample="americas" aria-pressed="false">🪶 Pan-Americas</button>
+              <button type="button"
+                class="sample-tree-btn inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold shadow-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900"
+                data-theme="amber" data-sample="mediterranean" aria-pressed="false">🌞 Mediterranean Blend</button>
             </div>
           </div>
 
-          <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div class="space-y-2 max-w-2xl">
-              <span
-                class="inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-600">Prototype</span>
-              <h1 class="text-3xl font-bold text-slate-900">Grandparent Graph</h1>
-              <p class="text-base text-slate-600">Start with the four grandparents (or even great grandparents), add as many
-                races as you need per person, and the system will auto-cascade the mix for parents and the subject.</p>
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div class="space-y-2 max-w-3xl">
+              <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Build the grandparent tree</h2>
+              <p class="text-base text-gray-600 dark:text-gray-300">Add mixes at the great-grandparent level and let the
+                builder fill in the rest automatically.</p>
             </div>
             <div class="flex items-center gap-3">
               <button type="button" id="resetTree"
-                class="rounded-2xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 hover:border-slate-300 hover:bg-slate-50 transition-colors">Reset</button>
-              <span class="text-xs uppercase tracking-wide text-slate-400">Beta preview</span>
+                class="rounded-2xl border border-gray-200 dark:border-gray-600 px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-200 hover:border-gray-300 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Reset</button>
+              <span class="text-xs uppercase tracking-wide text-gray-400 dark:text-gray-500">Beta preview</span>
             </div>
           </div>
 
-          <div class="tree-shell mt-8" data-tree-shell>
-            <div class="tree-columns">
-              <div class="tree-column tree-column-main">
-                <div class="intermediate-stack" data-intermediate-stack></div>
-                <div class="input-grid" data-input-grid></div>
-              </div>
-              <div class="tree-column tree-column-subject">
-                <div class="subject-anchor" data-subject-anchor></div>
+          <div class="overflow-x-auto">
+            <div class="tree-shell mt-4 md:mt-6" data-tree-shell>
+              <div class="tree-columns">
+                <div class="tree-column tree-column-main">
+                  <div class="intermediate-stack" data-intermediate-stack></div>
+                  <div class="input-grid" data-input-grid></div>
+                </div>
+                <div class="tree-column tree-column-subject">
+                  <div class="subject-anchor" data-subject-anchor></div>
+                </div>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section class="rounded-2xl bg-white border border-dashed border-slate-200 instruction-card p-6 shadow-md">
-          <h2 class="text-xl font-semibold text-slate-900 mb-3">How to test this concept</h2>
-          <ul class="space-y-2">
-            <li>Only enter data for the eight great-grandparent cards &mdash; give each one a full 100% mix (we'll normalize if needed).</li>
-            <li>Grandparents, parents, and the subject are read-only and update instantly as soon as you change a great-grandparent.</li>
-            <li>Hit reset whenever you want to wipe the great-grandparent entries without touching the layout.</li>
-          </ul>
-        </section>
+      <section class="bg-white dark:bg-gray-900 py-10">
+        <div class="max-w-6xl mx-auto px-4">
+          <div
+            class="instruction-card rounded-3xl bg-white dark:bg-gray-900/80 border border-dashed border-gray-200 dark:border-gray-700/70 p-6 shadow-lg">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">How to test this concept</h2>
+            <ul class="space-y-2 text-gray-600 dark:text-gray-300">
+              <li>Only enter data for the eight great-grandparent cards &mdash; give each one a full 100% mix (we'll
+                normalize if needed).</li>
+              <li>Grandparents, parents, and the subject are read-only and update instantly as soon as you change a
+                great-grandparent.</li>
+              <li>Hit reset whenever you want to wipe the great-grandparent entries without touching the layout.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
 
-      </div>
     </main>
+
+    <footer
+      class="bg-indigo-900 dark:bg-gray-900 text-white p-4 mt-6 shadow-lg rounded-lg border-t-2 border-indigo-800 dark:border-gray-800 relative overflow-hidden">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div>
+            <h3 class="text-white font-semibold mb-4 text-lg">About Us</h3>
+            <p class="text-white mb-4">
+              Created with ❤️ by
+              <a class="text-white hover:text-yellow-300 underline transition-colors duration-300"
+                href="https://www.dankoresoft.com/?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=brand"
+                target="_blank" rel="noopener noreferrer">
+                Dankore Software
+              </a>
+            </p>
+            <div class="flex items-center space-x-4">
+              <a class="text-white hover:text-yellow-300 transition-colors duration-300"
+                href="https://twitter.com/dankoresoftware" target="_blank" rel="noopener noreferrer"
+                aria-label="Follow us on Twitter">
+                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-white font-semibold mb-4 text-lg">Quick Links</h3>
+            <ul class="space-y-3">
+              <li>
+                <a href="/blog/" class="text-white hover:text-yellow-300 transition-colors duration-300">Blog</a>
+              </li>
+              <li>
+                <a href="/dna-import/" class="text-white hover:text-yellow-300 transition-colors duration-300">DNA Import
+                  Hub</a>
+              </li>
+              <li>
+                <a href="/multi-generation/"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300">Multi-Generation Calculator</a>
+              </li>
+              <li>
+                <a href="/blog/genealogy-research-tips/"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300">Genealogy Tips</a>
+              </li>
+              <li>
+                <a href="/blog/understanding-dna-tests/"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300">DNA Testing</a>
+              </li>
+              <li>
+                <a href="/blog/cultural-heritage-resources/"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300">Cultural Heritage</a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-white font-semibold mb-4 text-lg">Our Other Tools</h3>
+            <ul class="space-y-3">
+              <li>
+                <a href="https://halalmeatshare.com" target="_blank" rel="noopener noreferrer"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
+                  <span>Halal Meat Share</span>
+                  <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="https://race-calculator.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
+                  <span>Ethnicity Calculator</span>
+                  <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="https://tinubu-approval-rating.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
+                  <span>Tinubu Approval Rating</span>
+                  <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="https://logo-creator.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
+                  <span>Logo Creator</span>
+                  <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="https://mentorship.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
+                  <span>Mentorship</span>
+                  <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="https://halal-ads.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
+                  <span>Halal Ads</span>
+                  <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="https://direct-lease.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
+                  <span>Direct Lease</span>
+                  <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.bitcoinusdprice.org" target="_blank" rel="noopener noreferrer"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
+                  <span>Bitcoin USD Price</span>
+                  <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="https://bmi-calc.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
+                  <span>BMI Calculator</span>
+                  <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a href="https://mortgage-calc.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                  class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
+                  <span>Mortgage Calculator</span>
+                  <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-indigo-800 dark:border-gray-800">
+          <p class="text-center text-white text-sm">
+            © <span class="copyright-year">2024</span>
+            <a class="text-white hover:text-yellow-300 underline transition-colors duration-300"
+              href="https://www.dankoresoft.com/?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=brand"
+              target="_blank" rel="noopener noreferrer">Dankore Software</a>. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div
+    class="fixed hidden mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-[1000] border border-gray-200 dark:border-gray-700"
+    id="resources-dropdown-menu">
+    <a href="/blog/"
+      class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">Blog
+      Home</a>
+    <a href="/dna-import/"
+      class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">DNA
+      Import Hub</a>
+    <a href="/blog/genealogy-research-tips/"
+      class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">Genealogy
+      Tips</a>
+    <a href="/blog/understanding-dna-tests/"
+      class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">DNA
+      Testing</a>
+    <a href="/blog/cultural-heritage-resources/"
+      class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">Cultural
+      Heritage</a>
   </div>
 
   <template id="race-row-template">
