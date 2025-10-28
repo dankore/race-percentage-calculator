@@ -1135,7 +1135,15 @@
     (function () {
       const doc = document;
       const root = doc.documentElement;
+      const body = doc.body;
+      const THEME_STORAGE_KEY = 'theme';
+      const DARK_CLASS = 'dark';
+      const BODY_DARK_CLASS = 'dark-mode';
+      const themeMediaQuery = typeof window.matchMedia === 'function'
+        ? window.matchMedia('(prefers-color-scheme: dark)')
+        : null;
 
+      applyTheme(resolveInitialTheme(), false);
       setupThemeToggle();
       setupResourcesDropdown();
       setupScrollAndLoadIndicators();
@@ -1859,69 +1867,83 @@
         updateAll();
       }
 
+      function readStoredTheme() {
+        try {
+          return localStorage.getItem(THEME_STORAGE_KEY);
+        } catch (_) {
+          return null;
+        }
+      }
+
+      function persistTheme(theme) {
+        try {
+          localStorage.setItem(THEME_STORAGE_KEY, theme);
+        } catch (_) {
+          /* no-op */
+        }
+      }
+
+      function applyThemeClasses(theme) {
+        if (!root) return;
+        const isDark = theme === 'dark';
+        root.classList.toggle(DARK_CLASS, isDark);
+        root.setAttribute('data-theme', theme);
+        if (body) {
+          body.classList.toggle(BODY_DARK_CLASS, isDark);
+        }
+        root.style.colorScheme = theme;
+      }
+
+      function syncToggleUI(theme, toggle = doc.getElementById('theme-toggle')) {
+        if (!toggle) return;
+        toggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+        toggle.dataset.theme = theme;
+        const sunIcon = doc.getElementById('sun-icon');
+        const moonIcon = doc.getElementById('moon-icon');
+        if (sunIcon && moonIcon) {
+          const showDark = theme === 'dark';
+          sunIcon.classList.toggle('hidden', !showDark);
+          moonIcon.classList.toggle('hidden', showDark);
+        }
+      }
+
+      function applyTheme(theme, shouldPersist = true) {
+        const resolved = theme === 'dark' ? 'dark' : 'light';
+        applyThemeClasses(resolved);
+        syncToggleUI(resolved);
+        if (shouldPersist) {
+          persistTheme(resolved);
+        }
+      }
+
+      function resolveInitialTheme() {
+        const stored = readStoredTheme();
+        if (stored === 'dark' || stored === 'light') {
+          return stored;
+        }
+        const prefersDark = themeMediaQuery?.matches;
+        return prefersDark ? 'dark' : 'light';
+      }
+
       function setupThemeToggle() {
         const toggle = doc.getElementById('theme-toggle');
         if (!toggle || !root) {
           return;
         }
-        const sunIcon = doc.getElementById('sun-icon');
-        const moonIcon = doc.getElementById('moon-icon');
-        const storageKey = 'theme';
-        const media = typeof window.matchMedia === 'function'
-          ? window.matchMedia('(prefers-color-scheme: dark)')
-          : null;
 
-        const readStoredTheme = () => {
-          try {
-            return localStorage.getItem(storageKey);
-          } catch (_) {
-            return null;
-          }
-        };
+        if (toggle.dataset.themeToggleInitialized !== 'true') {
+          toggle.addEventListener('click', event => {
+            event.preventDefault();
+            event.stopPropagation();
+            const next = root.classList.contains(DARK_CLASS) ? 'light' : 'dark';
+            applyTheme(next);
+          });
+          toggle.dataset.themeToggleInitialized = 'true';
+        } else {
+          syncToggleUI(root.classList.contains(DARK_CLASS) ? 'dark' : 'light', toggle);
+        }
 
-        const persistTheme = value => {
-          try {
-            localStorage.setItem(storageKey, value);
-          } catch (_) {
-            /* no-op */
-          }
-        };
-
-        const applyTheme = (theme, shouldPersist = true) => {
-          const resolved = theme === 'dark' ? 'dark' : 'light';
-          if (resolved === 'dark') {
-            root.classList.add('dark');
-          } else {
-            root.classList.remove('dark');
-          }
-          toggle.setAttribute('aria-pressed', resolved === 'dark' ? 'true' : 'false');
-          if (sunIcon && moonIcon) {
-            const isDark = resolved === 'dark';
-            sunIcon.classList.toggle('hidden', !isDark);
-            moonIcon.classList.toggle('hidden', isDark);
-          }
-          if (shouldPersist) {
-            persistTheme(resolved);
-          }
-        };
-
-        (() => {
-          const stored = readStoredTheme();
-          if (stored === 'dark' || stored === 'light') {
-            applyTheme(stored, false);
-            return;
-          }
-          const prefersDark = media?.matches;
-          const fallback = prefersDark ? 'dark' : 'light';
-          applyTheme(fallback, false);
-        })();
-
-        toggle.addEventListener('click', () => {
-          const next = root.classList.contains('dark') ? 'light' : 'dark';
-          applyTheme(next);
-        });
-
-        if (media) {
+        if (themeMediaQuery) {
           const handleChange = event => {
             const stored = readStoredTheme();
             if (stored === 'dark' || stored === 'light') {
@@ -1929,10 +1951,10 @@
             }
             applyTheme(event.matches ? 'dark' : 'light', false);
           };
-          if (typeof media.addEventListener === 'function') {
-            media.addEventListener('change', handleChange);
-          } else if (typeof media.addListener === 'function') {
-            media.addListener(handleChange);
+          if (typeof themeMediaQuery.addEventListener === 'function') {
+            themeMediaQuery.addEventListener('change', handleChange);
+          } else if (typeof themeMediaQuery.addListener === 'function') {
+            themeMediaQuery.addListener(handleChange);
           }
         }
       }

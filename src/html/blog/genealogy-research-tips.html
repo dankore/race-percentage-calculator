@@ -78,7 +78,7 @@
 </head>
 
 <body
-  class="bg-gradient-to-br from-indigo-100 to-purple-200 dark:from-gray-900 dark:to-gray-800 min-h-screen font-sans">
+  class="bg-gradient-to-br from-indigo-100 to-purple-200 dark:from-gray-900 dark:to-gray-800 min-h-screen font-sans text-gray-900 dark:text-gray-100 antialiased transition-colors duration-300 relative overflow-x-hidden">
   <div id="progress-bar"
     class="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transform -translate-y-full transition-transform duration-300 z-50">
   </div>
@@ -141,7 +141,7 @@
   <main role="main" class="flex-1">
 
   <section
-    class="border-b border-indigo-100 dark:border-indigo-900/40">
+    class="border-b border-indigo-100 dark:border-indigo-900/40 bg-white dark:bg-gray-900">
     <div class="max-w-6xl mx-auto px-4 py-10 sm:py-12">
       <div class="max-w-3xl space-y-5">
         <h1 class="text-3xl sm:text-4xl font-semibold leading-tight text-gray-900 dark:text-white">
@@ -503,6 +503,235 @@
       class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">Cultural
       Heritage</a>
   </div>
+
+  <script>
+    (function () {
+      const doc = document;
+      const root = doc.documentElement;
+
+      setupThemeToggle();
+      setupResourcesDropdown();
+      setupScrollAndLoadIndicators();
+
+      function setupThemeToggle() {
+        const toggle = doc.getElementById('theme-toggle');
+        if (!toggle || !root) {
+          return;
+        }
+        const sunIcon = doc.getElementById('sun-icon');
+        const moonIcon = doc.getElementById('moon-icon');
+        const storageKey = 'theme';
+        const media = typeof window.matchMedia === 'function'
+          ? window.matchMedia('(prefers-color-scheme: dark)')
+          : null;
+
+        const readStoredTheme = () => {
+          try {
+            return localStorage.getItem(storageKey);
+          } catch (_) {
+            return null;
+          }
+        };
+
+        const persistTheme = value => {
+          try {
+            localStorage.setItem(storageKey, value);
+          } catch (_) {
+            /* no-op */
+          }
+        };
+
+        const applyTheme = (theme, shouldPersist = true) => {
+          const resolved = theme === 'dark' ? 'dark' : 'light';
+          if (resolved === 'dark') {
+            root.classList.add('dark');
+          } else {
+            root.classList.remove('dark');
+          }
+          toggle.setAttribute('aria-pressed', resolved === 'dark' ? 'true' : 'false');
+          if (sunIcon && moonIcon) {
+            const isDark = resolved === 'dark';
+            sunIcon.classList.toggle('hidden', !isDark);
+            moonIcon.classList.toggle('hidden', isDark);
+          }
+          if (shouldPersist) {
+            persistTheme(resolved);
+          }
+        };
+
+        (() => {
+          const stored = readStoredTheme();
+          if (stored === 'dark' || stored === 'light') {
+            applyTheme(stored, false);
+            return;
+          }
+          const prefersDark = media?.matches;
+          const fallback = prefersDark ? 'dark' : 'light';
+          applyTheme(fallback, false);
+        })();
+
+        toggle.addEventListener('click', () => {
+          const next = root.classList.contains('dark') ? 'light' : 'dark';
+          applyTheme(next);
+        });
+
+        if (media) {
+          const handleChange = event => {
+            const stored = readStoredTheme();
+            if (stored === 'dark' || stored === 'light') {
+              return;
+            }
+            applyTheme(event.matches ? 'dark' : 'light', false);
+          };
+          if (typeof media.addEventListener === 'function') {
+            media.addEventListener('change', handleChange);
+          } else if (typeof media.addListener === 'function') {
+            media.addListener(handleChange);
+          }
+        }
+      }
+
+      function setupResourcesDropdown() {
+        const button = doc.getElementById('resources-dropdown-button');
+        const menu = doc.getElementById('resources-dropdown-menu');
+        if (!button || !menu) {
+          return;
+        }
+
+        let isOpen = false;
+        const menuItems = Array.from(menu.querySelectorAll('a'));
+
+        button.setAttribute('aria-haspopup', 'true');
+        button.setAttribute('aria-expanded', 'false');
+        if (button.id) {
+          menu.setAttribute('aria-labelledby', button.id);
+        }
+        menu.setAttribute('role', 'menu');
+        menu.setAttribute('aria-hidden', 'true');
+
+        const openMenu = () => {
+          if (isOpen) return;
+          isOpen = true;
+          menu.classList.remove('hidden');
+          menu.setAttribute('aria-hidden', 'false');
+          button.setAttribute('aria-expanded', 'true');
+        };
+
+        const closeMenu = () => {
+          if (!isOpen) return;
+          isOpen = false;
+          menu.classList.add('hidden');
+          menu.setAttribute('aria-hidden', 'true');
+          button.setAttribute('aria-expanded', 'false');
+        };
+
+        button.addEventListener('click', event => {
+          event.preventDefault();
+          if (isOpen) {
+            closeMenu();
+          } else {
+            openMenu();
+            (menuItems[0] || menu.querySelector('a'))?.focus();
+          }
+        });
+
+        button.addEventListener('keydown', event => {
+          if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            if (!isOpen) {
+              openMenu();
+            }
+            (menuItems[0] || menu.querySelector('a'))?.focus();
+          } else if (event.key === 'Escape') {
+            closeMenu();
+          }
+        });
+
+        menu.addEventListener('keydown', event => {
+          if (event.key === 'Escape') {
+            event.stopPropagation();
+            closeMenu();
+            button.focus();
+          }
+        });
+
+        doc.addEventListener('click', event => {
+          if (!isOpen) return;
+          const target = event.target;
+          if (button.contains(target) || menu.contains(target)) {
+            return;
+          }
+          closeMenu();
+        });
+
+        const handleFocusOut = event => {
+          if (!isOpen) {
+            return;
+          }
+          const next = event.relatedTarget;
+          if (next && (menu.contains(next) || button.contains(next))) {
+            return;
+          }
+          closeMenu();
+        };
+
+        menu.addEventListener('focusout', handleFocusOut);
+        button.addEventListener('focusout', handleFocusOut);
+      }
+
+      function setupScrollAndLoadIndicators() {
+        const progressBar = doc.getElementById('progress-bar');
+        if (progressBar) {
+          if (doc.readyState !== 'complete') {
+            requestAnimationFrame(() => {
+              progressBar.classList.remove('-translate-y-full');
+            });
+          }
+          const hideBar = () => {
+            progressBar.classList.add('-translate-y-full');
+          };
+          if (doc.readyState === 'complete') {
+            hideBar();
+          } else {
+            window.addEventListener('load', () => {
+              setTimeout(hideBar, 150);
+            }, { once: true });
+            setTimeout(hideBar, 3000);
+          }
+        }
+
+        const scrollContainer = doc.getElementById('scroll-progress-container');
+        const scrollIndicator = doc.getElementById('scroll-progress-indicator');
+        if (!scrollContainer || !scrollIndicator) {
+          return;
+        }
+
+        let ticking = false;
+
+        const update = () => {
+          ticking = false;
+          const docEl = doc.documentElement;
+          const maxScroll = docEl.scrollHeight - window.innerHeight;
+          const scrollTop = docEl.scrollTop || window.pageYOffset;
+          const progress = maxScroll > 0 ? scrollTop / maxScroll : 0;
+          const percent = Math.min(100, Math.max(0, progress * 100));
+          scrollIndicator.style.width = `${percent}%`;
+          scrollContainer.style.height = percent > 0 ? '4px' : '0';
+        };
+
+        const requestTick = () => {
+          if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(update);
+          }
+        };
+
+        window.addEventListener('scroll', requestTick, { passive: true });
+        window.addEventListener('resize', requestTick);
+        update();
+      }
+    })();
+  </script>
 </body>
 
 </html>
