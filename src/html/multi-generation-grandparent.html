@@ -4,16 +4,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grandparent Graph Prototype | Race Percentage Calculator</title>
+  <title>Great-Grandparent Tree Prototype | Race Percentage Calculator</title>
   <meta name="description"
-    content="Prototype page that lets you start with the grandparents, add multiple races per ancestor, and watch the percentages cascade down to the subject.">
+    content="Prototype page that lets you start with the great-grandparents, add multiple races per ancestor, and watch the percentages cascade down through grandparents, parents, and the subject.">
+  <meta name="keywords"
+    content="race calculator, heritage calculator, race percentage calculator, multi generation calculator, ancestry percentage calculator, genetic ancestry calculator, heritage planner, family tree calculator, grandparent tree">
   <meta name="robots" content="noindex, nofollow">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-icon-180x180.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/icons/favicon-16x16.png">
+  <meta name="author" content="Dankore Software">
+  <meta name="language" content="English">
+  <meta name="msapplication-navbutton-color" content="#4F46E5">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#4F46E5">
+  <meta name="msapplication-TileColor" content="#4F46E5">
+  <meta name="msapplication-TileImage" content="assets/images/icons/ms-icon-144x144.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Race Percentage Calculator">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Race &amp; Heritage Calculator">
+  <link rel="canonical" href="https://race-calculator.dankoresoft.com/multi-generation-grandparent/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://race-calculator.dankoresoft.com/multi-generation-grandparent/">
+  <meta property="og:title" content="Great-Grandparent Tree - Multi-Generation Heritage Calculator">
+  <meta property="og:description"
+    content="Build deep ancestry trees starting from eight great-grandparents. Add multiple races per ancestor and watch percentages cascade through grandparents, parents, and the subject automatically.">
+  <meta property="og:image"
+    content="https://race-calculator.dankoresoft.com/assets/images/seo/ethnic-makeup-seo-image.png">
+  <meta property="og:image:alt" content="Race Percentage Calculator Interface">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Race Percentage Calculator">
+  <meta property="og:locale" content="en_US">
+  <meta http-equiv="Cache-Control" content="max-age=31536000, public">
+  <meta http-equiv="Expires" content="31536000">
+  <meta name="revisit-after" content="1 day">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://race-calculator.dankoresoft.com/multi-generation-grandparent/">
+  <meta name="twitter:title" content="Great-Grandparent Tree - Multi-Generation Heritage Calculator">
+  <meta name="twitter:description"
+    content="Build deep ancestry trees starting from eight great-grandparents. Add multiple races per ancestor and watch percentages cascade through grandparents, parents, and the subject automatically.">
+  <meta name="twitter:image"
+    content="https://race-calculator.dankoresoft.com/assets/images/seo/ethnic-makeup-seo-image.png">
+  <meta name="twitter:creator" content="@dankoresoftware">
+  <link rel="apple-touch-icon" sizes="57x57" href="assets/images/icons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="assets/images/icons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="assets/images/icons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="assets/images/icons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="assets/images/icons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="assets/images/icons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="assets/images/icons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="assets/images/icons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/images/icons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/images/icons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
   <link rel="manifest" href="/assets/images/icons/manifest.json">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
   <link rel="stylesheet" href="/assets/styles/main.css">
   <style>
     :root {
@@ -309,6 +362,7 @@
       transform: translateY(-1px);
       box-shadow: 0 16px 30px -24px rgba(217, 119, 6, 0.6);
     }
+
 
     .dark .sample-tree-btn {
       border-color: rgba(148, 163, 184, 0.35);
@@ -745,7 +799,7 @@
                 Race Percentage Calculator
               </p>
               <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
-                Grandparent Graph Prototype
+                Great-Grandparent Tree Prototype
               </p>
             </div>
           </a>
@@ -754,11 +808,6 @@
             <nav class="flex items-center gap-4 text-sm font-semibold text-gray-700 dark:text-gray-200 flex-wrap">
               <a href="/multi-generation/"
                 class="hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors">Multi-Generation</a>
-              <a href="/multi-generation-grandparent/" aria-current="page"
-                class="inline-flex items-center gap-1 rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs uppercase tracking-wide text-indigo-700 hover:bg-indigo-100 hover:text-indigo-800 transition-colors dark:border-indigo-500/40 dark:bg-indigo-500/10 dark:text-indigo-200 dark:hover:bg-indigo-500/20">
-                <span>Grandparent Graph</span>
-                <span class="text-[10px] font-bold text-rose-500 dark:text-rose-300">Beta</span>
-              </a>
               <div class="relative" id="resources-dropdown">
                 <button
                   class="flex items-center gap-1 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors"
@@ -797,20 +846,18 @@
             <span
               class="inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-600 dark:border-indigo-500/40 dark:bg-indigo-500/10 dark:text-indigo-200">Prototype
               Feature</span>
-            <h1 class="text-3xl sm:text-4xl font-semibold leading-tight text-gray-900 dark:text-white">Grandparent
-              Graph</h1>
-            <p class="text-base text-gray-600 dark:text-gray-300">Start with the four grandparents (or even great
-              grandparents), add as many races as you need per person, and the system will auto-cascade the mix for
-              parents and the subject.</p>
+            <h1 class="text-3xl sm:text-4xl font-semibold leading-tight text-gray-900 dark:text-white">Great-Grandparent
+              Tree</h1>
+            <p class="text-base text-gray-600 dark:text-gray-300">Start with the eight great-grandparents, add as many races as you need per person, and the system will auto-cascade the mix through grandparents, parents, and the subject.</p>
           </div>
         </div>
       </section>
 
-      <section class="bg-gray-50 dark:bg-gray-950/40 py-10">
+      <section class="py-10">
         <div class="max-w-6xl mx-auto px-4 space-y-8">
           <div class="rounded-3xl bg-white/95 dark:bg-gray-900/80 border border-indigo-100 dark:border-indigo-800/40 shadow-xl p-4 sm:p-6">
             <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1">Try a sample family</h2>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Click a preset to auto-fill every great-grandparent.</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Click a preset to auto-fill all eight great-grandparents.</p>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
               <button type="button"
                 class="sample-tree-btn inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold shadow-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900"
@@ -827,21 +874,23 @@
             </div>
           </div>
 
-          <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div
+            class="flex w-full flex-col gap-4 rounded-3xl border border-indigo-100 bg-white/95 px-4 py-5 shadow-xl lg:flex-row lg:items-center lg:justify-between dark:border-indigo-800/40 dark:bg-gray-900/80">
             <div class="space-y-2 max-w-3xl">
-              <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Build the grandparent tree</h2>
+              <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Build the great-grandparent tree</h2>
               <p class="text-base text-gray-600 dark:text-gray-300">Add mixes at the great-grandparent level and let the
-                builder fill in the rest automatically.</p>
+                builder fill in grandparents, parents, and the subject automatically.</p>
             </div>
             <div class="flex items-center gap-3">
               <button type="button" id="resetTree"
-                class="rounded-2xl border border-gray-200 dark:border-gray-600 px-4 py-2 text-sm font-semibold text-gray-600 dark:text-gray-200 hover:border-gray-300 dark:hover:border-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">Reset</button>
-              <span class="text-xs uppercase tracking-wide text-gray-400 dark:text-gray-500">Beta preview</span>
+                class="rounded-2xl border border-gray-200 bg-white/80 px-4 py-2 text-sm font-semibold text-gray-600 transition-colors hover:border-gray-300 hover:bg-gray-50 dark:border-indigo-700/60 dark:bg-gray-800/70 dark:text-indigo-100 dark:hover:border-indigo-600/60 dark:hover:bg-gray-800">Reset</button>
+              <span class="text-xs uppercase tracking-wide text-gray-400 dark:text-indigo-200/80">Beta preview</span>
             </div>
           </div>
 
           <div class="overflow-x-auto">
-            <div class="tree-shell mt-4 md:mt-6" data-tree-shell>
+            <div class="tree-shell mt-4 md:mt-6 bg-white/95 border border-slate-200/70 dark:bg-slate-900/80 dark:border-slate-800/60"
+              data-tree-shell>
               <div class="tree-columns">
                 <div class="tree-column tree-column-main">
                   <div class="intermediate-stack" data-intermediate-stack></div>
@@ -1070,9 +1119,15 @@
 
   <template id="race-row-template">
     <div class="entry-row" data-entry-row>
-      <input type="text" placeholder="Race (e.g. Yoruba)" data-race-input aria-label="Race name">
-      <input type="number" placeholder="%" min="0" max="100" data-percent-input aria-label="Percentage">
-      <button type="button" data-remove-entry aria-label="Remove race">&times;</button>
+      <input type="text"
+        class="w-full rounded-lg border border-slate-200 bg-white/95 text-gray-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-slate-900/70 dark:border-slate-700/60 dark:text-gray-100 dark:placeholder:text-slate-500"
+        placeholder="Race (e.g. Yoruba)" data-race-input aria-label="Race name">
+      <input type="number"
+        class="rounded-lg border border-slate-200 bg-white/95 text-right text-gray-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-slate-900/70 dark:border-slate-700/60 dark:text-gray-100 dark:placeholder:text-slate-500"
+        placeholder="%" min="0" max="100" data-percent-input aria-label="Percentage">
+      <button type="button"
+        class="flex items-center justify-center rounded-lg border border-rose-200 bg-rose-50 text-rose-600 font-semibold transition-colors hover:bg-rose-100 hover:text-rose-700 dark:border-rose-400/60 dark:bg-rose-500/10 dark:text-rose-200 dark:hover:bg-rose-500/20 dark:hover:text-rose-100"
+        data-remove-entry aria-label="Remove race">&times;</button>
     </div>
   </template>
 
@@ -1393,7 +1448,7 @@
         intermediateStack.innerHTML = '';
         intermediateSections.forEach(section => {
           const details = document.createElement('details');
-          details.className = 'generation-panel';
+          details.className = 'generation-panel dark:bg-slate-900/80 dark:border-slate-800/60';
           if (section.defaultOpen) details.open = true;
 
           const summary = document.createElement('summary');
@@ -1422,7 +1477,7 @@
 
         panelConfigs.forEach(({ side, label }) => {
           const details = document.createElement('details');
-          details.className = 'generation-panel';
+          details.className = 'generation-panel dark:bg-slate-900/80 dark:border-slate-800/60';
           details.open = true;
 
           const summary = document.createElement('summary');
@@ -1466,7 +1521,7 @@
 
       function buildCard(nodeId, cfg) {
         const card = document.createElement('article');
-        card.className = 'ancestor-card';
+        card.className = 'ancestor-card bg-white/95 border border-slate-200/70 dark:bg-slate-900/80 dark:border-slate-700/60';
         card.dataset.nodeId = nodeId;
         if (cfg.side) card.dataset.side = cfg.side;
         if (cfg.type === 'subject') card.classList.add('subject-card');
@@ -1482,13 +1537,13 @@
         if (cfg.editable) {
           const addBtn = document.createElement('button');
           addBtn.type = 'button';
-          addBtn.className = 'add-entry-btn';
+          addBtn.className = 'add-entry-btn dark:bg-indigo-500/15 dark:border-indigo-400/40 dark:text-indigo-200 dark:hover:bg-indigo-500/25';
           addBtn.dataset.addEntry = '';
           addBtn.textContent = '+ Race';
           header.appendChild(addBtn);
         } else if (cfg.badge) {
           const badge = document.createElement('span');
-          badge.className = 'badge';
+          badge.className = 'badge dark:bg-indigo-500/15 dark:text-indigo-200';
           badge.textContent = cfg.badge;
           header.appendChild(badge);
         }
