@@ -1133,6 +1133,13 @@
 
     <script>
     (function () {
+      const doc = document;
+      const root = doc.documentElement;
+
+      setupThemeToggle();
+      setupResourcesDropdown();
+      setupScrollAndLoadIndicators();
+
       const nodeConfigs = {
         subject: {
           parents: ['father', 'mother'],
@@ -1407,19 +1414,27 @@
       };
 
       const nodeIds = Object.keys(nodeConfigs);
-      const rowTemplate = document.getElementById('race-row-template');
-      const treeShell = document.querySelector('[data-tree-shell]');
+      const rowTemplate = doc.getElementById('race-row-template');
+      const treeShell = doc.querySelector('[data-tree-shell]');
+      if (!rowTemplate || !treeShell) {
+        return;
+      }
       const subjectAnchor = treeShell.querySelector('[data-subject-anchor]');
       const intermediateStack = treeShell.querySelector('[data-intermediate-stack]');
       const inputGrid = treeShell.querySelector('[data-input-grid]');
-      const resetButton = document.getElementById('resetTree');
-      const sampleButtons = Array.from(document.querySelectorAll('.sample-tree-btn'));
+      if (!subjectAnchor || !intermediateStack || !inputGrid) {
+        return;
+      }
+      const resetButton = doc.getElementById('resetTree');
+      const sampleButtons = Array.from(doc.querySelectorAll('.sample-tree-btn'));
       const cardMap = new Map();
 
       renderLayout();
       treeShell.addEventListener('click', handleClick);
       treeShell.addEventListener('input', handleInput);
-      resetButton.addEventListener('click', handleReset);
+      if (resetButton) {
+        resetButton.addEventListener('click', handleReset);
+      }
       sampleButtons.forEach(btn => {
         btn.dataset.active = 'false';
         btn.setAttribute('aria-pressed', 'false');
@@ -1842,6 +1857,224 @@
           });
         });
         updateAll();
+      }
+
+      function setupThemeToggle() {
+        const toggle = doc.getElementById('theme-toggle');
+        if (!toggle || !root) {
+          return;
+        }
+        const sunIcon = doc.getElementById('sun-icon');
+        const moonIcon = doc.getElementById('moon-icon');
+        const storageKey = 'theme';
+        const media = typeof window.matchMedia === 'function'
+          ? window.matchMedia('(prefers-color-scheme: dark)')
+          : null;
+
+        const readStoredTheme = () => {
+          try {
+            return localStorage.getItem(storageKey);
+          } catch (_) {
+            return null;
+          }
+        };
+
+        const persistTheme = value => {
+          try {
+            localStorage.setItem(storageKey, value);
+          } catch (_) {
+            /* no-op */
+          }
+        };
+
+        const applyTheme = (theme, shouldPersist = true) => {
+          const resolved = theme === 'dark' ? 'dark' : 'light';
+          if (resolved === 'dark') {
+            root.classList.add('dark');
+          } else {
+            root.classList.remove('dark');
+          }
+          toggle.setAttribute('aria-pressed', resolved === 'dark' ? 'true' : 'false');
+          if (sunIcon && moonIcon) {
+            const isDark = resolved === 'dark';
+            sunIcon.classList.toggle('hidden', !isDark);
+            moonIcon.classList.toggle('hidden', isDark);
+          }
+          if (shouldPersist) {
+            persistTheme(resolved);
+          }
+        };
+
+        (() => {
+          const stored = readStoredTheme();
+          if (stored === 'dark' || stored === 'light') {
+            applyTheme(stored, false);
+            return;
+          }
+          const prefersDark = media?.matches;
+          const fallback = prefersDark ? 'dark' : 'light';
+          applyTheme(fallback, false);
+        })();
+
+        toggle.addEventListener('click', () => {
+          const next = root.classList.contains('dark') ? 'light' : 'dark';
+          applyTheme(next);
+        });
+
+        if (media) {
+          const handleChange = event => {
+            const stored = readStoredTheme();
+            if (stored === 'dark' || stored === 'light') {
+              return;
+            }
+            applyTheme(event.matches ? 'dark' : 'light', false);
+          };
+          if (typeof media.addEventListener === 'function') {
+            media.addEventListener('change', handleChange);
+          } else if (typeof media.addListener === 'function') {
+            media.addListener(handleChange);
+          }
+        }
+      }
+
+      function setupResourcesDropdown() {
+        const button = doc.getElementById('resources-dropdown-button');
+        const menu = doc.getElementById('resources-dropdown-menu');
+        if (!button || !menu) {
+          return;
+        }
+
+        let isOpen = false;
+        const menuItems = Array.from(menu.querySelectorAll('a'));
+
+        button.setAttribute('aria-haspopup', 'true');
+        button.setAttribute('aria-expanded', 'false');
+        if (button.id) {
+          menu.setAttribute('aria-labelledby', button.id);
+        }
+        menu.setAttribute('role', 'menu');
+        menu.setAttribute('aria-hidden', 'true');
+
+        const openMenu = () => {
+          if (isOpen) return;
+          isOpen = true;
+          menu.classList.remove('hidden');
+          menu.setAttribute('aria-hidden', 'false');
+          button.setAttribute('aria-expanded', 'true');
+        };
+
+        const closeMenu = () => {
+          if (!isOpen) return;
+          isOpen = false;
+          menu.classList.add('hidden');
+          menu.setAttribute('aria-hidden', 'true');
+          button.setAttribute('aria-expanded', 'false');
+        };
+
+        button.addEventListener('click', event => {
+          event.preventDefault();
+          if (isOpen) {
+            closeMenu();
+          } else {
+            openMenu();
+            (menuItems[0] || menu.querySelector('a'))?.focus();
+          }
+        });
+
+        button.addEventListener('keydown', event => {
+          if (event.key === 'ArrowDown') {
+            event.preventDefault();
+            if (!isOpen) {
+              openMenu();
+            }
+            (menuItems[0] || menu.querySelector('a'))?.focus();
+          } else if (event.key === 'Escape') {
+            closeMenu();
+          }
+        });
+
+        menu.addEventListener('keydown', event => {
+          if (event.key === 'Escape') {
+            event.stopPropagation();
+            closeMenu();
+            button.focus();
+          }
+        });
+
+        doc.addEventListener('click', event => {
+          if (!isOpen) return;
+          const target = event.target;
+          if (button.contains(target) || menu.contains(target)) {
+            return;
+          }
+          closeMenu();
+        });
+
+        const handleFocusOut = event => {
+          if (!isOpen) {
+            return;
+          }
+          const next = event.relatedTarget;
+          if (next && (menu.contains(next) || button.contains(next))) {
+            return;
+          }
+          closeMenu();
+        };
+
+        menu.addEventListener('focusout', handleFocusOut);
+        button.addEventListener('focusout', handleFocusOut);
+      }
+
+      function setupScrollAndLoadIndicators() {
+        const progressBar = doc.getElementById('progress-bar');
+        if (progressBar) {
+          if (doc.readyState !== 'complete') {
+            requestAnimationFrame(() => {
+              progressBar.classList.remove('-translate-y-full');
+            });
+          }
+          const hideBar = () => {
+            progressBar.classList.add('-translate-y-full');
+          };
+          if (doc.readyState === 'complete') {
+            hideBar();
+          } else {
+            window.addEventListener('load', () => {
+              setTimeout(hideBar, 150);
+            }, { once: true });
+            setTimeout(hideBar, 3000);
+          }
+        }
+
+        const scrollContainer = doc.getElementById('scroll-progress-container');
+        const scrollIndicator = doc.getElementById('scroll-progress-indicator');
+        if (!scrollContainer || !scrollIndicator) {
+          return;
+        }
+
+        let ticking = false;
+
+        const update = () => {
+          ticking = false;
+          const docEl = doc.documentElement;
+          const maxScroll = docEl.scrollHeight - window.innerHeight;
+          const scrollTop = docEl.scrollTop || window.pageYOffset;
+          const progress = maxScroll > 0 ? scrollTop / maxScroll : 0;
+          const percent = Math.min(100, Math.max(0, progress * 100));
+          scrollIndicator.style.width = `${percent}%`;
+          scrollContainer.style.height = percent > 0 ? '4px' : '0';
+        };
+
+        const requestTick = () => {
+          if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(update);
+          }
+        };
+
+        window.addEventListener('scroll', requestTick, { passive: true });
+        window.addEventListener('resize', requestTick);
+        update();
       }
     })();
   </script>
