@@ -90,6 +90,39 @@
       animation: gentle-pulse 2s infinite;
     }
 
+    .sample-race-btn.is-active {
+      border-color: rgba(126, 90, 247, 0.7);
+      background: linear-gradient(135deg, rgba(238, 240, 254, 0.95), rgba(214, 205, 253, 0.85));
+      box-shadow:
+        0 12px 30px -16px rgba(79, 70, 229, 0.45),
+        0 10px 40px -22px rgba(30, 64, 175, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .sample-race-btn.is-active .text-sm {
+      color: rgba(59, 31, 141, 0.95);
+    }
+
+    .sample-race-btn.is-active .text-\[11px\] {
+      color: rgba(79, 70, 229, 0.7);
+    }
+
+    .dark .sample-race-btn.is-active {
+      border-color: rgba(126, 90, 247, 0.8);
+      background: linear-gradient(135deg, rgba(39, 20, 97, 0.92), rgba(78, 40, 155, 0.68));
+      box-shadow:
+        0 14px 36px -18px rgba(126, 90, 247, 0.55),
+        0 12px 32px -20px rgba(24, 24, 75, 0.6);
+    }
+
+    .dark .sample-race-btn.is-active .text-sm {
+      color: rgba(224, 220, 255, 0.96);
+    }
+
+    .dark .sample-race-btn.is-active .text-\[11px\] {
+      color: rgba(189, 181, 255, 0.85);
+    }
+
     .floating-results {
       position: fixed;
       bottom: 0;

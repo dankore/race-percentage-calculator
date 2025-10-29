@@ -612,7 +612,31 @@ function updateSiblingEmptyState() {
 
 function initializeSampleRaceButtons() {
   const sampleButtons = document.querySelectorAll('.sample-race-btn');
+  if (!sampleButtons.length) return;
+
   let hasClickedOnce = false;
+  let activeSampleButton = null;
+
+  sampleButtons.forEach(button => {
+    button.setAttribute('aria-pressed', 'false');
+  });
+
+  const setActiveButton = targetButton => {
+    sampleButtons.forEach(button => {
+      const isActive = button === targetButton;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+
+    activeSampleButton = targetButton || null;
+  };
+
+  const clearActiveSample = () => {
+    setActiveButton(null);
+  };
+
+  document.removeEventListener('raceSamples:clearActive', clearActiveSample);
+  document.addEventListener('raceSamples:clearActive', clearActiveSample);
 
   sampleButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -626,6 +650,10 @@ function initializeSampleRaceButtons() {
         }
 
         const racesData = JSON.parse(button.getAttribute('data-races'));
+
+        if (activeSampleButton !== button) {
+          setActiveButton(button);
+        }
 
         const motherRows =
           racesData.mother ||
@@ -1439,6 +1467,8 @@ function resetRaceEntries() {
   renderParentSummary();
   toggleResultsHandle(false);
   hideResultsModal(true);
+
+  document.dispatchEvent(new Event('raceSamples:clearActive'));
 
   // Clear any warnings
   hideWarning();
