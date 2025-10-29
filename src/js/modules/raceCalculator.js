@@ -6,6 +6,37 @@ const GRANDPARENT_GROUPS = {
   mother: ['maternalGrandmother', 'maternalGrandfather'],
   father: ['paternalGrandmother', 'paternalGrandfather'],
 };
+const GREAT_GRANDPARENT_GROUPS = {
+  maternalGrandmother: [
+    'maternalGrandmotherGreatGrandmother',
+    'maternalGrandmotherGreatGrandfather',
+  ],
+  maternalGrandfather: [
+    'maternalGrandfatherGreatGrandmother',
+    'maternalGrandfatherGreatGrandfather',
+  ],
+  paternalGrandmother: [
+    'paternalGrandmotherGreatGrandmother',
+    'paternalGrandmotherGreatGrandfather',
+  ],
+  paternalGrandfather: [
+    'paternalGrandfatherGreatGrandmother',
+    'paternalGrandfatherGreatGrandfather',
+  ],
+};
+const SAMPLE_TITLES = {
+  parents: 'Choose a Sample Mix:',
+  grandparents: 'Choose a Grandparent Sample:',
+  'great-grandparents': 'Choose a Great-Grandparent Sample:',
+};
+const SAMPLE_SUBHEADINGS = {
+  parents: '👇 Click any button to try a parent-ready sample!',
+  grandparents: '👇 Prefill all four grandparents with a single tap.',
+  'great-grandparents': '👇 Populate all eight great-grandparents instantly.',
+};
+const GENERATION_MODES = ['parents', 'grandparents', 'great-grandparents'];
+const PERCENT_TOLERANCE = 0.5;
+const NORMALIZE_THRESHOLD = 5;
 const ADVANCED_TREE_STORAGE_KEY = 'raceCalculatorAdvancedTree';
 
 const parentWeights = {
@@ -38,11 +69,18 @@ let motherNode,
   resultsModalClose,
   resultsModalHandle;
 let grandparentNodes = {};
+let greatGrandparentNodes = {};
 let debounceTimer;
 let suppressAutoCalculation = false;
 let advancedStatusTimeout;
 let siblingScenarioCounter = 0;
 let saveButtonFeedbackTimeout;
+let generationToggleButtons = [];
+let generationPanels = {};
+let activeGenerationMode = 'parents';
+let samplePanels = {};
+let sampleTitleEl;
+let sampleSubtitleEl;
 
 // Initialize DOM references
 function initializeDOMReferences() {
@@ -78,6 +116,37 @@ function initializeDOMReferences() {
         grandparentNodes[id] = node;
       }
     });
+  });
+
+  greatGrandparentNodes = {};
+  Object.values(GREAT_GRANDPARENT_GROUPS).forEach(group => {
+    group.forEach(id => {
+      const node = document.getElementById(id);
+      if (node) {
+        greatGrandparentNodes[id] = node;
+      }
+    });
+  });
+
+  generationToggleButtons = Array.from(
+    document.querySelectorAll('#generationToggle [data-generation-option]')
+  );
+  generationPanels = {};
+  document.querySelectorAll('[data-generation-panel]').forEach(panel => {
+    const key = panel.getAttribute('data-generation-panel');
+    if (key) {
+      generationPanels[key] = panel;
+    }
+  });
+
+  sampleTitleEl = document.querySelector('[data-sample-title]');
+  sampleSubtitleEl = document.querySelector('[data-sample-subtitle]');
+  samplePanels = {};
+  document.querySelectorAll('[data-sample-panel]').forEach(panel => {
+    const key = panel.getAttribute('data-sample-panel');
+    if (key) {
+      samplePanels[key] = panel;
+    }
   });
 
   if (!motherNode || !fatherNode || !entryTemplate) {
@@ -126,6 +195,7 @@ export function initializeNodes() {
   initializeSampleRaceButtons();
   initializeAdvancedTreeFeatures();
   initializeParentSummaryUI();
+  initializeGenerationToggle();
   initializeResultsModal();
 
   return true;
@@ -136,6 +206,7 @@ function getAllEditableNodes() {
   if (motherNode) nodes.push(motherNode);
   if (fatherNode) nodes.push(fatherNode);
   Object.values(grandparentNodes).forEach(node => nodes.push(node));
+  Object.values(greatGrandparentNodes).forEach(node => nodes.push(node));
   return nodes;
 }
 
@@ -285,8 +356,90 @@ function setAdvancedTreeState(enabled) {
   }
 }
 
+function clearResultOutputs(options = {}) {
+  const { clearWarningMessage = false, hideModal = true } = options;
+
+  if (clearWarningMessage) {
+    hideWarning();
+  }
+
+  if (raceBreakdown) {
+    raceBreakdown.innerHTML = '';
+  }
+
+  if (window.raceChart instanceof Chart) {
+    try {
+      window.raceChart.destroy();
+    } catch (error) {
+      console.warn('Unable to destroy race chart:', error);
+    }
+    window.raceChart = null;
+  }
+
+  if (downloadButton) {
+    downloadButton.disabled = true;
+  }
+  if (saveButton) {
+    saveButton.disabled = true;
+    setSaveButtonVisualState('idle');
+  }
+
+  const floatingResults = document.getElementById('floatingResults');
+  if (floatingResults) {
+    floatingResults.classList.remove('visible');
+  }
+  const floatingRacePills = document.getElementById('floatingRacePills');
+  if (floatingRacePills) {
+    floatingRacePills.innerHTML = '';
+  }
+  if (window.miniRaceChart instanceof Chart) {
+    try {
+      window.miniRaceChart.destroy();
+    } catch (error) {
+      console.warn('Unable to destroy mini race chart:', error);
+    }
+    window.miniRaceChart = null;
+  }
+
+  toggleResultsHandle(false);
+  if (hideModal) {
+    hideResultsModal(true);
+  }
+
+  renderParentSummary();
+}
+
+function normalizeRaceMap(raceMap) {
+  if (!raceMap || typeof raceMap !== 'object') {
+    return {};
+  }
+
+  const entries = Object.entries(raceMap).filter(
+    ([, value]) => typeof value === 'number' && !Number.isNaN(value) && value > 0
+  );
+
+  if (!entries.length) {
+    return {};
+  }
+
+  const total = entries.reduce((sum, [, value]) => sum + value, 0);
+  if (total <= 0) {
+    return {};
+  }
+
+  const shouldNormalize = Math.abs(total - 100) <= NORMALIZE_THRESHOLD;
+  const scale = shouldNormalize ? 100 / total : 1;
+  const normalized = {};
+
+  entries.forEach(([race, value]) => {
+    normalized[race] = value * scale;
+  });
+
+  return normalized;
+}
+
 function applyGrandparentWeighting(options = {}) {
-  const { silent = false } = options;
+  const { silent = false, skipDebounce = false } = options;
   let updatedParents = 0;
 
   Object.entries(GRANDPARENT_GROUPS).forEach(([parentId, group]) => {
@@ -304,8 +457,10 @@ function applyGrandparentWeighting(options = {}) {
       });
     });
 
-    if (Object.keys(aggregated).length) {
-      setEntriesFromData(parentNode, aggregated);
+    const normalized = normalizeRaceMap(aggregated);
+
+    if (Object.keys(normalized).length) {
+      setEntriesFromData(parentNode, normalized);
       updatedParents += 1;
     }
   });
@@ -319,15 +474,187 @@ function applyGrandparentWeighting(options = {}) {
       );
     }
     renderParentSummary();
-    debouncedCalculateRace();
+    if (!skipDebounce) {
+      debouncedCalculateRace();
+    }
   } else if (!silent) {
     showAdvancedStatus('Add grandparent percentages before syncing.');
   }
 
   if (silent && updatedParents === 0) {
     renderParentSummary();
-    toggleResultsHandle(false);
-    hideResultsModal(true);
+    if (!skipDebounce) {
+      toggleResultsHandle(false);
+      hideResultsModal(true);
+    }
+  }
+
+  return updatedParents;
+}
+
+function applyGreatGrandparentWeighting(options = {}) {
+  const { silent = false, skipDebounce = false } = options;
+  let updatedGrandparents = 0;
+
+  Object.entries(GREAT_GRANDPARENT_GROUPS).forEach(([grandparentId, group]) => {
+    const grandparentNode = grandparentNodes[grandparentId];
+    if (!grandparentNode) {
+      return;
+    }
+
+    const aggregated = {};
+    group.forEach(greatGrandparentId => {
+      const sourceNode = greatGrandparentNodes[greatGrandparentId];
+      if (!sourceNode) {
+        return;
+      }
+      const { entries } = readNodeEntries(sourceNode);
+      entries.forEach(({ race, percent }) => {
+        aggregated[race] = (aggregated[race] || 0) + percent * 0.5;
+      });
+    });
+
+    const normalized = normalizeRaceMap(aggregated);
+
+    if (Object.keys(normalized).length) {
+      setEntriesFromData(grandparentNode, normalized);
+      updatedGrandparents += 1;
+    }
+  });
+
+  if (updatedGrandparents > 0) {
+    if (!skipDebounce) {
+      debouncedCalculateRace();
+    }
+  } else if (!silent) {
+    showAdvancedStatus('Add great-grandparent percentages before syncing.');
+  }
+
+  return updatedGrandparents;
+}
+
+function syncGenerationSources(options = {}) {
+  const { silent = true, skipDebounce = false } = options;
+
+  if (activeGenerationMode === 'grandparents') {
+    return applyGrandparentWeighting({ silent, skipDebounce });
+  }
+
+  if (activeGenerationMode === 'great-grandparents') {
+    applyGreatGrandparentWeighting({
+      silent,
+      skipDebounce: true,
+    });
+    return applyGrandparentWeighting({ silent, skipDebounce });
+  }
+
+  return 0;
+}
+
+function initializeGenerationToggle() {
+  if (!generationToggleButtons.length || Object.keys(generationPanels).length === 0) {
+    activeGenerationMode = 'parents';
+    return;
+  }
+
+  generationToggleButtons.forEach(button => {
+    if (button.dataset.generationInitialized === 'true') {
+      return;
+    }
+    button.addEventListener('click', () => {
+      const target = button.getAttribute('data-generation-option');
+      if (!target) {
+        return;
+      }
+      setGenerationMode(target);
+    });
+    button.dataset.generationInitialized = 'true';
+  });
+
+  if (!generationPanels[activeGenerationMode]) {
+    activeGenerationMode = 'parents';
+  }
+
+  setGenerationMode(activeGenerationMode, {
+    force: true,
+    deferCalculation: true,
+    silentSample: true,
+  });
+}
+
+function setGenerationMode(mode, options = {}) {
+  const {
+    force = false,
+    deferCalculation = false,
+    silentSample = false,
+    triggerCalculation = false,
+  } = options;
+
+  let normalizedMode = GENERATION_MODES.includes(mode) ? mode : 'parents';
+  if (!generationPanels[normalizedMode]) {
+    normalizedMode = 'parents';
+  }
+
+  if (!force && normalizedMode === activeGenerationMode) {
+    return;
+  }
+
+  activeGenerationMode = normalizedMode;
+
+  if (generationToggleButtons.length) {
+    generationToggleButtons.forEach(button => {
+      const target = button.getAttribute('data-generation-option');
+      const isActive = target === activeGenerationMode;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+  }
+
+  Object.entries(generationPanels).forEach(([key, panel]) => {
+    if (!panel) return;
+    const isVisible = key === activeGenerationMode;
+    panel.classList.toggle('hidden', !isVisible);
+    panel.setAttribute('aria-hidden', (!isVisible).toString());
+  });
+
+  updateSamplePanels();
+  clearResultOutputs({ clearWarningMessage: true });
+
+  if (!silentSample) {
+    document.dispatchEvent(new Event('raceSamples:clearActive'));
+  }
+
+  syncGenerationSources({ silent: true, skipDebounce: true });
+
+  if (!deferCalculation && triggerCalculation) {
+    debouncedCalculateRace();
+  }
+}
+
+function updateSamplePanels() {
+  if (!samplePanels || !Object.keys(samplePanels).length) {
+    return;
+  }
+
+  const fallbackKey = samplePanels.parents ? 'parents' : Object.keys(samplePanels)[0];
+  const activeKey = samplePanels[activeGenerationMode] ? activeGenerationMode : fallbackKey;
+
+  Object.entries(samplePanels).forEach(([key, panel]) => {
+    if (!panel) return;
+    const isVisible = key === activeKey;
+    panel.classList.toggle('hidden', !isVisible);
+    panel.setAttribute('aria-hidden', (!isVisible).toString());
+  });
+
+  if (sampleTitleEl) {
+    sampleTitleEl.textContent =
+      SAMPLE_TITLES[activeKey] || SAMPLE_TITLES.parents || 'Choose a Sample Mix:';
+  }
+  if (sampleSubtitleEl) {
+    sampleSubtitleEl.textContent =
+      SAMPLE_SUBHEADINGS[activeKey] ||
+      SAMPLE_SUBHEADINGS.parents ||
+      '👇 Click any button to try a sample!';
   }
 }
 
@@ -507,6 +834,15 @@ function applyAdvancedSample(sample, label = '') {
   setAdvancedTreeState(true);
 
   withSuppressedCalculation(() => {
+    if (sample.greatGrandparents) {
+      Object.entries(sample.greatGrandparents).forEach(([id, rows]) => {
+        const node = greatGrandparentNodes[id];
+        if (node && Array.isArray(rows)) {
+          setEntriesFromRows(node, rows);
+        }
+      });
+    }
+
     if (sample.grandparents) {
       Object.entries(sample.grandparents).forEach(([id, rows]) => {
         const node = grandparentNodes[id];
@@ -649,6 +985,14 @@ function initializeSampleRaceButtons() {
           hasClickedOnce = true;
         }
 
+        const targetGeneration = button.getAttribute('data-generation');
+        if (targetGeneration) {
+          setGenerationMode(targetGeneration, {
+            deferCalculation: true,
+            silentSample: true,
+          });
+        }
+
         const racesData = JSON.parse(button.getAttribute('data-races'));
 
         if (activeSampleButton !== button) {
@@ -667,13 +1011,20 @@ function initializeSampleRaceButtons() {
           racesData.grandparents &&
           typeof racesData.grandparents === 'object' &&
           Object.keys(racesData.grandparents).length > 0;
+        const hasGreatGrandparentData =
+          racesData.greatGrandparents &&
+          typeof racesData.greatGrandparents === 'object' &&
+          Object.keys(racesData.greatGrandparents).length > 0;
         const isLineageSample = button.dataset.lineage === 'true';
 
-        if (hasGrandparentData || isLineageSample) {
+        if (hasGrandparentData || hasGreatGrandparentData || isLineageSample) {
           const lineageSample = {};
 
           if (hasGrandparentData) {
             lineageSample.grandparents = racesData.grandparents;
+          }
+          if (hasGreatGrandparentData) {
+            lineageSample.greatGrandparents = racesData.greatGrandparents;
           }
 
           const lineageParents = {};
@@ -724,6 +1075,8 @@ function populateNodeRaces(nodeId, racesData) {
     targetNode = fatherNode;
   } else if (grandparentNodes[nodeId]) {
     targetNode = grandparentNodes[nodeId];
+  } else if (greatGrandparentNodes[nodeId]) {
+    targetNode = greatGrandparentNodes[nodeId];
   } else {
     targetNode = document.getElementById(nodeId);
   }
@@ -807,6 +1160,8 @@ function debouncedCalculateRace(customWeights) {
 }
 
 function calculateRace(customWeights = parentWeights) {
+  syncGenerationSources({ silent: true, skipDebounce: true });
+
   const races = {};
   let isValid = true;
   let warningMessage = '';
@@ -848,7 +1203,7 @@ function calculateRace(customWeights = parentWeights) {
       return;
     }
 
-    if (Math.abs(totalPercent - 100) > 0.01) {
+    if (Math.abs(totalPercent - 100) > PERCENT_TOLERANCE) {
       isValid = false;
       warningMessage += `${label} race percentages should add up to 100%. `;
       return;
@@ -876,18 +1231,7 @@ function updateDisplay(races, isValid, warningMessage) {
     displayResult(races);
   } else {
     showWarning(warningMessage);
-    raceBreakdown.innerHTML = '';
-    // Clear the chart
-    if (window.raceChart instanceof Chart) {
-      window.raceChart.data.labels = [];
-      window.raceChart.data.datasets[0].data = [];
-      window.raceChart.update();
-    }
-    // Disable the download and save buttons
-    if (downloadButton) downloadButton.disabled = true;
-    if (saveButton) saveButton.disabled = true;
-    setSaveButtonVisualState('idle');
-    renderParentSummary();
+    clearResultOutputs();
   }
 }
 
@@ -1436,42 +1780,10 @@ function resetRaceEntries() {
     nodesToReset.forEach(node => resetNodeEntries(node));
   });
 
-  // Clear the results
-  if (raceBreakdown) {
-    raceBreakdown.innerHTML = '';
-  }
-
-  // Clear the chart
-  if (window.raceChart instanceof Chart) {
-    window.raceChart.data.labels = [];
-    window.raceChart.data.datasets[0].data = [];
-    window.raceChart.update();
-  }
-
-  // Hide the floating results bar
-  const floatingResults = document.getElementById('floatingResults');
-  if (floatingResults) {
-    floatingResults.classList.remove('visible');
-  }
-
-  // Disable action buttons
-  if (downloadButton) {
-    downloadButton.disabled = true;
-  }
-  if (saveButton) {
-    saveButton.disabled = true;
-  }
-  setSaveButtonVisualState('idle');
-
+  clearResultOutputs({ clearWarningMessage: true });
   updateSiblingSummaries();
-  renderParentSummary();
-  toggleResultsHandle(false);
-  hideResultsModal(true);
 
   document.dispatchEvent(new Event('raceSamples:clearActive'));
-
-  // Clear any warnings
-  hideWarning();
 }
 
 function setSaveButtonVisualState(state) {
