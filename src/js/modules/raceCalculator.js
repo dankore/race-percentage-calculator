@@ -31,8 +31,8 @@ const SAMPLE_TITLES = {
 };
 const SAMPLE_SUBHEADINGS = {
   parents: '👇 Click any button to try a parent-ready sample!',
-  grandparents: '👇 Prefill all four grandparents with a single tap.',
-  'great-grandparents': '👇 Populate all eight great-grandparents instantly.',
+  grandparents: '👇 Click any button to try a grandparent-ready sample!',
+  'great-grandparents': '👇 Click any button to try a sample!',
 };
 const GENERATION_MODES = ['parents', 'grandparents', 'great-grandparents'];
 const PERCENT_TOLERANCE = 0.5;
