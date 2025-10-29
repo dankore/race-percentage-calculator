@@ -1,7 +1,5 @@
 import { initializeNodes, calculateRace } from './modules/raceCalculator.js';
-import { setupThemeToggle } from './modules/themeManager.js';
 import { setupUIHandlers } from './modules/uiHandlers.js';
-import { setupHeaderDropdown } from './modules/headerManager.js';
 import { setupSocialSharing } from './modules/socialSharing.js';
 import { setupAnalytics } from './modules/analytics.js';
 import { setupBackToTop } from './modules/backToTop.js';
@@ -9,6 +7,10 @@ import { initializeUIEnhancements } from './modules/uiEnhancements.js';
 import { setupEnhancedUI } from './modules/uiEffects.js';
 import { setupDnaKitImport } from './modules/dnaKitImport.js';
 import { setupStoryCards } from './modules/storyCards.js';
+import { setupThemeToggle, applyStoredTheme } from './modules/themeManager.js';
+
+// Ensure the stored theme preference is applied as early as possible.
+applyStoredTheme();
 
 function setDynamicYear() {
   const yearElement = document.querySelector('.copyright-year');
@@ -18,10 +20,9 @@ function setDynamicYear() {
 }
 
 function initializeApp() {
-  setupAnalytics();
   setupThemeToggle();
+  setupAnalytics();
   setupUIHandlers();
-  setupHeaderDropdown();
   setupEnhancedUI();
   setupSocialSharing();
   setupBackToTop();

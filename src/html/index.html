@@ -114,6 +114,113 @@
       animation: gentle-pulse 2s infinite;
     }
 
+    .sample-race-btn.is-active {
+      border-color: rgba(126, 90, 247, 0.7);
+      background: linear-gradient(135deg, rgba(238, 240, 254, 0.95), rgba(214, 205, 253, 0.85));
+      box-shadow:
+        0 12px 30px -16px rgba(79, 70, 229, 0.45),
+        0 10px 40px -22px rgba(30, 64, 175, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .sample-race-btn.is-active .emoji {
+      transform: scale(1.05);
+    }
+
+    .dark .sample-race-btn.is-active {
+      border-color: rgba(126, 90, 247, 0.8);
+      background: linear-gradient(135deg, rgba(39, 20, 97, 0.92), rgba(78, 40, 155, 0.68));
+      box-shadow:
+        0 14px 36px -18px rgba(126, 90, 247, 0.55),
+        0 12px 32px -20px rgba(24, 24, 75, 0.6);
+    }
+
+    .generation-toggle {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+      gap: 0.5rem;
+    }
+
+    @media (min-width: 640px) {
+      .generation-toggle {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.75rem;
+      }
+    }
+
+    .generation-option {
+      appearance: none;
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 9999px;
+      padding: 0.625rem 0.75rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #312e81;
+      text-transform: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .generation-option:hover {
+      border-color: rgba(79, 70, 229, 0.5);
+      box-shadow: 0 8px 20px -12px rgba(79, 70, 229, 0.45);
+    }
+
+    .generation-option.is-active {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.12), rgba(99, 102, 241, 0.18));
+      border-color: rgba(79, 70, 229, 0.6);
+      color: #3730a3;
+      box-shadow:
+        0 12px 24px -16px rgba(79, 70, 229, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .generation-option:focus-visible {
+      outline: none;
+      box-shadow:
+        0 0 0 3px rgba(99, 102, 241, 0.25),
+        0 8px 20px -12px rgba(79, 70, 229, 0.45);
+    }
+
+    .dark .generation-option {
+      border-color: rgba(129, 140, 248, 0.35);
+      background: rgba(30, 41, 59, 0.75);
+      color: #c7d2fe;
+      box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.15);
+    }
+
+    .dark .generation-option:hover {
+      border-color: rgba(129, 140, 248, 0.6);
+      box-shadow: 0 8px 20px -12px rgba(99, 102, 241, 0.55);
+    }
+
+    .dark .generation-option.is-active {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.35), rgba(129, 140, 248, 0.25));
+      border-color: rgba(99, 102, 241, 0.7);
+      color: #e0e7ff;
+      box-shadow:
+        0 12px 24px -16px rgba(79, 70, 229, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+
+    .generation-option:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .layout-container {
+      max-width: 72rem;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
     /* Enhanced styles for floating results */
     .floating-results {
       position: fixed;
@@ -130,7 +237,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.75rem 1.5rem;
+      padding: 1.25rem 1.5rem;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
     }
@@ -145,10 +252,10 @@
     }
 
     .mini-chart-container {
-      height: 64px;
-      width: 64px;
+      height: 120px;
+      width: 120px;
       position: relative;
-      margin-right: 0.5rem;
+      margin-right: 0.75rem;
     }
 
     .mini-chart-container::after {
@@ -177,9 +284,9 @@
 
     .results-summary h4 {
       font-weight: 600;
-      font-size: 0.8rem;
+      font-size: 1.1rem;
       color: #6366F1;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.35rem;
       letter-spacing: 0.025em;
       text-transform: uppercase;
     }
@@ -197,8 +304,8 @@
     .race-pill {
       display: inline-flex;
       align-items: center;
-      font-size: 0.75rem;
-      padding: 0.25rem 0.6rem;
+      font-size: 1rem;
+      padding: 0.35rem 0.75rem;
       border-radius: 9999px;
       white-space: nowrap;
       font-weight: 500;
@@ -698,6 +805,7 @@
 
     .grandparent-node {
       position: relative;
+      -webkit-backdrop-filter: blur(6px);
       backdrop-filter: blur(6px);
       border-radius: 1rem;
       box-shadow: 0 15px 35px -25px rgba(15, 23, 42, 0.7);
@@ -712,11 +820,6 @@
       border-radius: 0.65rem;
       border-style: dashed;
       font-weight: 700;
-      background: rgba(255, 255, 255, 0.6);
-    }
-
-    .dark .grandparent-node .add-entry {
-      background: rgba(17, 24, 39, 0.7);
     }
 
     .node-chip {
@@ -1009,7 +1112,7 @@
 </head>
 
 <body
-  class="min-h-screen font-sans transition-colors duration-300 relative overflow-x-hidden">
+  class="min-h-screen font-sans bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 antialiased transition-colors duration-300 relative overflow-x-hidden">
 
   <!-- Progress Indicator -->
   <div id="progress-bar"
@@ -1249,35 +1352,7 @@
         </a>
 
         <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
-          <nav class="flex items-center gap-4 text-sm font-semibold text-gray-700 dark:text-gray-200 flex-wrap">
-            <a href="/multi-generation/"
-              class="hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors">Multi-Generation</a>
-            <div class="relative" id="resources-dropdown">
-              <button
-                class="flex items-center gap-1 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors"
-                id="resources-dropdown-button">
-                Resources
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-              </button>
-            </div>
-          </nav>
-
-          <button id="theme-toggle" aria-label="Toggle Dark Mode"
-            class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 dark:bg-gray-700 text-indigo-600 dark:text-yellow-400 shadow-sm transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400">
-            <svg id="sun-icon" class="h-5 w-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
-              </path>
-            </svg>
-            <svg id="moon-icon" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                d="M17.293 13.293A8 8 0 016.707 2.707 8.001 8.001 0 1017.293 13.293z">
-              </path>
-            </svg>
-          </button>
+          <div class="flex items-center" data-theme-toggle data-theme-toggle-variant="pill"></div>
         </div>
       </div>
     </div>
@@ -1286,34 +1361,22 @@
   <main role="main" class="flex-1">
 
   <section
-    class="border-b border-indigo-100 dark:border-indigo-900/40">
-    <div class="max-w-6xl mx-auto px-4 py-4 sm:py-6">
-      <div class="max-w-3xl space-y-5">
-        <h1 class="text-3xl sm:text-4xl font-semibold leading-tight text-gray-900 dark:text-white">
-          Free Race &amp; Heritage Percentage Calculator
-        </h1>
-      </div>
+    class="border-b border-indigo-100 dark:border-indigo-900/40 bg-white dark:bg-gray-900 max-w-6xl mx-auto px-4 py-4 sm:py-6">
+    <div class="max-w-3xl space-y-5">
+      <h1 class="text-3xl sm:text-4xl font-semibold leading-tight text-gray-900 dark:text-white">
+        Free Race &amp; Heritage Percentage Calculator
+      </h1>
     </div>
   </section>
 
-  <section class="bg-white dark:bg-gray-900">
-    <div class="max-w-6xl mx-auto px-4 pt-2 pb-1 sm:pt-4 sm:pb-2 text-left">
-      <h2 class="text-xs font-semibold uppercase tracking-[0.4em] text-indigo-600 dark:text-indigo-300 mb-2">
-        Introducing Something New
-      </h2>
-      <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">
-        We're excited to introduce our brand new <a href="/multi-generation/" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-200 underline decoration-2 underline-offset-2 hover:decoration-indigo-800 dark:hover:decoration-indigo-200 transition-all duration-300 font-medium">Multi-Generation Race Calculator</a>!
-      </p>
-    </div>
-
-    <div class="container mx-auto px-2 sm:px-4 py-0.5 max-w-6xl relative">
+  <section class="bg-white dark:bg-gray-900 max-w-6xl mx-auto px-4 pt-2 pb-1 sm:pt-4 sm:pb-2">
+    <div class="container mx-autopy-0.5 relative">
       <div class="intro-container mt-0.5 bg-white dark:bg-gray-800 rounded-md shadow-sm border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-md">
         <div class="container mx-auto p-2">
           <div class="flex items-center justify-between gap-2">
             <h3 class="text-xs font-semibold text-indigo-700 dark:text-indigo-300">Jump to:</h3>
             <div class="flex flex-wrap items-center gap-1 text-xs" id="quick-nav">
               <a href="#race-input" class="inline-flex items-center px-1 py-0.5 rounded-sm bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-900 dark:hover:bg-indigo-800 text-indigo-800 dark:text-indigo-300 font-medium transition-all text-xs">➕ Input</a>
-              <a href="#results" class="inline-flex items-center px-1 py-0.5 rounded-sm bg-green-100 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-800 text-green-800 dark:text-green-300 font-medium transition-all text-xs">📊 Results</a>
               <a href="#saved-results" class="inline-flex items-center px-1 py-0.5 rounded-sm bg-orange-100 hover:bg-orange-200 dark:bg-orange-900 dark:hover:bg-orange-800 text-orange-800 dark:text-orange-300 font-medium transition-all text-xs">💾 Saved</a>
               <a href="#how-to-use" class="inline-flex items-center px-1 py-0.5 rounded-sm bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 text-blue-800 dark:text-blue-300 font-medium transition-all text-xs">📖 Guide</a>
               <a href="#faq" class="inline-flex items-center px-1 py-0.5 rounded-sm bg-purple-100 hover:bg-purple-200 dark:bg-purple-900 dark:hover:bg-purple-800 text-purple-800 dark:text-purple-300 font-medium transition-all text-xs">❓ FAQ</a>
@@ -1329,44 +1392,93 @@
         </div>
       </div>
 
-      <!-- Add sample race combinations section here -->
-      <div class="my-4">
-        <h3 class="text-lg font-bold mb-2 text-indigo-800 dark:text-white">Choose a Sample Mix:</h3>
-        <p class="text-indigo-700 dark:text-white text-xs mb-2 font-medium">👇 Click any button to try a sample!</p>
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+      <div class="my-4" id="sampleMixSection">
+        <h3 class="text-lg font-bold mb-2 text-indigo-800 dark:text-white" data-sample-title>Choose a Sample Mix:</h3>
+        <p class="text-indigo-700 dark:text-white text-xs mb-2 font-medium" data-sample-subtitle>👇 Click any button to try a sample!</p>
+        <div data-sample-panel="parents" aria-hidden="false"
+          class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
           <button type="button"
             class="sample-race-btn pulse-attention px-3 py-1.5 bg-white dark:bg-gray-800 shadow-sm hover:shadow active:scale-95 rounded-md text-sm font-medium transition-all duration-200 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center gap-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
+            data-generation="parents"
             data-races='{"mother":[{"race":"African","percent":50},{"race":"European","percent":50}],"father":[{"race":"African","percent":25},{"race":"European","percent":75}]}'>
-            <span class="emoji text-base">👨‍👩‍👧</span>
+            <span class="emoji text-base">🌍</span>
             African/European
           </button>
           <button type="button"
             class="sample-race-btn px-3 py-1.5 bg-white dark:bg-gray-800 shadow-sm hover:shadow active:scale-95 rounded-md text-sm font-medium transition-all duration-200 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center gap-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
+            data-generation="parents"
             data-races='{"mother":[{"race":"Asian","percent":50},{"race":"Caucasian","percent":50}],"father":[{"race":"Asian","percent":75},{"race":"European","percent":25}]}'>
-            <span class="emoji text-base">👨‍👩‍👦</span>
+            <span class="emoji text-base">🏔️</span>
             Asian/Caucasian
           </button>
           <button type="button"
             class="sample-race-btn px-3 py-1.5 bg-white dark:bg-gray-800 shadow-sm hover:shadow active:scale-95 rounded-md text-sm font-medium transition-all duration-200 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center gap-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
+            data-generation="parents"
             data-races='{"mother":[{"race":"Hispanic","percent":50},{"race":"Native American","percent":50}],"father":[{"race":"European","percent":50},{"race":"Hispanic","percent":50}]}'>
-            <span class="emoji text-base">👨‍👩‍👧‍👦</span>
+            <span class="emoji text-base">🌵</span>
             Hispanic/Native
           </button>
           <button type="button"
             class="sample-race-btn px-3 py-1.5 bg-white dark:bg-gray-800 shadow-sm hover:shadow active:scale-95 rounded-md text-sm font-medium transition-all duration-200 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center gap-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
+            data-generation="parents"
             data-races='{"mother":[{"race":"Asian","percent":100}],"father":[{"race":"African","percent":100}]}'>
-            <span class="emoji text-base">👪</span>
+            <span class="emoji text-base">🎋</span>
             Asian & African
           </button>
           <button type="button"
             class="sample-race-btn px-3 py-1.5 bg-white dark:bg-gray-800 shadow-sm hover:shadow active:scale-95 rounded-md text-sm font-medium transition-all duration-200 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center gap-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
+            data-generation="parents"
             data-races='{"mother":[{"race":"Native American","percent":75},{"race":"European","percent":25}],"father":[{"race":"African American","percent":50},{"race":"Hispanic","percent":50}]}'>
             <span class="emoji text-base">🌈</span>
             Super Mix
           </button>
         </div>
+
+        <div data-sample-panel="grandparents" aria-hidden="true"
+          class="grid grid-cols-2 sm:grid-cols-3 gap-2 hidden">
+          <button type="button"
+            class="sample-race-btn px-3 py-1.5 bg-white dark:bg-gray-800 shadow-sm hover:shadow active:scale-95 rounded-md text-sm font-medium transition-all duration-200 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center gap-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
+            data-generation="grandparents"
+            data-races='{"grandparents":{"maternalGrandmother":[{"race":"Irish","percent":60},{"race":"Spanish","percent":40}],"maternalGrandfather":[{"race":"Nigerian","percent":70},{"race":"Beninese","percent":30}],"paternalGrandmother":[{"race":"Indigenous Caribbean","percent":50},{"race":"French","percent":50}],"paternalGrandfather":[{"race":"Ghanaian","percent":50},{"race":"English","percent":50}]}}'>
+            <span class="emoji text-base">🧓</span>
+            Emerald Isle & West Africa
+          </button>
+          <button type="button"
+            class="sample-race-btn px-3 py-1.5 bg-white dark:bg-gray-800 shadow-sm hover:shadow active:scale-95 rounded-md text-sm font-medium transition-all duration-200 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center gap-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
+            data-generation="grandparents"
+            data-races='{"grandparents":{"maternalGrandmother":[{"race":"Japanese","percent":50},{"race":"Filipino","percent":50}],"maternalGrandfather":[{"race":"Norwegian","percent":60},{"race":"Swedish","percent":40}],"paternalGrandmother":[{"race":"Mexican","percent":70},{"race":"Spanish","percent":30}],"paternalGrandfather":[{"race":"Chinese","percent":50},{"race":"Vietnamese","percent":50}]}}'>
+            <span class="emoji text-base">🌏</span>
+            Pacific & Nordic Blend
+          </button>
+          <button type="button"
+            class="sample-race-btn px-3 py-1.5 bg-white dark:bg-gray-800 shadow-sm hover:shadow active:scale-95 rounded-md text-sm font-medium transition-all duration-200 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center gap-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
+            data-generation="grandparents"
+            data-races='{"grandparents":{"maternalGrandmother":[{"race":"African American","percent":70},{"race":"French Creole","percent":30}],"maternalGrandfather":[{"race":"Nigerian","percent":60},{"race":"Scottish","percent":40}],"paternalGrandmother":[{"race":"African American","percent":60},{"race":"Choctaw","percent":40}],"paternalGrandfather":[{"race":"Jamaican","percent":50},{"race":"British","percent":50}]}}'>
+            <span class="emoji text-base">🎷</span>
+            Southern Heritage
+          </button>
+        </div>
+
+        <div data-sample-panel="great-grandparents" aria-hidden="true"
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 hidden">
+          <button type="button"
+            class="sample-race-btn px-3 py-1.5 bg-white dark:bg-gray-800 shadow-sm hover:shadow active:scale-95 rounded-md text-sm font-medium transition-all duration-200 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center gap-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
+            data-generation="great-grandparents"
+            data-races='{"greatGrandparents":{"maternalGrandmotherGreatGrandmother":[{"race":"Irish","percent":50},{"race":"Basque","percent":50}],"maternalGrandmotherGreatGrandfather":[{"race":"Spanish","percent":60},{"race":"Portuguese","percent":40}],"maternalGrandfatherGreatGrandmother":[{"race":"Nigerian","percent":70},{"race":"Beninese","percent":30}],"maternalGrandfatherGreatGrandfather":[{"race":"Nigerian","percent":50},{"race":"Scottish","percent":50}],"paternalGrandmotherGreatGrandmother":[{"race":"Cherokee","percent":50},{"race":"French","percent":50}],"paternalGrandmotherGreatGrandfather":[{"race":"African American","percent":60},{"race":"Gullah","percent":40}],"paternalGrandfatherGreatGrandmother":[{"race":"Ghanaian","percent":55},{"race":"English","percent":45}],"paternalGrandfatherGreatGrandfather":[{"race":"Ghanaian","percent":50},{"race":"Irish","percent":50}]}}'>
+            <span class="emoji text-base">🌳</span>
+            Coastal Roots
+          </button>
+          <button type="button"
+            class="sample-race-btn px-3 py-1.5 bg-white dark:bg-gray-800 shadow-sm hover:shadow active:scale-95 rounded-md text-sm font-medium transition-all duration-200 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center gap-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30"
+            data-generation="great-grandparents"
+            data-races='{"greatGrandparents":{"maternalGrandmotherGreatGrandmother":[{"race":"Italian","percent":50},{"race":"Greek","percent":50}],"maternalGrandmotherGreatGrandfather":[{"race":"Italian","percent":70},{"race":"Croatian","percent":30}],"maternalGrandfatherGreatGrandmother":[{"race":"German","percent":60},{"race":"Polish","percent":40}],"maternalGrandfatherGreatGrandfather":[{"race":"German","percent":55},{"race":"Czech","percent":45}],"paternalGrandmotherGreatGrandmother":[{"race":"Mexican","percent":65},{"race":"Mayan","percent":35}],"paternalGrandmotherGreatGrandfather":[{"race":"Mexican","percent":50},{"race":"Spanish","percent":50}],"paternalGrandfatherGreatGrandmother":[{"race":"Chinese","percent":60},{"race":"Taiwanese","percent":40}],"paternalGrandfatherGreatGrandfather":[{"race":"Chinese","percent":55},{"race":"Korean","percent":45}]}}'>
+            <span class="emoji text-base">🌐</span>
+            Mediterranean to Pacific
+          </button>
+        </div>
       </div>
-      <section class="container mx-auto px-0 sm:px-4 xl:px-0 mb-8">
+      </div>
+      <section class="container mx-auto px-0 sm:px-4 xl:px-0 mb-8 max-w-6xl">
       <div id="warningMessage" class="mb-2" aria-live="polite"></div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -1390,8 +1502,104 @@
                 <span class="section-heading-text">Enter Races</span>
               </h2>
               <div id="race-form" class="space-y-5">
-                <fieldset id="mother" data-label="Mother's"
-                  class="parent-node bg-gradient-to-r from-pink-50 to-pink-100 dark:from-pink-900 dark:to-pink-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-pink-200 dark:border-pink-700">
+                <div id="generationToggle"
+                  class="generation-toggle bg-indigo-50/60 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-900/40 rounded-2xl p-1.5 sm:p-2">
+                  <button type="button" data-generation-option="parents" aria-pressed="true"
+                    class="generation-option is-active">
+                    Parents
+                  </button>
+                  <button type="button" data-generation-option="grandparents" aria-pressed="false"
+                    class="generation-option">
+                    Grandparents
+                  </button>
+                  <button type="button" data-generation-option="great-grandparents" aria-pressed="false"
+                    class="generation-option">
+                    Great-Grandparents
+                  </button>
+                </div>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                  Start with parents for the quickest breakdown. Switch generations to enter grandparent or great-grandparent mixes—the calculator will cascade their percentages through to the subject automatically.
+                </p>
+
+                <div data-generation-panel="parents" aria-hidden="false" class="space-y-5">
+                  <fieldset id="mother" data-label="Mother's"
+                    class="parent-node bg-gradient-to-r from-pink-50 to-pink-100 dark:from-pink-900 dark:to-pink-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-pink-200 dark:border-pink-700">
+                    <legend class="text-lg sm:text-xl font-bold text-pink-700 dark:text-pink-300 px-2 flex items-center">
+                      <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path d="M12 11v9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path d="M9.5 17H14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      </svg>
+                      Mother's Race
+                    </legend>
+                    <div
+                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-pink-300 dark:scrollbar-thumb-pink-700 pr-1">
+                    </div>
+                    <button type="button"
+                      class="add-entry mt-4 w-full bg-pink-500 dark:bg-pink-600 text-white py-2.5 px-4 rounded-lg hover:bg-pink-600 dark:hover:bg-pink-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                      </svg>
+                      <span>Add Race</span>
+                    </button>
+                  </fieldset>
+
+                  <fieldset id="father" data-label="Father's"
+                    class="parent-node bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-blue-200 dark:border-blue-700">
+                    <legend class="text-lg sm:text-xl font-bold text-blue-700 dark:text-blue-300 px-2 flex items-center">
+                      <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+                          stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor"
+                          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      Father's Race
+                    </legend>
+                    <div
+                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 dark:scrollbar-thumb-blue-700 pr-1">
+                    </div>
+                    <button type="button"
+                      class="add-entry mt-4 w-full bg-blue-500 dark:bg-blue-600 text-white py-2.5 px-4 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                      </svg>
+                      <span>Add Race</span>
+                    </button>
+                  </fieldset>
+                </div>
+
+                <div data-generation-panel="grandparents" aria-hidden="true" class="space-y-5 hidden">
+                  <fieldset id="maternalGrandmother" data-label="Maternal Grandmother's"
+                    class="parent-node grandparent-node bg-gradient-to-r from-pink-50 to-pink-100 dark:from-pink-900 dark:to-pink-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-pink-200 dark:border-pink-700">
+                  <legend class="text-lg sm:text-xl font-bold text-pink-700 dark:text-pink-300 px-2 flex items-center">
+                    <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                      <path d="M12 11v9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                      <path d="M9.5 17H14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    </svg>
+                      Maternal Grandmother
+                    </legend>
+                    <div
+                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-pink-300 dark:scrollbar-thumb-pink-700 pr-1">
+                    </div>
+                    <button type="button"
+                      class="add-entry mt-4 w-full bg-pink-500 dark:bg-pink-600 text-white py-2.5 px-4 rounded-lg hover:bg-pink-600 dark:hover:bg-pink-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                      </svg>
+                      <span>Add Race</span>
+                    </button>
+                  </fieldset>
+
+                  <fieldset id="maternalGrandfather" data-label="Maternal Grandfather's"
+                    class="parent-node grandparent-node bg-gradient-to-r from-pink-50 to-pink-100 dark:from-pink-900 dark:to-pink-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-pink-200 dark:border-pink-700">
                   <legend class="text-lg sm:text-xl font-bold text-pink-700 dark:text-pink-300 px-2 flex items-center">
                     <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -1400,22 +1608,47 @@
                       <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor"
                         stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                    Mother's Race
-                  </legend>
-                  <div
-                    class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-pink-300 dark:scrollbar-thumb-pink-700 pr-1">
-                  </div>
-                  <button type="button"
-                    class="add-entry mt-4 w-full bg-pink-500 dark:bg-pink-600 text-white py-2.5 px-4 rounded-lg hover:bg-pink-600 dark:hover:bg-pink-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                    </svg>
-                    <span>Add Race</span>
-                  </button>
-                </fieldset>
+                      Maternal Grandfather
+                    </legend>
+                    <div
+                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-pink-300 dark:scrollbar-thumb-pink-700 pr-1">
+                    </div>
+                    <button type="button"
+                      class="add-entry mt-4 w-full bg-pink-500 dark:bg-pink-600 text-white py-2.5 px-4 rounded-lg hover:bg-pink-600 dark:hover:bg-pink-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                      </svg>
+                      <span>Add Race</span>
+                    </button>
+                  </fieldset>
 
-                <fieldset id="father" data-label="Father's"
-                  class="parent-node bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-blue-200 dark:border-blue-700">
+                  <fieldset id="paternalGrandmother" data-label="Paternal Grandmother's"
+                    class="parent-node grandparent-node bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-blue-200 dark:border-blue-700">
+                  <legend class="text-lg sm:text-xl font-bold text-blue-700 dark:text-blue-300 px-2 flex items-center">
+                    <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                      <path d="M12 11v9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                      <path d="M9.5 17H14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    </svg>
+                      Paternal Grandmother
+                    </legend>
+                    <div
+                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 dark:scrollbar-thumb-blue-700 pr-1">
+                    </div>
+                    <button type="button"
+                      class="add-entry mt-4 w-full bg-blue-500 dark:bg-blue-600 text-white py-2.5 px-4 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                      </svg>
+                      <span>Add Race</span>
+                    </button>
+                  </fieldset>
+
+                  <fieldset id="paternalGrandfather" data-label="Paternal Grandfather's"
+                    class="parent-node grandparent-node bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-blue-200 dark:border-blue-700">
                   <legend class="text-lg sm:text-xl font-bold text-blue-700 dark:text-blue-300 px-2 flex items-center">
                     <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -1424,21 +1657,225 @@
                       <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor"
                         stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                    Father's Race
-                  </legend>
-                  <div
-                    class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 dark:scrollbar-thumb-blue-700 pr-1">
-                  </div>
-                  <button type="button"
-                    class="add-entry mt-4 w-full bg-blue-500 dark:bg-blue-600 text-white py-2.5 px-4 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                    </svg>
-                    <span>Add Race</span>
-                  </button>
-                </fieldset>
+                      Paternal Grandfather
+                    </legend>
+                    <div
+                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 dark:scrollbar-thumb-blue-700 pr-1">
+                    </div>
+                    <button type="button"
+                      class="add-entry mt-4 w-full bg-blue-500 dark:bg-blue-600 text-white py-2.5 px-4 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                      </svg>
+                      <span>Add Race</span>
+                    </button>
+                  </fieldset>
+                </div>
+
+                <div data-generation-panel="great-grandparents" aria-hidden="true" class="space-y-5 hidden">
+                  <fieldset id="maternalGrandmotherGreatGrandmother" data-label="Maternal Grandmother's Mother"
+                    class="parent-node great-node bg-gradient-to-r from-pink-50 to-pink-100 dark:from-pink-900 dark:to-pink-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-pink-200 dark:border-pink-700">
+                    <legend
+                      class="text-lg sm:text-xl font-bold text-pink-700 dark:text-pink-300 px-2 flex items-center">
+                      <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path d="M12 11v9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path d="M9.5 17H14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      </svg>
+                      Maternal Grandmother's Mother
+                    </legend>
+                    <div
+                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-pink-300 dark:scrollbar-thumb-pink-700 pr-1">
+                    </div>
+                    <button type="button"
+                      class="add-entry mt-4 w-full bg-pink-500 dark:bg-pink-600 text-white py-2.5 px-4 rounded-lg hover:bg-pink-600 dark:hover:bg-pink-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                      </svg>
+                      <span>Add Race</span>
+                    </button>
+                  </fieldset>
+
+                  <fieldset id="maternalGrandmotherGreatGrandfather" data-label="Maternal Grandmother's Father"
+                    class="parent-node great-node bg-gradient-to-r from-pink-50 to-pink-100 dark:from-pink-900 dark:to-pink-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-pink-200 dark:border-pink-700">
+                    <legend
+                      class="text-lg sm:text-xl font-bold text-pink-700 dark:text-pink-300 px-2 flex items-center">
+                      <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+                          stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor"
+                          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      Maternal Grandmother's Father
+                    </legend>
+                    <div
+                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-pink-300 dark:scrollbar-thumb-pink-700 pr-1">
+                    </div>
+                    <button type="button"
+                      class="add-entry mt-4 w-full bg-pink-500 dark:bg-pink-600 text-white py-2.5 px-4 rounded-lg hover:bg-pink-600 dark:hover:bg-pink-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                      </svg>
+                      <span>Add Race</span>
+                    </button>
+                  </fieldset>
+
+                  <fieldset id="maternalGrandfatherGreatGrandmother" data-label="Maternal Grandfather's Mother"
+                    class="parent-node great-node bg-gradient-to-r from-pink-50 to-pink-100 dark:from-pink-900 dark:to-pink-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-pink-200 dark:border-pink-700">
+                    <legend
+                      class="text-lg sm:text-xl font-bold text-pink-700 dark:text-pink-300 px-2 flex items-center">
+                      <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path d="M12 11v9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path d="M9.5 17H14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      </svg>
+                      Maternal Grandfather's Mother
+                    </legend>
+                    <div
+                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-pink-300 dark:scrollbar-thumb-pink-700 pr-1">
+                    </div>
+                    <button type="button"
+                      class="add-entry mt-4 w-full bg-pink-500 dark:bg-pink-600 text-white py-2.5 px-4 rounded-lg hover:bg-pink-600 dark:hover:bg-pink-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                      </svg>
+                      <span>Add Race</span>
+                    </button>
+                  </fieldset>
+
+                  <fieldset id="maternalGrandfatherGreatGrandfather" data-label="Maternal Grandfather's Father"
+                    class="parent-node great-node bg-gradient-to-r from-pink-50 to-pink-100 dark:from-pink-900 dark:to-pink-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-pink-200 dark:border-pink-700">
+                    <legend
+                      class="text-lg sm:text-xl font-bold text-pink-700 dark:text-pink-300 px-2 flex items-center">
+                      <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+                          stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor"
+                          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      Maternal Grandfather's Father
+                    </legend>
+                    <div
+                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-pink-300 dark:scrollbar-thumb-pink-700 pr-1">
+                    </div>
+                    <button type="button"
+                      class="add-entry mt-4 w-full bg-pink-500 dark:bg-pink-600 text-white py-2.5 px-4 rounded-lg hover:bg-pink-600 dark:hover:bg-pink-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                      </svg>
+                      <span>Add Race</span>
+                    </button>
+                  </fieldset>
+
+                  <fieldset id="paternalGrandmotherGreatGrandmother" data-label="Paternal Grandmother's Mother"
+                    class="parent-node great-node bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-blue-200 dark:border-blue-700">
+                    <legend class="text-lg sm:text-xl font-bold text-blue-700 dark:text-blue-300 px-2 flex items-center">
+                      <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path d="M12 11v9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path d="M9.5 17H14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      </svg>
+                      Paternal Grandmother's Mother
+                    </legend>
+                    <div
+                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 dark:scrollbar-thumb-blue-700 pr-1">
+                    </div>
+                    <button type="button"
+                      class="add-entry mt-4 w-full bg-blue-500 dark:bg-blue-600 text-white py-2.5 px-4 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                      </svg>
+                      <span>Add Race</span>
+                    </button>
+                  </fieldset>
+
+                  <fieldset id="paternalGrandmotherGreatGrandfather" data-label="Paternal Grandmother's Father"
+                    class="parent-node great-node bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-blue-200 dark:border-blue-700">
+                    <legend class="text-lg sm:text-xl font-bold text-blue-700 dark:text-blue-300 px-2 flex items-center">
+                      <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+                          stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor"
+                          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      Paternal Grandmother's Father
+                    </legend>
+                    <div
+                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 dark:scrollbar-thumb-blue-700 pr-1">
+                    </div>
+                    <button type="button"
+                      class="add-entry mt-4 w-full bg-blue-500 dark:bg-blue-600 text-white py-2.5 px-4 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                      </svg>
+                      <span>Add Race</span>
+                    </button>
+                  </fieldset>
+
+                  <fieldset id="paternalGrandfatherGreatGrandmother" data-label="Paternal Grandfather's Mother"
+                    class="parent-node great-node bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-blue-200 dark:border-blue-700">
+                    <legend class="text-lg sm:text-xl font-bold text-blue-700 dark:text-blue-300 px-2 flex items-center">
+                      <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path d="M12 11v9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path d="M9.5 17H14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      </svg>
+                      Paternal Grandfather's Mother
+                    </legend>
+                    <div
+                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 dark:scrollbar-thumb-blue-700 pr-1">
+                    </div>
+                    <button type="button"
+                      class="add-entry mt-4 w-full bg-blue-500 dark:bg-blue-600 text-white py-2.5 px-4 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                      </svg>
+                      <span>Add Race</span>
+                    </button>
+                  </fieldset>
+
+                  <fieldset id="paternalGrandfatherGreatGrandfather" data-label="Paternal Grandfather's Father"
+                    class="parent-node great-node bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-blue-200 dark:border-blue-700">
+                    <legend class="text-lg sm:text-xl font-bold text-blue-700 dark:text-blue-300 px-2 flex items-center">
+                      <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z"
+                          stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor"
+                          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      Paternal Grandfather's Father
+                    </legend>
+                    <div
+                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 dark:scrollbar-thumb-blue-700 pr-1">
+                    </div>
+                    <button type="button"
+                      class="add-entry mt-4 w-full bg-blue-500 dark:bg-blue-600 text-white py-2.5 px-4 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                      </svg>
+                      <span>Add Race</span>
+                    </button>
+                  </fieldset>
+                </div>
 
               </div>
+
               <div class="flex justify-end mt-4">
                 <button id="resetRaceButton" type="button"
                   class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 py-2.5 px-4 rounded-lg transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
@@ -1450,49 +1887,6 @@
                   <span>Reset Entries</span>
                 </button>
               </div>
-            </section>
-
-            <section id="results"
-              class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-4 sm:p-6 md:p-8 flex flex-col border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl relative overflow-hidden">
-              <div
-                class="absolute top-0 right-0 w-40 h-40 bg-indigo-50 dark:bg-indigo-900/20 rounded-full -mt-20 -mr-20 pointer-events-none opacity-50">
-              </div>
-              <h2 class="section-heading-container">
-                <span
-                  class="section-heading-icon bg-indigo-100 dark:bg-indigo-900 w-8 h-8 rounded-full flex items-center justify-center mr-2 shadow-sm">
-                  <svg class="w-4 h-4 text-indigo-700 dark:text-indigo-200" fill="none" stroke="currentColor"
-                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
-                    </path>
-                  </svg>
-                </span>
-                <span class="section-heading-text">Results</span>
-              </h2>
-              <div
-                class="rounded-xl border border-dashed border-indigo-200 dark:border-indigo-800 bg-white/70 dark:bg-gray-900/40 p-4 shadow-inner">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                  <div>
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Results now live in a modal</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                      Charts, totals, download, and save controls now live inside a distraction-free panel. Use the
-                      floating bar at the bottom of the page or the button here whenever you’re ready to review them.
-                    </p>
-                  </div>
-                  <button type="button" data-open-results
-                    class="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-indigo-500 to-indigo-600 px-5 py-2.5 text-white font-semibold shadow-md hover:from-indigo-600 hover:to-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 transition">
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"
-                        d="M9 5l7 7-7 7"></path>
-                    </svg>
-                    Open results modal
-                  </button>
-                </div>
-                <p class="mt-4 text-xs text-gray-500 dark:text-gray-400">
-                  We still auto-update your calculations as you type—simply pop the modal open when you want to inspect, save, or download the finished card.
-                </p>
-              </div>
-
             </section>
 
             <!-- Saved Results Section -->
@@ -1723,7 +2117,7 @@ Run the generator to view the HTML snippet.</pre>
         </div>
       </div>
 
-      <div class="container mx-auto max-w-6xl">
+      <div class="container mx-auto">
         <div
           class="w-full bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 sm:rounded-lg h-[250px] overflow-hidden my-8 border border-gray-200 dark:border-gray-700 shadow-md transition-all duration-300 hover:shadow-xl p-1">
           <div class="p-2 bg-white dark:bg-gray-800 rounded-lg h-full flex flex-col">
@@ -1736,7 +2130,7 @@ Run the generator to view the HTML snippet.</pre>
       </div>
 
       <section
-        class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md border border-gray-200 dark:border-gray-700 mt-6 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
+        class="fortune-section layout-container bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md border border-gray-200 dark:border-gray-700 mt-6 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
         <div
           class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/30 rounded-full -mt-16 -mr-16 pointer-events-none opacity-30">
         </div>
@@ -1827,7 +2221,7 @@ Run the generator to view the HTML snippet.</pre>
       </div>
 
       <section id="how-to-use"
-        class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md border border-gray-200 dark:border-gray-700 mt-6 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
+        class="fortune-section layout-container bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md border border-gray-200 dark:border-gray-700 mt-6 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
         <div
           class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/30 rounded-full -mt-16 -mr-16 pointer-events-none opacity-30">
         </div>
@@ -1936,7 +2330,7 @@ Run the generator to view the HTML snippet.</pre>
       </section>
 
       <section id="faq"
-        class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md border border-gray-200 dark:border-gray-700 mt-6 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
+        class="fortune-section layout-container bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md border border-gray-200 dark:border-gray-700 mt-6 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
         <div
           class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/30 rounded-full -mt-16 -mr-16 pointer-events-none opacity-30">
         </div>
@@ -2004,7 +2398,7 @@ Run the generator to view the HTML snippet.</pre>
       </section>
 
       <section id="testimonials"
-        class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-md border border-gray-200 dark:border-gray-700 mt-6 sm:mt-8 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
+        class="fortune-section layout-container bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-md border border-gray-200 dark:border-gray-700 mt-6 sm:mt-8 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
         <div
           class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/20 rounded-full -mt-16 -mr-16 pointer-events-none opacity-30">
         </div>
@@ -2039,7 +2433,7 @@ Run the generator to view the HTML snippet.</pre>
       </section>
 
       <section id="related-resources"
-        class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-md border border-gray-200 dark:border-gray-700 mt-6 sm:mt-8 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
+        class="fortune-section layout-container bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 shadow-md border border-gray-200 dark:border-gray-700 mt-6 sm:mt-8 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
         <div
           class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/20 rounded-full -mt-16 -mr-16 pointer-events-none opacity-30">
         </div>
@@ -2090,7 +2484,7 @@ Run the generator to view the HTML snippet.</pre>
 
       <!-- SEO Keywords Section (No Links) -->
       <section
-        class="fortune-section bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md border border-gray-200 dark:border-gray-700 mt-6 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
+        class="fortune-section layout-container bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md border border-gray-200 dark:border-gray-700 mt-6 transition-all duration-300 hover:shadow-xl relative overflow-hidden">
         <div
           class="absolute top-0 right-0 w-32 h-32 bg-indigo-50 dark:bg-indigo-900/20 rounded-full -mt-16 -mr-16 pointer-events-none opacity-30">
         </div>
@@ -2142,7 +2536,7 @@ Run the generator to view the HTML snippet.</pre>
       </section>
 
       <!-- Third Google Ad Placement -->
-      <div class="my-4">
+      <div class="my-4 layout-container">
         <div class="w-full bg-gray-100 dark:bg-gray-800 sm:rounded-lg h-auto overflow-hidden p-2 sm:p-4 space-y-4">
 
           <!-- First Ad (Responsive Display) -->
@@ -2178,7 +2572,7 @@ Run the generator to view the HTML snippet.</pre>
       </div>
 
       <section id="disclaimer"
-        class="mt-8 bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md border border-gray-200 dark:border-gray-700">
+        class="layout-container mt-8 bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md border border-gray-200 dark:border-gray-700">
         <p class="text-sm text-gray-700 dark:text-gray-200">
           <strong>Disclaimer:</strong> The Race Percentage Calculator is
           designed for educational and entertainment purposes. It provides a
@@ -2195,7 +2589,7 @@ Run the generator to view the HTML snippet.</pre>
 
 
     <footer
-      class="bg-indigo-900 dark:bg-gray-900 text-white p-4 mt-6 shadow-lg rounded-lg border-t-2 border-indigo-800 dark:border-gray-800 relative overflow-hidden">
+      class="bg-indigo-900 dark:bg-gray-900 text-white p-4 shadow-lg rounded-lg border-t-2 border-indigo-800 dark:border-gray-800 relative overflow-hidden">
       <div class="container mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div>
@@ -2231,9 +2625,6 @@ Run the generator to view the HTML snippet.</pre>
                   Hub</a>
               </li>
               <li>
-                <a href="/multi-generation" class="text-white hover:text-yellow-300 transition-colors duration-300">Multi-Generation Calculator</a>
-              </li>
-              <li>
                 <a href="/blog/genealogy-research-tips"
                   class="text-white hover:text-yellow-300 transition-colors duration-300">Genealogy Tips</a>
               </li>
@@ -2252,7 +2643,7 @@ Run the generator to view the HTML snippet.</pre>
             <h3 class="text-white font-semibold mb-4 text-lg">Our Other Tools</h3>
             <ul class="space-y-3">
               <li>
-                <a href="https://halalmeatshare.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://halalmeatshare.com?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>Halal Meat Share</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2262,7 +2653,7 @@ Run the generator to view the HTML snippet.</pre>
                 </a>
               </li>
               <li>
-                <a href="https://race-calculator.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://race-calculator.dankoresoft.com?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>Ethnicity Calculator</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2272,7 +2663,7 @@ Run the generator to view the HTML snippet.</pre>
                 </a>
               </li>
               <li>
-                <a href="https://tinubu-approval-rating.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://tinubu-approval-rating.dankoresoft.com?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>Tinubu Approval Rating</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2282,7 +2673,7 @@ Run the generator to view the HTML snippet.</pre>
                 </a>
               </li>
               <li>
-                <a href="https://logo-creator.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://logo-creator.dankoresoft.com?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>Logo Creator</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2292,7 +2683,7 @@ Run the generator to view the HTML snippet.</pre>
                 </a>
               </li>
               <li>
-                <a href="https://mentorship.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://mentorship.dankoresoft.com?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>Mentorship</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2302,7 +2693,7 @@ Run the generator to view the HTML snippet.</pre>
                 </a>
               </li>
               <li>
-                <a href="https://halal-ads.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://halal-ads.dankoresoft.com?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>Halal Ads</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2312,7 +2703,7 @@ Run the generator to view the HTML snippet.</pre>
                 </a>
               </li>
               <li>
-                <a href="https://direct-lease.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://direct-lease.dankoresoft.com?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>Direct Lease</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2322,7 +2713,7 @@ Run the generator to view the HTML snippet.</pre>
                 </a>
               </li>
               <li>
-                <a href="https://www.bitcoinusdprice.org" target="_blank" rel="noopener noreferrer"
+                <a href="https://www.bitcoinusdprice.org?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>Bitcoin USD Price</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2332,7 +2723,7 @@ Run the generator to view the HTML snippet.</pre>
                 </a>
               </li>
               <li>
-                <a href="https://bmi-calc.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://bmi-calc.dankoresoft.com?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>BMI Calculator</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2342,7 +2733,7 @@ Run the generator to view the HTML snippet.</pre>
                 </a>
               </li>
               <li>
-                <a href="https://mortgage-calc.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://mortgage-calc.dankoresoft.com?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>Mortgage Calculator</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -2365,27 +2756,6 @@ Run the generator to view the HTML snippet.</pre>
         </div>
       </div>
     </footer>
-  </div>
-
-  <!-- Dropdown menu rendered at the body level to avoid overflow issues -->
-  <div
-    class="fixed hidden mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-[1000] border border-gray-200 dark:border-gray-700"
-    id="resources-dropdown-menu">
-    <a href="/blog/"
-      class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">Blog
-      Home</a>
-    <a href="/dna-import/"
-      class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">DNA
-      Import Hub</a>
-    <a href="/blog/genealogy-research-tips/"
-      class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">Genealogy
-      Tips</a>
-    <a href="/blog/understanding-dna-tests/"
-      class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">DNA
-      Testing</a>
-    <a href="/blog/cultural-heritage-resources/"
-      class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">Cultural
-      Heritage</a>
   </div>
 
   <!-- Floating results bar that's always visible -->
@@ -2544,6 +2914,65 @@ Run the generator to view the HTML snippet.</pre>
       </div>
     </div>
   </section>
+
+  <script>
+    (function () {
+      const doc = document;
+      setupScrollAndLoadIndicators();
+
+      function setupScrollAndLoadIndicators() {
+        const progressBar = doc.getElementById('progress-bar');
+        if (progressBar) {
+          if (doc.readyState !== 'complete') {
+            requestAnimationFrame(() => {
+              progressBar.classList.remove('-translate-y-full');
+            });
+          }
+          const hideBar = () => {
+            progressBar.classList.add('-translate-y-full');
+          };
+          if (doc.readyState === 'complete') {
+            hideBar();
+          } else {
+            window.addEventListener('load', () => {
+              setTimeout(hideBar, 150);
+            }, { once: true });
+            setTimeout(hideBar, 3000);
+          }
+        }
+
+        const scrollContainer = doc.getElementById('scroll-progress-container');
+        const scrollIndicator = doc.getElementById('scroll-progress-indicator');
+        if (!scrollContainer || !scrollIndicator) {
+          return;
+        }
+
+        let ticking = false;
+
+        const update = () => {
+          ticking = false;
+          const docEl = doc.documentElement;
+          const maxScroll = docEl.scrollHeight - window.innerHeight;
+          const scrollTop = docEl.scrollTop || window.pageYOffset;
+          const progress = maxScroll > 0 ? scrollTop / maxScroll : 0;
+          const percent = Math.min(100, Math.max(0, progress * 100));
+          scrollIndicator.style.width = `${percent}%`;
+          scrollContainer.style.height = percent > 0 ? '4px' : '0';
+        };
+
+        const requestTick = () => {
+          if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(update);
+          }
+        };
+
+        window.addEventListener('scroll', requestTick, { passive: true });
+        window.addEventListener('resize', requestTick);
+        update();
+      }
+    })();
+  </script>
 </body>
 
 </html>

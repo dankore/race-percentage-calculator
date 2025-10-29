@@ -15,10 +15,6 @@ const pages = [
     template: './src/html/index.html',
   },
   {
-    filename: 'multi-generation/index.html',
-    template: './src/html/multi-generation.html',
-  },
-  {
     filename: 'blog/index.html',
     template: './src/html/blog/index.html',
   },
@@ -49,12 +45,6 @@ const paths = [
     lastmod: new Date().toISOString(),
     priority: 1.0,
     changefreq: 'daily',
-  },
-  {
-    path: '/multi-generation',
-    lastmod: new Date().toISOString(),
-    priority: 0.9,
-    changefreq: 'weekly',
   },
   {
     path: '/blog',
@@ -257,7 +247,6 @@ module.exports = (env, argv) => {
       hot: true,
       historyApiFallback: {
         rewrites: [
-          { from: /^\/multi-generation$/, to: '/multi-generation/index.html' },
           { from: /^\/dna-import$/, to: '/dna-import/index.html' },
           { from: /^\/blog$/, to: '/blog/index.html' },
           {

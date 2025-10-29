@@ -84,6 +84,8 @@ class ConfettiAnimation {
 
   // Update particle positions
   updateParticles() {
+    if (!this.canvas) return;
+
     const now = Date.now();
     
     for (let i = this.particles.length - 1; i >= 0; i--) {
@@ -115,7 +117,7 @@ class ConfettiAnimation {
 
   // Draw particles
   drawParticles() {
-    if (!this.ctx) return;
+    if (!this.ctx || !this.canvas) return;
 
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -143,6 +145,10 @@ class ConfettiAnimation {
   // Animation loop
   animate() {
     if (!this.isActive) return;
+    if (!this.canvas) {
+      this.stop();
+      return;
+    }
 
     this.updateParticles();
     this.drawParticles();

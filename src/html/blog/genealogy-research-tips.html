@@ -78,7 +78,7 @@
 </head>
 
 <body
-  class="bg-gradient-to-br from-indigo-100 to-purple-200 dark:from-gray-900 dark:to-gray-800 min-h-screen font-sans">
+  class="bg-gradient-to-br from-indigo-100 to-purple-200 dark:from-gray-900 dark:to-gray-800 min-h-screen font-sans text-gray-900 dark:text-gray-100 antialiased transition-colors duration-300 relative overflow-x-hidden">
   <div id="progress-bar"
     class="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transform -translate-y-full transition-transform duration-300 z-50">
   </div>
@@ -103,35 +103,7 @@
           </a>
 
           <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
-            <nav class="flex items-center gap-4 text-sm font-semibold text-gray-700 dark:text-gray-200 flex-wrap">
-              <a href="/multi-generation/"
-                class="hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors">Multi-Generation</a>
-              <div class="relative" id="resources-dropdown">
-                <button
-                  class="flex items-center gap-1 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors"
-                  id="resources-dropdown-button">
-                  Resources
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                  </svg>
-                </button>
-              </div>
-            </nav>
-
-            <button id="theme-toggle" aria-label="Toggle Dark Mode"
-              class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 dark:bg-gray-700 text-indigo-600 dark:text-yellow-400 shadow-sm transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400">
-              <svg id="sun-icon" class="h-5 w-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
-                </path>
-              </svg>
-              <svg id="moon-icon" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  d="M17.293 13.293A8 8 0 016.707 2.707 8.001 8.001 0 1017.293 13.293z">
-                </path>
-              </svg>
-            </button>
+            <div class="flex items-center" data-theme-toggle data-theme-toggle-variant="pill"></div>
           </div>
         </div>
       </div>
@@ -141,7 +113,7 @@
   <main role="main" class="flex-1">
 
   <section
-    class="border-b border-indigo-100 dark:border-indigo-900/40">
+    class="border-b border-indigo-100 dark:border-indigo-900/40 bg-white dark:bg-gray-900">
     <div class="max-w-6xl mx-auto px-4 py-10 sm:py-12">
       <div class="max-w-3xl space-y-5">
         <h1 class="text-3xl sm:text-4xl font-semibold leading-tight text-gray-900 dark:text-white">
@@ -312,7 +284,7 @@
   </main>
 
     <footer
-      class="bg-indigo-900 dark:bg-gray-900 text-white p-4 mt-6 shadow-lg rounded-lg border-t-2 border-indigo-800 dark:border-gray-800 relative overflow-hidden">
+      class="bg-indigo-900 dark:bg-gray-900 text-white p-4 shadow-lg rounded-lg border-t-2 border-indigo-800 dark:border-gray-800 relative overflow-hidden">
       <div class="container mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div>
@@ -348,9 +320,6 @@
                   Hub</a>
               </li>
               <li>
-                <a href="/multi-generation/" class="text-white hover:text-yellow-300 transition-colors duration-300">Multi-Generation Calculator</a>
-              </li>
-              <li>
                 <a href="/blog/genealogy-research-tips/"
                   class="text-white hover:text-yellow-300 transition-colors duration-300">Genealogy Tips</a>
               </li>
@@ -369,7 +338,7 @@
             <h3 class="text-white font-semibold mb-4 text-lg">Our Other Tools</h3>
             <ul class="space-y-3">
               <li>
-                <a href="https://halalmeatshare.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://halalmeatshare.com?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>Halal Meat Share</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -379,7 +348,7 @@
                 </a>
               </li>
               <li>
-                <a href="https://race-calculator.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://race-calculator.dankoresoft.com?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>Ethnicity Calculator</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -389,7 +358,7 @@
                 </a>
               </li>
               <li>
-                <a href="https://tinubu-approval-rating.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://tinubu-approval-rating.dankoresoft.com?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>Tinubu Approval Rating</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -399,7 +368,7 @@
                 </a>
               </li>
               <li>
-                <a href="https://logo-creator.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://logo-creator.dankoresoft.com?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>Logo Creator</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -409,7 +378,7 @@
                 </a>
               </li>
               <li>
-                <a href="https://mentorship.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://mentorship.dankoresoft.com?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>Mentorship</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -419,7 +388,7 @@
                 </a>
               </li>
               <li>
-                <a href="https://halal-ads.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://halal-ads.dankoresoft.com?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>Halal Ads</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -429,7 +398,7 @@
                 </a>
               </li>
               <li>
-                <a href="https://direct-lease.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://direct-lease.dankoresoft.com?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>Direct Lease</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -439,7 +408,7 @@
                 </a>
               </li>
               <li>
-                <a href="https://www.bitcoinusdprice.org" target="_blank" rel="noopener noreferrer"
+                <a href="https://www.bitcoinusdprice.org?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>Bitcoin USD Price</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -449,7 +418,7 @@
                 </a>
               </li>
               <li>
-                <a href="https://bmi-calc.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://bmi-calc.dankoresoft.com?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>BMI Calculator</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -459,7 +428,7 @@
                 </a>
               </li>
               <li>
-                <a href="https://mortgage-calc.dankoresoft.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://mortgage-calc.dankoresoft.com?utm_source=race-percentage-calculator&utm_medium=footer&utm_campaign=other-tools" target="_blank" rel="noopener noreferrer"
                   class="text-white hover:text-yellow-300 transition-colors duration-300 flex items-center">
                   <span>Mortgage Calculator</span>
                   <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -484,25 +453,65 @@
     </footer>
   </div>
   <!-- Dropdown menu rendered at the body level to avoid overflow issues -->
-  <div
-    class="fixed hidden mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-[1000] border border-gray-200 dark:border-gray-700"
-    id="resources-dropdown-menu">
-    <a href="/blog/"
-      class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">Blog
-      Home</a>
-    <a href="/dna-import/"
-      class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">DNA
-      Import Hub</a>
-    <a href="/blog/genealogy-research-tips/"
-      class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">Genealogy
-      Tips</a>
-    <a href="/blog/understanding-dna-tests/"
-      class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">DNA
-      Testing</a>
-    <a href="/blog/cultural-heritage-resources/"
-      class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white transition-all duration-300">Cultural
-      Heritage</a>
-  </div>
+  <script>
+    (function () {
+      const doc = document;
+
+      setupScrollAndLoadIndicators();
+
+      function setupScrollAndLoadIndicators() {
+        const progressBar = doc.getElementById('progress-bar');
+        if (progressBar) {
+          if (doc.readyState !== 'complete') {
+            requestAnimationFrame(() => {
+              progressBar.classList.remove('-translate-y-full');
+            });
+          }
+          const hideBar = () => {
+            progressBar.classList.add('-translate-y-full');
+          };
+          if (doc.readyState === 'complete') {
+            hideBar();
+          } else {
+            window.addEventListener('load', () => {
+              setTimeout(hideBar, 150);
+            }, { once: true });
+            setTimeout(hideBar, 3000);
+          }
+        }
+
+        const scrollContainer = doc.getElementById('scroll-progress-container');
+        const scrollIndicator = doc.getElementById('scroll-progress-indicator');
+        if (!scrollContainer || !scrollIndicator) {
+          return;
+        }
+
+        let ticking = false;
+
+        const update = () => {
+          ticking = false;
+          const docEl = doc.documentElement;
+          const maxScroll = docEl.scrollHeight - window.innerHeight;
+          const scrollTop = docEl.scrollTop || window.pageYOffset;
+          const progress = maxScroll > 0 ? scrollTop / maxScroll : 0;
+          const percent = Math.min(100, Math.max(0, progress * 100));
+          scrollIndicator.style.width = `${percent}%`;
+          scrollContainer.style.height = percent > 0 ? '4px' : '0';
+        };
+
+        const requestTick = () => {
+          if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(update);
+          }
+        };
+
+        window.addEventListener('scroll', requestTick, { passive: true });
+        window.addEventListener('resize', requestTick);
+        update();
+      }
+    })();
+  </script>
 </body>
 
 </html>
