@@ -1,7 +1,5 @@
 import { initializeNodes, calculateRace } from './modules/raceCalculator.js';
-import { setupThemeToggle } from './modules/themeManager.js';
 import { setupUIHandlers } from './modules/uiHandlers.js';
-import { setupHeaderDropdown } from './modules/headerManager.js';
 import { setupSocialSharing } from './modules/socialSharing.js';
 import { setupAnalytics } from './modules/analytics.js';
 import { setupBackToTop } from './modules/backToTop.js';
@@ -19,9 +17,7 @@ function setDynamicYear() {
 
 function initializeApp() {
   setupAnalytics();
-  setupThemeToggle();
   setupUIHandlers();
-  setupHeaderDropdown();
   setupEnhancedUI();
   setupSocialSharing();
   setupBackToTop();
