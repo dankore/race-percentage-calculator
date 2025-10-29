@@ -15,10 +15,6 @@ const pages = [
     template: './src/html/index.html',
   },
   {
-    filename: 'multi-generation/index.html',
-    template: './src/html/multi-generation.html',
-  },
-  {
     filename: 'blog/index.html',
     template: './src/html/blog/index.html',
   },
@@ -38,10 +34,6 @@ const pages = [
     filename: 'dna-import/index.html',
     template: './src/html/dna-import.html',
   },
-  {
-    filename: 'multi-generation-grandparent/index.html',
-    template: './src/html/multi-generation-grandparent.html',
-  },
 ];
 
 const generateHtmlPlugins = () =>
@@ -53,12 +45,6 @@ const paths = [
     lastmod: new Date().toISOString(),
     priority: 1.0,
     changefreq: 'daily',
-  },
-  {
-    path: '/multi-generation',
-    lastmod: new Date().toISOString(),
-    priority: 0.9,
-    changefreq: 'weekly',
   },
   {
     path: '/blog',
@@ -88,12 +74,6 @@ const paths = [
     path: '/dna-import',
     lastmod: new Date().toISOString(),
     priority: 0.85,
-    changefreq: 'weekly',
-  },
-  {
-    path: '/multi-generation-grandparent',
-    lastmod: new Date().toISOString(),
-    priority: 0.6,
     changefreq: 'weekly',
   },
 ];
@@ -267,8 +247,6 @@ module.exports = (env, argv) => {
       hot: true,
       historyApiFallback: {
         rewrites: [
-          { from: /^\/multi-generation$/, to: '/multi-generation/index.html' },
-          { from: /^\/multi-generation-grandparent$/, to: '/multi-generation-grandparent/index.html' },
           { from: /^\/dna-import$/, to: '/dna-import/index.html' },
           { from: /^\/blog$/, to: '/blog/index.html' },
           {

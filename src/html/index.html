@@ -819,11 +819,6 @@
       border-radius: 0.65rem;
       border-style: dashed;
       font-weight: 700;
-      background: rgba(255, 255, 255, 0.6);
-    }
-
-    .dark .grandparent-node .add-entry {
-      background: rgba(17, 24, 39, 0.7);
     }
 
     .node-chip {
@@ -1356,10 +1351,6 @@
         </a>
 
         <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
-          <nav class="flex items-center gap-4 text-sm font-semibold text-gray-700 dark:text-gray-200 flex-wrap">
-            <a href="/multi-generation/"
-              class="hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors">Multi-Generation</a>
-          </nav>
           <div class="flex items-center" data-theme-toggle data-theme-toggle-variant="pill"></div>
         </div>
       </div>
@@ -1369,34 +1360,22 @@
   <main role="main" class="flex-1">
 
   <section
-    class="border-b border-indigo-100 dark:border-indigo-900/40 bg-white dark:bg-gray-900">
-    <div class="max-w-6xl mx-auto px-4 py-4 sm:py-6">
-      <div class="max-w-3xl space-y-5">
-        <h1 class="text-3xl sm:text-4xl font-semibold leading-tight text-gray-900 dark:text-white">
-          Free Race &amp; Heritage Percentage Calculator
-        </h1>
-      </div>
+    class="border-b border-indigo-100 dark:border-indigo-900/40 bg-white dark:bg-gray-900 max-w-6xl mx-auto px-4 py-4 sm:py-6">
+    <div class="max-w-3xl space-y-5">
+      <h1 class="text-3xl sm:text-4xl font-semibold leading-tight text-gray-900 dark:text-white">
+        Free Race &amp; Heritage Percentage Calculator
+      </h1>
     </div>
   </section>
 
-  <section class="bg-white dark:bg-gray-900">
-    <div class="max-w-6xl mx-auto px-4 pt-2 pb-1 sm:pt-4 sm:pb-2 text-left">
-      <h2 class="text-xs font-semibold uppercase tracking-[0.4em] text-indigo-600 dark:text-indigo-300 mb-2">
-        Introducing Something New
-      </h2>
-      <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">
-        We're excited to introduce our brand new <a href="/multi-generation/" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-200 underline decoration-2 underline-offset-2 hover:decoration-indigo-800 dark:hover:decoration-indigo-200 transition-all duration-300 font-medium">Multi-Generation Race Calculator</a>!
-      </p>
-    </div>
-
-    <div class="container mx-auto px-2 sm:px-4 py-0.5 max-w-6xl relative">
+  <section class="bg-white dark:bg-gray-900 max-w-6xl mx-auto px-4 pt-2 pb-1 sm:pt-4 sm:pb-2">
+    <div class="container mx-auto px-2 sm:px-4 py-0.5 relative">
       <div class="intro-container mt-0.5 bg-white dark:bg-gray-800 rounded-md shadow-sm border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:shadow-md">
         <div class="container mx-auto p-2">
           <div class="flex items-center justify-between gap-2">
             <h3 class="text-xs font-semibold text-indigo-700 dark:text-indigo-300">Jump to:</h3>
             <div class="flex flex-wrap items-center gap-1 text-xs" id="quick-nav">
               <a href="#race-input" class="inline-flex items-center px-1 py-0.5 rounded-sm bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-900 dark:hover:bg-indigo-800 text-indigo-800 dark:text-indigo-300 font-medium transition-all text-xs">➕ Input</a>
-              <a href="#results" class="inline-flex items-center px-1 py-0.5 rounded-sm bg-green-100 hover:bg-green-200 dark:bg-green-900 dark:hover:bg-green-800 text-green-800 dark:text-green-300 font-medium transition-all text-xs">📊 Results</a>
               <a href="#saved-results" class="inline-flex items-center px-1 py-0.5 rounded-sm bg-orange-100 hover:bg-orange-200 dark:bg-orange-900 dark:hover:bg-orange-800 text-orange-800 dark:text-orange-300 font-medium transition-all text-xs">💾 Saved</a>
               <a href="#how-to-use" class="inline-flex items-center px-1 py-0.5 rounded-sm bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 text-blue-800 dark:text-blue-300 font-medium transition-all text-xs">📖 Guide</a>
               <a href="#faq" class="inline-flex items-center px-1 py-0.5 rounded-sm bg-purple-100 hover:bg-purple-200 dark:bg-purple-900 dark:hover:bg-purple-800 text-purple-800 dark:text-purple-300 font-medium transition-all text-xs">❓ FAQ</a>
@@ -1593,8 +1572,8 @@
 
                 <div data-generation-panel="grandparents" aria-hidden="true" class="space-y-5 hidden">
                   <fieldset id="maternalGrandmother" data-label="Maternal Grandmother's"
-                    class="parent-node grandparent-node bg-gradient-to-r from-pink-50 via-rose-50 to-amber-50 dark:from-rose-900/40 dark:via-rose-800/30 dark:to-amber-900/40 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-rose-200 dark:border-rose-800">
-                  <legend class="text-lg sm:text-xl font-bold text-rose-700 dark:text-rose-300 px-2 flex items-center">
+                    class="parent-node grandparent-node bg-gradient-to-r from-pink-50 to-pink-100 dark:from-pink-900 dark:to-pink-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-pink-200 dark:border-pink-700">
+                  <legend class="text-lg sm:text-xl font-bold text-pink-700 dark:text-pink-300 px-2 flex items-center">
                     <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5 21V9l7-6 7 6v12H5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                         stroke-linejoin="round" />
@@ -1602,10 +1581,10 @@
                       Maternal Grandmother
                     </legend>
                     <div
-                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-rose-300 dark:scrollbar-thumb-rose-700 pr-1">
+                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-pink-300 dark:scrollbar-thumb-pink-700 pr-1">
                     </div>
                     <button type="button"
-                      class="add-entry mt-4 w-full bg-rose-500 dark:bg-rose-600 text-white py-2.5 px-4 rounded-lg hover:bg-rose-600 dark:hover:bg-rose-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                      class="add-entry mt-4 w-full bg-pink-500 dark:bg-pink-600 text-white py-2.5 px-4 rounded-lg hover:bg-pink-600 dark:hover:bg-pink-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
                       <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                       </svg>
@@ -1614,8 +1593,8 @@
                   </fieldset>
 
                   <fieldset id="maternalGrandfather" data-label="Maternal Grandfather's"
-                    class="parent-node grandparent-node bg-gradient-to-r from-pink-50 via-rose-50 to-amber-50 dark:from-rose-900/40 dark:via-rose-800/30 dark:to-amber-900/40 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-rose-200 dark:border-rose-800">
-                  <legend class="text-lg sm:text-xl font-bold text-rose-700 dark:text-rose-300 px-2 flex items-center">
+                    class="parent-node grandparent-node bg-gradient-to-r from-pink-50 to-pink-100 dark:from-pink-900 dark:to-pink-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-pink-200 dark:border-pink-700">
+                  <legend class="text-lg sm:text-xl font-bold text-pink-700 dark:text-pink-300 px-2 flex items-center">
                     <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5 21V9l7-6 7 6v12H5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                         stroke-linejoin="round" />
@@ -1623,10 +1602,10 @@
                       Maternal Grandfather
                     </legend>
                     <div
-                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-rose-300 dark:scrollbar-thumb-rose-700 pr-1">
+                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-pink-300 dark:scrollbar-thumb-pink-700 pr-1">
                     </div>
                     <button type="button"
-                      class="add-entry mt-4 w-full bg-rose-500 dark:bg-rose-600 text-white py-2.5 px-4 rounded-lg hover:bg-rose-600 dark:hover:bg-rose-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                      class="add-entry mt-4 w-full bg-pink-500 dark:bg-pink-600 text-white py-2.5 px-4 rounded-lg hover:bg-pink-600 dark:hover:bg-pink-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
                       <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                       </svg>
@@ -1635,8 +1614,8 @@
                   </fieldset>
 
                   <fieldset id="paternalGrandmother" data-label="Paternal Grandmother's"
-                    class="parent-node grandparent-node bg-gradient-to-r from-sky-50 via-indigo-50 to-blue-50 dark:from-sky-900/40 dark:via-indigo-900/30 dark:to-blue-900/40 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-sky-200 dark:border-sky-800">
-                  <legend class="text-lg sm:text-xl font-bold text-sky-700 dark:text-sky-300 px-2 flex items-center">
+                    class="parent-node grandparent-node bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-blue-200 dark:border-blue-700">
+                  <legend class="text-lg sm:text-xl font-bold text-blue-700 dark:text-blue-300 px-2 flex items-center">
                     <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5 21V9l7-6 7 6v12H5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                         stroke-linejoin="round" />
@@ -1644,10 +1623,10 @@
                       Paternal Grandmother
                     </legend>
                     <div
-                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-sky-300 dark:scrollbar-thumb-sky-700 pr-1">
+                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 dark:scrollbar-thumb-blue-700 pr-1">
                     </div>
                     <button type="button"
-                      class="add-entry mt-4 w-full bg-sky-500 dark:bg-sky-600 text-white py-2.5 px-4 rounded-lg hover:bg-sky-600 dark:hover:bg-sky-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                      class="add-entry mt-4 w-full bg-blue-500 dark:bg-blue-600 text-white py-2.5 px-4 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
                       <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                       </svg>
@@ -1656,8 +1635,8 @@
                   </fieldset>
 
                   <fieldset id="paternalGrandfather" data-label="Paternal Grandfather's"
-                    class="parent-node grandparent-node bg-gradient-to-r from-sky-50 via-indigo-50 to-blue-50 dark:from-sky-900/40 dark:via-indigo-900/30 dark:to-blue-900/40 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-sky-200 dark:border-sky-800">
-                  <legend class="text-lg sm:text-xl font-bold text-sky-700 dark:text-sky-300 px-2 flex items-center">
+                    class="parent-node grandparent-node bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 rounded-xl p-3 sm:p-4 md:p-6 shadow-lg border border-blue-200 dark:border-blue-700">
+                  <legend class="text-lg sm:text-xl font-bold text-blue-700 dark:text-blue-300 px-2 flex items-center">
                     <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5 21V9l7-6 7 6v12H5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                         stroke-linejoin="round" />
@@ -1665,10 +1644,10 @@
                       Paternal Grandfather
                     </legend>
                     <div
-                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-sky-300 dark:scrollbar-thumb-sky-700 pr-1">
+                      class="race-entries space-y-3 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 dark:scrollbar-thumb-blue-700 pr-1">
                     </div>
                     <button type="button"
-                      class="add-entry mt-4 w-full bg-sky-500 dark:bg-sky-600 text-white py-2.5 px-4 rounded-lg hover:bg-sky-600 dark:hover:bg-sky-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
+                      class="add-entry mt-4 w-full bg-blue-500 dark:bg-blue-600 text-white py-2.5 px-4 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition duration-300 shadow-md text-sm sm:text-base flex items-center justify-center">
                       <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                       </svg>
@@ -2094,7 +2073,7 @@ Run the generator to view the HTML snippet.</pre>
         </div>
       </div>
 
-      <div class="container mx-auto max-w-6xl">
+      <div class="container mx-auto">
         <div
           class="w-full bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 sm:rounded-lg h-[250px] overflow-hidden my-8 border border-gray-200 dark:border-gray-700 shadow-md transition-all duration-300 hover:shadow-xl p-1">
           <div class="p-2 bg-white dark:bg-gray-800 rounded-lg h-full flex flex-col">
@@ -2600,9 +2579,6 @@ Run the generator to view the HTML snippet.</pre>
               <li>
                 <a href="/dna-import" class="text-white hover:text-yellow-300 transition-colors duration-300">DNA Import
                   Hub</a>
-              </li>
-              <li>
-                <a href="/multi-generation" class="text-white hover:text-yellow-300 transition-colors duration-300">Multi-Generation Calculator</a>
               </li>
               <li>
                 <a href="/blog/genealogy-research-tips"
