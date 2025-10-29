@@ -2113,5 +2113,8 @@ function loadSavedResult(index) {
   displayResult(races);
 
   // Scroll to results section
-  document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+  const resultsElement = document.getElementById('results');
+  if (resultsElement) {
+    resultsElement.scrollIntoView({ behavior: 'smooth' });
+  }
 }
