@@ -14,17 +14,8 @@ function initializeFirstTimeGuide() {
   const americanMixButton = document.getElementById('guide-american-mix');
   const globalMixButton = document.getElementById('guide-global-mix');
 
-  // Check if this is the first visit
-  const hasVisitedBefore = localStorage.getItem('race-calc-visited');
-
-  // Show the guide on first visit
-  if (!hasVisitedBefore && firstTimeGuide) {
-    // Use display flex to center the content
-    firstTimeGuide.classList.remove('hidden');
-    firstTimeGuide.classList.add('flex');
-    // Save that they've seen the guide
-    localStorage.setItem('race-calc-visited', 'true');
-  }
+  // The first-time guide is now opt-in only.
+  // Users can open it manually via the Help/Guide button.
 
   // Setup event listeners
   if (showGuideButton) {
