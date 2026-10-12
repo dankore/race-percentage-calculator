@@ -1,29 +1,11 @@
-# Base image with Node.js installed
-FROM node:24 AS base
-
-# Set the working directory
+FROM node:24 AS build
 WORKDIR /app
-
-# Copy package.json and yarn.lock
 COPY package.json yarn.lock ./
-
-# Install project dependencies
 RUN yarn install --frozen-lockfile
-
-# Copy the rest of the project files
 COPY . .
-
-# Build the project
 RUN yarn build
 
-# Use a lightweight image for serving the built files
-FROM nginx:alpine AS production
-
-# Copy the built files to the NGINX web server
-COPY --from=base /app/dist /usr/share/nginx/html
-
-# Expose port 80
+FROM nginx:1.29-alpine
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80
-
-# Start NGINX
-CMD ["nginx", "-g", "daemon off;"]

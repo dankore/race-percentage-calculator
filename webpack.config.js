@@ -123,6 +123,7 @@ module.exports = (env, argv) => {
           },
         },
         { from: 'src/robots.txt', to: 'robots.txt' },
+        { from: 'src/assets/images/icons/favicon.ico', to: 'favicon.ico' },
         {
           from: 'src/assets/images/icons/manifest.json',
           to: 'assets/images/icons/manifest.json',
@@ -141,6 +142,7 @@ module.exports = (env, argv) => {
         clientsClaim: true,
         skipWaiting: true,
         swDest: 'service-worker.js',
+        exclude: [/^assets\/images\//, /\.gz$/, /^js\/(chart|html2canvas)\./, /^\.well-known\//],
         runtimeCaching: [
           {
             urlPattern: new RegExp(
@@ -277,7 +279,7 @@ module.exports = (env, argv) => {
           vendor: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors',
-            chunks: 'all',
+            chunks: 'initial',
           },
         },
       },

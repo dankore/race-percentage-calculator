@@ -23,7 +23,7 @@ const STATUS_COLORS = {
   },
   warning: {
     bg: 'bg-yellow-100 dark:bg-yellow-900/50',
-    text: 'text-yellow-700 dark:text-yellow-200',
+    text: 'text-yellow-800 dark:text-yellow-200',
   },
   danger: {
     bg: 'bg-red-100 dark:bg-red-900/50',

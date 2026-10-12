@@ -1,3 +1,4 @@
+import { loadHtml2canvas } from './vendorLoaders.js';
 let paletteKey = 'sunrise';
 let latestRaces = [];
 let currentEmbedMarkup = '';
@@ -242,8 +243,11 @@ function toggleControls(enabled) {
 
 async function downloadStoryCard() {
   if (!latestRaces.length) return;
-  if (typeof html2canvas !== 'function') {
-    updateStoryCardStatus('html2canvas is not available. Unable to capture the card.', 'danger');
+  let html2canvas;
+  try {
+    html2canvas = await loadHtml2canvas();
+  } catch (error) {
+    updateStoryCardStatus('Unable to load the image tool. Check your connection and try again.', 'danger');
     return;
   }
   const card = els.preview ? els.preview.querySelector('.race-story-card') : null;
@@ -287,7 +291,7 @@ function updateStoryCardStatus(message, tone = 'idle') {
   const classes = {
     idle: ['bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-200'],
     success: ['bg-green-100', 'dark:bg-green-900/40', 'text-green-700', 'dark:text-green-300'],
-    warning: ['bg-yellow-100', 'dark:bg-yellow-900/50', 'text-yellow-700', 'dark:text-yellow-200'],
+    warning: ['bg-yellow-100', 'dark:bg-yellow-900/50', 'text-yellow-800', 'dark:text-yellow-200'],
     danger: ['bg-red-100', 'dark:bg-red-900/50', 'text-red-700', 'dark:text-red-200'],
   };
   Object.values(classes).forEach(cls => {

@@ -1,5 +1,8 @@
 import { showWarning, hideWarning } from './uiHandlers.js';
 import { showConfirmationModal } from './confirmationModal.js';
+import { isChart, loadChart, loadHtml2canvas } from './vendorLoaders.js';
+
+let pendingChartRaces = null;
 
 const PARENT_IDS = ['mother', 'father'];
 const GRANDPARENT_GROUPS = {
@@ -367,7 +370,9 @@ function clearResultOutputs(options = {}) {
     raceBreakdown.innerHTML = '';
   }
 
-  if (window.raceChart instanceof Chart) {
+  pendingChartRaces = null;
+
+  if (isChart(window.raceChart)) {
     try {
       window.raceChart.destroy();
     } catch (error) {
@@ -392,7 +397,7 @@ function clearResultOutputs(options = {}) {
   if (floatingRacePills) {
     floatingRacePills.innerHTML = '';
   }
-  if (window.miniRaceChart instanceof Chart) {
+  if (isChart(window.miniRaceChart)) {
     try {
       window.miniRaceChart.destroy();
     } catch (error) {
@@ -1397,7 +1402,20 @@ function updateChart(races) {
   const ctx = document.getElementById('raceChart');
   if (!ctx) return;
 
-  if (window.raceChart instanceof Chart) {
+  if (!window.Chart) {
+    pendingChartRaces = races;
+    loadChart()
+      .then(() => {
+        if (!pendingChartRaces) return;
+        const latest = pendingChartRaces;
+        pendingChartRaces = null;
+        updateChart(latest);
+      })
+      .catch(error => console.warn('Unable to load the chart library:', error));
+    return;
+  }
+
+  if (isChart(window.raceChart)) {
     window.raceChart.destroy();
   }
 
@@ -1463,7 +1481,7 @@ function updateFloatingResultsBar(races) {
   floatingResults.classList.add('visible');
   floatingRacePills.innerHTML = '';
 
-  if (window.miniRaceChart instanceof Chart) {
+  if (isChart(window.miniRaceChart)) {
     window.miniRaceChart.destroy();
   }
 
@@ -1718,7 +1736,7 @@ function downloadResults() {
   document.body.appendChild(container);
 
   setTimeout(() => {
-    html2canvas(container, {
+    loadHtml2canvas().then(html2canvas => html2canvas(container, {
       scale: 2,
       useCORS: true,
       backgroundColor: '#FFFFFF',
@@ -1735,7 +1753,7 @@ function downloadResults() {
           clonedContainer.style.height = 'auto';
         }
       },
-    })
+    }))
       .then(canvas => {
         document.body.removeChild(container);
 
