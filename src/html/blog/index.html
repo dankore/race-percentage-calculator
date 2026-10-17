@@ -390,6 +390,64 @@
       }
     })();
   </script>
+<script>
+/* dankore-analytics */
+(function () {
+  try {
+    var id = "dfa07e3e-29b4-4298-bbb7-e3a0d4d4faf9";
+    var host = "https://analytics.dankore.com";
+    var domains = ["race-calculator.dankoresoft.com"];
+    function hostOk() {
+      var h = location.hostname;
+      for (var i = 0; i < domains.length; i++) if (domains[i] === h) return true;
+      return false;
+    }
+    window.dankoreTrack = function (name, data) {
+      try {
+        var u = window.umami;
+        if (u && typeof u.track === "function") u.track(name, data || {});
+      } catch (e) {}
+    };
+    function load(src, perf) {
+      try {
+        var s = document.createElement("script");
+        s.async = true;
+        s.src = src;
+        s.setAttribute("data-website-id", id);
+        if (perf) {
+          s.setAttribute("data-performance", "true");
+          s.setAttribute("data-domains", domains.join(","));
+        }
+        var timer = setTimeout(function () {
+          try {
+            if (s.getAttribute("data-loaded") === "1") return;
+            s.onload = null;
+            s.onerror = null;
+            s.remove();
+          } catch (e) {}
+        }, 4000);
+        s.onload = function () {
+          try { s.setAttribute("data-loaded", "1"); clearTimeout(timer); } catch (e) {}
+        };
+        s.onerror = function () {
+          try { clearTimeout(timer); s.remove(); } catch (e) {}
+        };
+        document.head.appendChild(s);
+      } catch (e) {}
+    }
+    function start() {
+      try {
+        if (!hostOk()) return;
+        if (document.querySelector('script[data-website-id="' + id + '"]')) return;
+        load(host + "/script.js", true);
+        load(host + "/recorder.js", false);
+      } catch (e) {}
+    }
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start);
+  } catch (e) {}
+})();
+</script>
 </body>
 
 </html>
