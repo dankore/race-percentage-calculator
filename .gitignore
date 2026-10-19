@@ -20,4 +20,5 @@ manifest-checksum.txt
 store_icon.png
 
 # Android keystore (contains sensitive signing information)
-android.keystore/build/
+android.keystore
+/build/
