@@ -16,11 +16,11 @@
   "iconUrl": "https://race-calculator.dankoresoft.com/assets/images/icons/android-icon-512x512.png",
   "splashScreenFadeOutDuration": 300,
   "signingKey": {
-    "path": "/Users/dankore/sources/race-percentage-calculator/android.keystore",
-    "alias": "android"
+    "path": "/Users/dankore/.dankore-android-signing/race-percentage-calculator/upload.jks",
+    "alias": "upload"
   },
-  "appVersionName": "2",
-  "appVersionCode": 2,
+  "appVersionName": "3",
+  "appVersionCode": 3,
   "shortcuts": [
     {
       "name": "Blog",
@@ -48,7 +48,7 @@
     }
   ],
   "generatorApp": "bubblewrap-cli",
-  "webManifestUrl": "https://race-calculator.dankoresoft.com/manifest.json",
+  "webManifestUrl": "https://race-calculator.dankoresoft.com/assets/images/icons/manifest.json",
   "fallbackType": "customtabs",
   "features": {
     "playBilling": {
@@ -65,10 +65,10 @@
   "isChromeOSOnly": false,
   "isMetaQuest": false,
   "fullScopeUrl": "https://race-calculator.dankoresoft.com/",
-  "minSdkVersion": 21,
+  "minSdkVersion": 24,
   "orientation": "portrait",
   "fingerprints": [],
   "additionalTrustedOrigins": [],
   "retainedBundles": [],
-  "appVersion": "2"
+  "appVersion": "3"
 }
